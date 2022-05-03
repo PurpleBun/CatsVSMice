@@ -12,7 +12,7 @@ public class MouseStateManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        currentState = healthyState;
     }
 
     // Update is called once per frame
