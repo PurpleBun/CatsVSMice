@@ -5,19 +5,26 @@ using UnityEngine;
 public class MouseStateManager : MonoBehaviour
 {
     MouseBaseState currentState;
-    MouseHealthyState healthyState = new MouseHealthyState();
-    MouseSlowState slowState = new MouseSlowState();
-    MouseHidingState hidingState = new MouseHidingState();
+    public MouseHealthyState healthyState = new MouseHealthyState();
+    public MouseSlowState slowState = new MouseSlowState();
+    public MouseHidingState hidingState = new MouseHidingState();
 
     // Start is called before the first frame update
     void Start()
     {
         currentState = healthyState;
+        currentState.EnterState(this);
     }
 
     // Update is called once per frame
     void Update()
     {
         
+    }
+
+    public void SwitchState(MouseBaseState state)
+    {
+        currentState = state;
+        state.EnterState(this);
     }
 }
