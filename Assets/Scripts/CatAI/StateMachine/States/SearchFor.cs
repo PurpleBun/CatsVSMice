@@ -35,7 +35,8 @@ namespace CatAI
             var hitObjects = Physics.OverlapSphere(this.ownerGameObject.transform.position, this.searchRadius);
             for(int i = 0; i < hitObjects.Length; i++)
             {
-                if (hitObjects[i].CompareTag(tagToLookFor))
+                Debug.Log(hitObjects[i].tag);
+                if (hitObjects[i].gameObject.CompareTag(tagToLookFor))
                 {
                     this.navMeshAgent.SetDestination(hitObjects[i].transform.position);
                 }

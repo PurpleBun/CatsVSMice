@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace CatAI
 {
-    public class StateMachine : MonoBehaviour
+    public class StateMachine: MonoBehaviour
     {
         private IState currentState;
         private IState previousState;
