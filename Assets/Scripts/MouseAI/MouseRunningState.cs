@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class MouseHidingState : MouseBaseState
+public class MouseRunningState : MouseBaseState
 {
     public override void EnterState(MouseStateManager mouse, MouseAbilityValues mouseStats)
     {

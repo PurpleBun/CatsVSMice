@@ -2,12 +2,12 @@ using UnityEngine;
 
 public abstract class MouseBaseState 
 {
-    public abstract void EnterState(MouseStateManager mouse);
+    public abstract void EnterState(MouseStateManager mouse, MouseAbilityValues mouseStats);
 
-    public abstract void ExecuteState(MouseStateManager mouse);
+    public abstract void ExecuteState(MouseStateManager mouse, MouseAbilityValues mouseStats);
 
-    public abstract void ExitState(MouseStateManager mouse);
+    public abstract void ExitState(MouseStateManager mouse, MouseAbilityValues mouseStats);
 
-    public abstract void OnCollisionEnter(MouseStateManager mouse);
+    public abstract void OnCollisionEnter(MouseStateManager mouse, MouseAbilityValues mouseStats);
 
 }
