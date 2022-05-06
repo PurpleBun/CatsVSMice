@@ -30,13 +30,17 @@ public class MouseIdleState : MouseBaseState
         Collider[] spottedCats = XRayScanForCats(mouseObject, scanRadius, catsLayer);
         if (spottedCats != null)
         {
+            Debug.Log("Mouse x-ray vision detected " + spottedCats.Length + " cats.");
             //If there are cats nearby - for every cat, check if there are any objects directly between the cat and the mouse.
             foreach (Collider spottedCat in spottedCats)
             {
-                GameObject obstacle = ScanForObstacles(spottedCat, mouseObject, environmentLayer);
-                if (obstacle != null)
+                GameObject obstacleCenter = ScanForObstacles(spottedCat, mouseObject, environmentLayer, spottedCat.bounds.center);
+                GameObject obstacleMaxBound = ScanForObstacles(spottedCat, mouseObject, environmentLayer, spottedCat.bounds.max);
+                GameObject obstacleMinBound = ScanForObstacles(spottedCat, mouseObject, environmentLayer, spottedCat.bounds.min);
+                Debug.Log(obstacleCenter + " " + obstacleMaxBound + " " + obstacleMinBound);
+                if (obstacleCenter != null && obstacleMaxBound != null && obstacleMinBound != null)
                 {
-                    Debug.Log("Cat is behind " + obstacle);
+                    Debug.Log("Cat is hidden.");
                 }
                 else
                 {
@@ -59,24 +63,19 @@ public class MouseIdleState : MouseBaseState
         }
     }
 
-    GameObject ScanForObstacles(Collider hitCat, GameObject mouse, LayerMask enviroLayer)
-    {
-        Transform catTranform = hitCat.transform;
+    GameObject ScanForObstacles(Collider hitCat, GameObject mouse, LayerMask enviroLayer, Vector3 colliderBoundPos)
+    {        
         RaycastHit hit;
-        if (Physics.Linecast(mouse.transform.position, catTranform.position, out hit, enviroLayer) == true)
+        if (Physics.Linecast(mouse.transform.position, colliderBoundPos, out hit, enviroLayer) == true)
         {            
             return hit.transform.gameObject;
         }
         else
         {
+            Debug.Log(colliderBoundPos);
             return null;
         }
     }
-
-    //bool CompareSize()
-    //{ 
-    //    if ()
-    //}
 }
 
 
