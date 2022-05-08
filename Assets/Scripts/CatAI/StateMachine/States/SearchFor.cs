@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System; 
 
 namespace CatAI
 {
@@ -14,15 +15,18 @@ namespace CatAI
 
         private string tagToLookFor;
 
-        UnityEngine.AI.NavMeshAgent navMeshAgent;
+        public bool SearchCompleted;
 
-        public SearchFor(LayerMask searchLayer, GameObject ownerGameObject, float searchRadius, string tagToLookFor, UnityEngine.AI.NavMeshAgent navMeshAgent)
+        private Action<SearchResults> searchResultsCallback;
+
+        public SearchFor(LayerMask searchLayer, GameObject ownerGameObject, float searchRadius, string tagToLookFor, Action<SearchResults> searchResultsCallback)
         {
             this.searchLayer = searchLayer;
             this.ownerGameObject = ownerGameObject;
             this.searchRadius = searchRadius;
             this.tagToLookFor = tagToLookFor;
-            this.navMeshAgent = navMeshAgent;    
+            this.searchResultsCallback = searchResultsCallback;
+         
         }
 
         public void Enter()
@@ -32,16 +36,24 @@ namespace CatAI
 
         public void Execute()
         {
-            var hitObjects = Physics.OverlapSphere(this.ownerGameObject.transform.position, this.searchRadius);
-            for(int i = 0; i < hitObjects.Length; i++)
+            if (!SearchCompleted)
             {
-                Debug.Log(hitObjects[i].tag);
-                if (hitObjects[i].gameObject.CompareTag(tagToLookFor))
+                var hitObjects = Physics.OverlapSphere(this.ownerGameObject.transform.position, this.searchRadius);
+                List<Collider> allObjectsWithTheRequiredTag = new List<Collider>();
+                for (int i = 0; i < hitObjects.Length; i++)
                 {
-                    this.navMeshAgent.SetDestination(hitObjects[i].transform.position);
+                    if (hitObjects[i].gameObject.CompareTag(tagToLookFor))
+                    {
+                        //this.navMeshAgent.SetDestination(hitObjects[i].transform.position);
+                        allObjectsWithTheRequiredTag.Add(hitObjects[i]);
+                    }
                 }
-                break;
-            }
+                var searchResults = new SearchResults(hitObjects, allObjectsWithTheRequiredTag);
+                //sendback search results
+                searchResultsCallback(searchResults);
+
+                SearchCompleted = true;
+            } 
         }
 
         public void Exit()
@@ -49,4 +61,20 @@ namespace CatAI
 
         }
     }
+}
+
+//package the result from search and send back to owner game object
+public class SearchResults
+{
+    public Collider[] AllHitObjectsInSearchRadius;
+
+    public List<Collider> AllHitObjectsWithRequiredTag;
+    //process objects by distance neeeded
+
+    public SearchResults(Collider[] allHitObjectsInSearchRadius, List<Collider> allHitObjectsWithRequiredTag)
+    {
+        AllHitObjectsInSearchRadius = allHitObjectsInSearchRadius;
+        AllHitObjectsWithRequiredTag = allHitObjectsWithRequiredTag;
+    }
+
 }

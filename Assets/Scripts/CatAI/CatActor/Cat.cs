@@ -20,12 +20,18 @@ namespace CatAI
         void Start()
         {
             navMeshAgent = this.GetComponent<UnityEngine.AI.NavMeshAgent>();
-            stateMachine.ChangeState(new SearchFor(this.mouseLayer, this.gameObject, this.viewRange, this.mouseTag, this.navMeshAgent));
+            stateMachine.ChangeState(new SearchFor(this.mouseLayer, this.gameObject, this.viewRange, this.mouseTag, MiceFound));
         }
 
         void Update()
         {
             stateMachine.ExecuteStateUpdate();
+        }
+
+        public void MiceFound(SearchResults searchResults)
+        {
+            var foundmice = searchResults.AllHitObjectsWithRequiredTag;
+
         }
     }
 }
