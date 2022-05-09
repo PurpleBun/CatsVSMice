@@ -6,27 +6,28 @@ public class MouseIdleState : MouseBaseState
     {
         Debug.Log("Entered idle state.");
         //Debug.Log(mouse.gameObject);
-        ScanForCats(mouse.gameObject, mouseStats.visionDistance, mouseStats.layerCats, mouseStats.layerEnvironment);
+        ScanForCats(mouse.gameObject, mouseStats.visionDistance, mouseStats.layerCats, mouseStats.layerEnvironment, mouse);
     }
 
     public override void ExecuteState(MouseStateManager mouse, MouseAbilityValues mouseStats)
     {
-
+        ScanForCats(mouse.gameObject, mouseStats.visionDistance, mouseStats.layerCats, mouseStats.layerEnvironment, mouse);
     }
 
     public override void ExitState(MouseStateManager mouse, MouseAbilityValues mouseStats)
     {
-
+        Debug.Log("Exiting idle state.");
     }
 
-    public override void OnCollisionEnter(MouseStateManager mouse, MouseAbilityValues mouseStats)
+    public override void OnCollisionEnter(Collision collision, MouseStateManager mouse, MouseAbilityValues mouseStats)
     {
 
     }
 
-    void ScanForCats(GameObject mouseObject, float scanRadius, LayerMask catsLayer, LayerMask environmentLayer)
+    void ScanForCats(GameObject mouseObject, float scanRadius, LayerMask catsLayer, LayerMask environmentLayer, MouseStateManager mouseManager)
     {
         //First, scan for any cats that are within mouse's vicinity, don't care for obstacles between them.
+        int visibleCats = 0;
         Collider[] spottedCats = XRayScanForCats(mouseObject, scanRadius, catsLayer);
         if (spottedCats != null)
         {
@@ -45,7 +46,12 @@ public class MouseIdleState : MouseBaseState
                 else
                 {
                     Debug.Log("Cat " + spottedCat.gameObject + " is visible.");
+                    visibleCats++;
                 }
+            }
+            if (visibleCats > 0)
+            {
+                mouseManager.SwitchState(mouseManager.runningState);
             }
         }
     }
