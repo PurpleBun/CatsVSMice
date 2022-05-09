@@ -61,20 +61,21 @@ namespace CatAI
 
         }
     }
-}
 
-//package the result from search and send back to owner game object
-public class SearchResults
-{
-    public Collider[] AllHitObjectsInSearchRadius;
-
-    public List<Collider> AllHitObjectsWithRequiredTag;
-    //process objects by distance neeeded
-
-    public SearchResults(Collider[] allHitObjectsInSearchRadius, List<Collider> allHitObjectsWithRequiredTag)
+    //package the result from search and send back to owner game object
+    public class SearchResults
     {
-        AllHitObjectsInSearchRadius = allHitObjectsInSearchRadius;
-        AllHitObjectsWithRequiredTag = allHitObjectsWithRequiredTag;
-    }
+        public Collider[] AllHitObjectsInSearchRadius;
 
+        public List<Collider> AllHitObjectsWithRequiredTag;
+        //process objects by distance neeeded
+
+        public SearchResults(Collider[] allHitObjectsInSearchRadius, List<Collider> allHitObjectsWithRequiredTag)
+        {
+            AllHitObjectsInSearchRadius = allHitObjectsInSearchRadius;
+            AllHitObjectsWithRequiredTag = allHitObjectsWithRequiredTag;
+        }
+
+    }
 }
+

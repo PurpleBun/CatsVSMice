@@ -31,7 +31,7 @@ namespace CatAI
         public void MiceFound(SearchResults searchResults)
         {
             var foundmice = searchResults.AllHitObjectsWithRequiredTag;
-
+            stateMachine.ChangeState(new Move(this.navMeshAgent,foundmice[0]));
         }
     }
 }
