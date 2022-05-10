@@ -5,8 +5,12 @@ TagManager:
   serializedVersion: 2
   tags:
   - Obstacle
+<<<<<<< HEAD
   - Cat
   - Hole
+=======
+  - Mouse
+>>>>>>> Phuong-CatAI
   layers:
   - Default
   - TransparentFX

@@ -1,6 +1,10 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+<<<<<<< HEAD
 --- !u!1 &919142930914982656
+=======
+--- !u!1 &5609872690196683553
+>>>>>>> Phuong-CatAI
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,6 +12,7 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
+<<<<<<< HEAD
   - component: {fileID: 2037011351836500374}
   m_Layer: 0
   m_Name: Bone.001
@@ -534,6 +539,14 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3560100939826228096}
+=======
+  - component: {fileID: 5609872690196683567}
+  - component: {fileID: 5609872690196683566}
+  - component: {fileID: 5609872690196683565}
+  - component: {fileID: 5609872690196683564}
+  - component: {fileID: 5609872690196683555}
+  - component: {fileID: 5609872690196683554}
+>>>>>>> Phuong-CatAI
   m_Layer: 0
   m_Name: Cat
   m_TagString: Untagged
@@ -541,12 +554,17 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+<<<<<<< HEAD
 --- !u!4 &3560100939826228096
+=======
+--- !u!4 &5609872690196683567
+>>>>>>> Phuong-CatAI
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
+<<<<<<< HEAD
   m_GameObject: {fileID: 4189425577776656698}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -14.14, y: 0, z: 16.58}
@@ -559,10 +577,23 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4569953400144979789
 GameObject:
+=======
+  m_GameObject: {fileID: 5609872690196683553}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 4.45, y: 2.18, z: 3.84}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!33 &5609872690196683566
+MeshFilter:
+>>>>>>> Phuong-CatAI
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
+<<<<<<< HEAD
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1242528762665434236}
@@ -575,10 +606,17 @@ GameObject:
   m_IsActive: 1
 --- !u!4 &1242528762665434236
 Transform:
+=======
+  m_GameObject: {fileID: 5609872690196683553}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!23 &5609872690196683565
+MeshRenderer:
+>>>>>>> Phuong-CatAI
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
+<<<<<<< HEAD
   m_GameObject: {fileID: 4569953400144979789}
   m_LocalRotation: {x: 0.028527683, y: -0.51475215, z: 0.8555514, w: -0.04741493}
   m_LocalPosition: {x: 4.6566126e-11, y: 0.0093850605, z: -9.179348e-10}
@@ -901,6 +939,9 @@ SkinnedMeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7144030168563270149}
+=======
+  m_GameObject: {fileID: 5609872690196683553}
+>>>>>>> Phuong-CatAI
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -908,14 +949,22 @@ SkinnedMeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+<<<<<<< HEAD
   m_RayTracingMode: 3
+=======
+  m_RayTracingMode: 2
+>>>>>>> Phuong-CatAI
   m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
+<<<<<<< HEAD
   - {fileID: 2100000, guid: 4d9ea36163ed34f4e8c7895e4506bf1d, type: 2}
   - {fileID: 2100000, guid: 1526b3866399f174384a30f07d4ddead, type: 2}
   - {fileID: 2100000, guid: 6b989a3f3d2db7d488bae11b7ad8490f, type: 2}
+=======
+  - {fileID: 2100000, guid: e351e68a86e786e469a6683e08ab0b9a, type: 2}
+>>>>>>> Phuong-CatAI
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -936,6 +985,7 @@ SkinnedMeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+<<<<<<< HEAD
   serializedVersion: 2
   m_Quality: 0
   m_UpdateWhenOffscreen: 0
@@ -974,10 +1024,29 @@ SkinnedMeshRenderer:
   m_DirtyAABB: 0
 --- !u!1 &7507114977699959129
 GameObject:
+=======
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &5609872690196683564
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5609872690196683553}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!195 &5609872690196683555
+NavMeshAgent:
+>>>>>>> Phuong-CatAI
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+<<<<<<< HEAD
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3438007991495315284}
@@ -990,10 +1059,31 @@ GameObject:
   m_IsActive: 1
 --- !u!4 &3438007991495315284
 Transform:
+=======
+  m_GameObject: {fileID: 5609872690196683553}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.5
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 1
+  m_BaseOffset: 0.5
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
+--- !u!114 &5609872690196683554
+MonoBehaviour:
+>>>>>>> Phuong-CatAI
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
+<<<<<<< HEAD
   m_GameObject: {fileID: 7507114977699959129}
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -0, y: 0.00464589, z: 0}
@@ -1225,3 +1315,16 @@ Transform:
   m_Father: {fileID: 5032965621863027492}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+=======
+  m_GameObject: {fileID: 5609872690196683553}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 725552f604c39c74c84385ba52d25f6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mouseLayer:
+    serializedVersion: 2
+    m_Bits: 128
+  viewRange: 50
+  mouseTag: Mouse
+>>>>>>> Phuong-CatAI
