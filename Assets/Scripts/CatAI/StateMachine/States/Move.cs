@@ -10,6 +10,7 @@ namespace CatAI
     {
         NavMeshAgent navMeshAgent;
         Collider destination;
+        //need animator
 
         //Move towards the destination collider sent by main cat AI script (trap/mouse/etc)
         public Move(NavMeshAgent navMeshAgent, Collider destination)
