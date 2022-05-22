@@ -13,20 +13,31 @@ namespace CatAI
 
         private float searchRadius;
 
+        private float viewAngle=60f;
+
         private string tagToLookFor;
 
         public bool SearchCompleted;
 
         private Action<SearchResults> searchResultsCallback;
 
-        public SearchFor(LayerMask searchLayer, GameObject ownerGameObject, float searchRadius, string tagToLookFor, Action<SearchResults> searchResultsCallback)
-        {
-            this.searchLayer = searchLayer;
-            this.ownerGameObject = ownerGameObject;
-            this.searchRadius = searchRadius;
-            this.tagToLookFor = tagToLookFor;
-            this.searchResultsCallback = searchResultsCallback;
+        //public SearchFor(LayerMask searchLayer, GameObject ownerGameObject, float searchRadius, string tagToLookFor, Action<SearchResults> searchResultsCallback)
+        //{
+        //    this.searchLayer = searchLayer;
+        //    this.ownerGameObject = ownerGameObject;
+        //    this.searchRadius = searchRadius;
+        //    this.tagToLookFor = tagToLookFor;
+        //    this.searchResultsCallback = searchResultsCallback;
          
+        //}
+
+        public SearchFor(LayerMask searchLayer, GameObject ownerGameObject, float searchRadius, string tagToLookFor, Action<SearchResults> searchResultsCallback) 
+        {
+            this.searchLayer = searchLayer; 
+            this.ownerGameObject = ownerGameObject; 
+            this.searchRadius = searchRadius;
+            this.tagToLookFor = tagToLookFor;   
+            this.searchResultsCallback = searchResultsCallback; 
         }
 
         public void Enter()
@@ -38,17 +49,20 @@ namespace CatAI
         {
             if (!SearchCompleted)
             {
-                var hitObjects = Physics.OverlapSphere(this.ownerGameObject.transform.position, this.searchRadius);
-                List<Collider> allObjectsWithTheRequiredTag = new List<Collider>();
+                var hitObjects = Physics.OverlapSphere(this.ownerGameObject.transform.position, this.searchRadius,searchLayer);
+                List<Collider> allVisibleObjectsWithTheRequiredTag = new List<Collider>();
                 for (int i = 0; i < hitObjects.Length; i++)
                 {
                     if (hitObjects[i].gameObject.CompareTag(tagToLookFor))
                     {
-                        //this.navMeshAgent.SetDestination(hitObjects[i].transform.position);
-                        allObjectsWithTheRequiredTag.Add(hitObjects[i]);
+                        Vector3 dirToTarget = (hitObjects[i].transform.position - this.ownerGameObject.transform.position).normalized;
+                        if(Vector3.Angle ( this.ownerGameObject.transform.forward, dirToTarget) < viewAngle / 2)
+                        {
+                            allVisibleObjectsWithTheRequiredTag.Add(hitObjects[i]);
+                        }
                     }
                 }
-                var searchResults = new SearchResults(hitObjects, allObjectsWithTheRequiredTag);
+                var searchResults = new SearchResults(hitObjects, allVisibleObjectsWithTheRequiredTag);
                 //sendback search results
                 searchResultsCallback(searchResults);
 
