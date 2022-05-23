@@ -32,7 +32,7 @@ public class MouseIdleState : MouseBaseState
     public override void OnCollisionEnter(Collision collision, MouseStateManager mouse, MouseAbilitiesNValues mouseStats)
     {
 
-    }    
+    }
 }
 
 

@@ -18,6 +18,7 @@ public class MouseStateManager : MonoBehaviour
         if (this.gameObject.GetComponent<NavMeshAgent>() != null)
         {
             mouseNavMeshAgent = this.gameObject.GetComponent<NavMeshAgent>();
+            Debug.Log(mouseNavMeshAgent);
         }
         else
         {

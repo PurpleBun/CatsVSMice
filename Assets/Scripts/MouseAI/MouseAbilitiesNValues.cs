@@ -13,6 +13,8 @@ public class MouseAbilitiesNValues : MonoBehaviour
     public float hidingTime;
     public bool catsFound;
     public bool ignoresIdleState;
+    public float hidingCooldown;
+    public float currentCooldown;
 
     public bool ScanForCats(GameObject mouseObject, float scanRadius, LayerMask catsLayer, LayerMask environmentLayer, MouseStateManager mouseManager)
     {

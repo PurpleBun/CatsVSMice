@@ -6,6 +6,7 @@ public class MouseHidingState : MouseBaseState
 
     public override void EnterState(MouseStateManager mouse, MouseAbilitiesNValues mouseStats)
     {
+        timeLeft = mouseStats.hidingTime;
         Debug.Log("Mouse is now hiding.");
         mouseStats.mouseRB.useGravity = false;
         mouseStats.mouseCollider.enabled = false;
@@ -34,6 +35,7 @@ public class MouseHidingState : MouseBaseState
         mouseStats.mouseCollider.enabled = true;
         mouseStats.mouseRB.useGravity = true;
         mouseStats.catsFound = false;
+        mouseStats.currentCooldown = mouseStats.hidingCooldown;
     }
 
     public override void OnCollisionEnter(Collision collision, MouseStateManager mouse, MouseAbilitiesNValues mouseStats)
