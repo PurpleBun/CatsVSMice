@@ -30,6 +30,7 @@ public class MouseHidingState : MouseBaseState
     public override void ExitState(MouseStateManager mouse, MouseAbilitiesNValues mouseStats)
     {
         Debug.Log("Exiting hiding state.");
+        //move mice to other hidey hole before enabling everything again.
         timeLeft = mouseStats.hidingTime;
         mouseStats.mouseMeshRend.enabled = true;
         mouseStats.mouseCollider.enabled = true;
