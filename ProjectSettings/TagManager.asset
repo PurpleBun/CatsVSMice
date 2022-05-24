@@ -4,7 +4,11 @@
 TagManager:
   serializedVersion: 2
   tags:
+  - Mouse
+  - Manager
+  - Cat
   - Obstacle
+  - Hole
   layers:
   - Default
   - TransparentFX
@@ -14,8 +18,8 @@ TagManager:
   - UI
   - Environment
   - Mice
-  - 
-  - 
+  - Cats
+  - Floor
   - 
   - 
   - 
