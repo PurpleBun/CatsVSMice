@@ -148,6 +148,9 @@ MonoBehaviour:
   layerEnvironment:
     serializedVersion: 2
     m_Bits: 64
+  layerHoles:
+    serializedVersion: 2
+    m_Bits: 1024
   visionDistance: 1000
   isSlow: 0
   mouseRB: {fileID: 8880999365981259457}

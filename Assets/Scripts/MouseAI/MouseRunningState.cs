@@ -5,18 +5,23 @@ public class MouseRunningState : MouseBaseState
     public override void EnterState(MouseStateManager mouse, MouseAbilitiesNValues mouseStats)
     {
         Debug.Log("Entered running state.");
-        mouseStats.catsFound = mouseStats.ScanForCats(mouse.gameObject, mouseStats.visionDistance, mouseStats.layerCats, mouseStats.layerEnvironment, mouse);
-        if (mouseStats.catsFound == false && mouseStats.ignoresIdleState == false)
+        mouseStats.catsFound = mouseStats.ScanForObjects(mouse.gameObject, mouseStats.visionDistance, mouseStats.layerCats, mouseStats.layerEnvironment, mouse);
+        if ((mouseStats.catsFound == null || mouseStats.catsFound.Count == 0) && mouseStats.ignoresIdleState == false)
         {
             mouse.SwitchState(mouse.idleState);
         }
+        mouseStats.holesFound = mouseStats.ScanForObjects(mouse.gameObject, mouseStats.visionDistance, mouseStats.layerHoles, mouseStats.layerEnvironment, mouse);
+        //if (mouseStats.holesFound != null && mouseStats.holesFound.Count > 0)
+        //{
+        //    Debug.Log("Mouse sees " + mouseStats.holesFound.Count + " holes.");
+        //}
     }
 
     public override void ExecuteState(MouseStateManager mouse, MouseAbilitiesNValues mouseStats)
     {
         mouse.mouseNavMeshAgent.destination = mouse.targetTransform.position;
-        mouseStats.catsFound = mouseStats.ScanForCats(mouse.gameObject, mouseStats.visionDistance, mouseStats.layerCats, mouseStats.layerEnvironment, mouse);
-        if (mouseStats.catsFound == false && mouseStats.ignoresIdleState == false)
+        mouseStats.catsFound = mouseStats.ScanForObjects(mouse.gameObject, mouseStats.visionDistance, mouseStats.layerCats, mouseStats.layerEnvironment, mouse);
+        if ((mouseStats.catsFound == null || mouseStats.catsFound.Count == 0) && mouseStats.ignoresIdleState == false)
         {
             mouse.SwitchState(mouse.idleState);
         }
@@ -24,12 +29,21 @@ public class MouseRunningState : MouseBaseState
         {
             mouseStats.currentCooldown -= Time.deltaTime;
         }
+        mouseStats.holesFound = mouseStats.ScanForObjects(mouse.gameObject, mouseStats.visionDistance, mouseStats.layerHoles, mouseStats.layerEnvironment, mouse);
+        //if (mouseStats.holesFound != null && mouseStats.holesFound.Count > 0)
+        //{
+        //    Debug.Log("Mouse sees " + mouseStats.holesFound.Count + " holes.");
+        //    foreach (Collider holeFound in mouseStats.holesFound)
+        //    {
+        //        Debug.Log(holeFound);
+        //    }
+        //}
     }
 
     public override void ExitState(MouseStateManager mouse, MouseAbilitiesNValues mouseStats)
     {
         Debug.Log("Exiting running state.");
-        mouseStats.catsFound = false;
+        mouseStats.catsFound = null;
     }
 
     public override void OnCollisionEnter(Collision collision, MouseStateManager mouse, MouseAbilitiesNValues mouseStats)

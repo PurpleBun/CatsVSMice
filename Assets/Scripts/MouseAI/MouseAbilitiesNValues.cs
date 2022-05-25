@@ -4,64 +4,57 @@ using UnityEngine;
 
 public class MouseAbilitiesNValues : MonoBehaviour
 {
-    public LayerMask layerCats, layerEnvironment;
+    public LayerMask layerCats, layerEnvironment, layerHoles;
     public float visionDistance;
     public bool isSlow;
     public Rigidbody mouseRB;
     public MeshRenderer mouseMeshRend;
     public Collider mouseCollider;
     public float hidingTime;
-    public bool catsFound;
+    public List<Collider> catsFound;
+    public List<Collider> holesFound;
     public bool ignoresIdleState;
     public float hidingCooldown;
     public float currentCooldown;
 
-    public bool ScanForCats(GameObject mouseObject, float scanRadius, LayerMask catsLayer, LayerMask environmentLayer, MouseStateManager mouseManager)
+    void Awake()
+    {
+        catsFound = new List<Collider>();
+        holesFound = new List<Collider>();
+    }
+
+    public List<Collider> ScanForObjects(GameObject mouseObject, float scanRadius, LayerMask objectsLayer, LayerMask environmentLayer, MouseStateManager mouseManager)
     {
         //First, scan for any cats that are within mouse's vicinity, don't care for obstacles between them.
-        int visibleCats = 0;
-        Collider[] spottedCats = XRayScanForCats(mouseObject, scanRadius, catsLayer);
-        if (spottedCats != null)
+        List<Collider> visibleObjects = new List<Collider>();
+        Collider[] xRaySpottedObjects = XRayScanForObjects(mouseObject, scanRadius, objectsLayer);
+        if (xRaySpottedObjects != null)
         {
-            //Debug.Log("Mouse x-ray vision detected " + spottedCats.Length + " cats.");
-            //If there are cats nearby - for every cat, check if there are any objects directly between the cat and the mouse.
-            foreach (Collider spottedCat in spottedCats)
+            //If there are objects nearby - for every object, check if there are any objects directly between the object and the mouse.
+            foreach (Collider xRaySpottedObject in xRaySpottedObjects)
             {
-                GameObject obstacleCenter = ScanForObstacles(spottedCat, mouseObject, environmentLayer, spottedCat.bounds.center);
-                GameObject obstacleMaxBound = ScanForObstacles(spottedCat, mouseObject, environmentLayer, spottedCat.bounds.max);
-                GameObject obstacleMinBound = ScanForObstacles(spottedCat, mouseObject, environmentLayer, spottedCat.bounds.min);
+                GameObject obstacleCenter = ScanForObstacles(mouseObject, environmentLayer, xRaySpottedObject.bounds.center);
+                GameObject obstacleMaxBound = ScanForObstacles(mouseObject, environmentLayer, xRaySpottedObject.bounds.max);
+                GameObject obstacleMinBound = ScanForObstacles(mouseObject, environmentLayer, xRaySpottedObject.bounds.min);
                 //Debug.Log(obstacleCenter + " " + obstacleMaxBound + " " + obstacleMinBound);
                 if (obstacleCenter != null && obstacleMaxBound != null && obstacleMinBound != null)
                 {
-                    //Debug.Log("Cat is hidden.");
+                    //Debug.Log("Object is hidden.");
                 }
                 else
                 {
-                    //Debug.Log("Cat " + spottedCat.gameObject + " is visible.");
-                    visibleCats++;
+                    //Debug.Log("Object " + spottedCat.gameObject + " is visible.");
+                    visibleObjects.Add(xRaySpottedObject);
                 }
             }
-            if (visibleCats > 0)
+            if (visibleObjects.Count > 0)
             {                
-                return true;
+                return visibleObjects;
             }
             else
             {
-                return false;
-            }
-        }
-        else
-        {
-            return false;
-        }
-    }
-
-    Collider[] XRayScanForCats(GameObject mouseObj, float xRayRadius, LayerMask catLayer)
-    {
-        Collider[] hitCatColliders = Physics.OverlapSphere(mouseObj.transform.position, xRayRadius, catLayer);
-        if (hitCatColliders.Length != 0)
-        {
-            return hitCatColliders;
+                return null;
+            }            
         }
         else
         {
@@ -69,7 +62,20 @@ public class MouseAbilitiesNValues : MonoBehaviour
         }
     }
 
-    GameObject ScanForObstacles(Collider hitCat, GameObject mouse, LayerMask enviroLayer, Vector3 colliderBoundPos)
+    Collider[] XRayScanForObjects(GameObject mouseObj, float xRayRadius, LayerMask objectLayer)
+    {
+        Collider[] hitObjectColliders = Physics.OverlapSphere(mouseObj.transform.position, xRayRadius, objectLayer);
+        if (hitObjectColliders.Length != 0)
+        {
+            return hitObjectColliders;
+        }
+        else
+        {
+            return null;
+        }
+    }
+
+    GameObject ScanForObstacles(GameObject mouse, LayerMask enviroLayer, Vector3 colliderBoundPos)
     {
         RaycastHit hit;
         if (Physics.Linecast(mouse.transform.position, colliderBoundPos, out hit, enviroLayer) == true)
@@ -78,7 +84,6 @@ public class MouseAbilitiesNValues : MonoBehaviour
         }
         else
         {
-            //Debug.Log(colliderBoundPos);
             return null;
         }
     }

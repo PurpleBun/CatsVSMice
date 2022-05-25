@@ -34,7 +34,7 @@ public class MouseHidingState : MouseBaseState
         mouseStats.mouseMeshRend.enabled = true;
         mouseStats.mouseCollider.enabled = true;
         mouseStats.mouseRB.useGravity = true;
-        mouseStats.catsFound = false;
+        mouseStats.catsFound = null;
         mouseStats.currentCooldown = mouseStats.hidingCooldown;
     }
 

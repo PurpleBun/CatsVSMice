@@ -277,13 +277,17 @@ MonoBehaviour:
   layerEnvironment:
     serializedVersion: 2
     m_Bits: 64
+  layerHoles:
+    serializedVersion: 2
+    m_Bits: 0
   visionDistance: 1000
   isSlow: 0
   mouseRB: {fileID: 230783525}
   mouseMeshRend: {fileID: 230783522}
   mouseCollider: {fileID: 230783521}
   hidingTime: 5
-  catsFound: 0
+  catsFound: []
+  holesFound: []
   ignoresIdleState: 0
   hidingCooldown: 0
   currentCooldown: 0
@@ -990,7 +994,7 @@ GameObject:
   - component: {fileID: 1271439663}
   - component: {fileID: 1271439662}
   - component: {fileID: 1271439661}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Hidey Hole 1
   m_TagString: Hole
   m_Icon: {fileID: 0}
@@ -1067,7 +1071,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1271439660}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -9.14, y: -1.2, z: -1.1914883}
+  m_LocalPosition: {x: -9.14, y: -0.74, z: -1.1914883}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -1085,7 +1089,7 @@ GameObject:
   - component: {fileID: 1613555030}
   - component: {fileID: 1613555029}
   - component: {fileID: 1613555028}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Hidey Hole 2
   m_TagString: Hole
   m_Icon: {fileID: 0}
@@ -1162,7 +1166,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1613555027}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.81, y: -1.2, z: 9.1}
+  m_LocalPosition: {x: -5.28, y: -0.5, z: 9.1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -1429,7 +1433,7 @@ PrefabInstance:
       objectReference: {fileID: 117855911}
     - target: {fileID: 3339238610044871645, guid: 84a419530a4939b4ca488a5b5dabce42, type: 3}
       propertyPath: ignoresIdleState
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5471058518783120769, guid: 84a419530a4939b4ca488a5b5dabce42, type: 3}
       propertyPath: m_Name
