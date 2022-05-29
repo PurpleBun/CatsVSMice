@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Mouse
   - Manager
+  - Trap
   layers:
   - Default
   - TransparentFX

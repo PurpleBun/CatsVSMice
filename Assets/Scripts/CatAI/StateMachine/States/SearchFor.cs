@@ -1,14 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System; 
+using System;
+using System.Linq;
 
 namespace CatAI
 {
     public class SearchFor : IState
     {
-        private LayerMask searchLayer;
-        
         GameObject ownerGameObject;
 
         private float searchRadius;
@@ -31,25 +30,20 @@ namespace CatAI
          
         //}
 
-        public SearchFor(LayerMask searchLayer, GameObject ownerGameObject, float searchRadius, string tagToLookFor, Action<SearchResults> searchResultsCallback) 
+        public SearchFor(GameObject ownerGameObject, float searchRadius, string tagToLookFor, Action<SearchResults> searchResultsCallback) 
         {
-            this.searchLayer = searchLayer; 
             this.ownerGameObject = ownerGameObject; 
             this.searchRadius = searchRadius;
             this.tagToLookFor = tagToLookFor;   
             this.searchResultsCallback = searchResultsCallback; 
         }
 
-        public void Enter()
-        {
 
-        }
-
-        public void Execute()
+        public override void Execute()
         {
             if (!SearchCompleted)
             {
-                var hitObjects = Physics.OverlapSphere(this.ownerGameObject.transform.position, this.searchRadius,searchLayer);
+                var hitObjects = Physics.OverlapSphere(this.ownerGameObject.transform.position, this.searchRadius);
                 List<Collider> allVisibleObjectsWithTheRequiredTag = new List<Collider>();
                 for (int i = 0; i < hitObjects.Length; i++)
                 {
@@ -62,6 +56,7 @@ namespace CatAI
                         }
                     }
                 }
+                allVisibleObjectsWithTheRequiredTag = allVisibleObjectsWithTheRequiredTag.OrderBy((d) => (d.transform.position - this.ownerGameObject.transform.position).sqrMagnitude).ToList();
                 var searchResults = new SearchResults(hitObjects, allVisibleObjectsWithTheRequiredTag);
                 //sendback search results
                 searchResultsCallback(searchResults);
@@ -70,10 +65,6 @@ namespace CatAI
             } 
         }
 
-        public void Exit()
-        {
-
-        }
     }
 
     //package the result from search and send back to owner game object
@@ -88,8 +79,8 @@ namespace CatAI
         {
             AllHitObjectsInSearchRadius = allHitObjectsInSearchRadius;
             AllHitObjectsWithRequiredTag = allHitObjectsWithRequiredTag;
-        }
 
+        }
     }
 }
 

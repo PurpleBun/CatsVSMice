@@ -60,11 +60,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 725552f604c39c74c84385ba52d25f6e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  trapDuration: 7
+  manager: {fileID: 0}
   mouseLayer:
     serializedVersion: 2
     m_Bits: 4294967295
   viewRange: 50
   mouseTag: Mouse
+  trapTag: Trap
+  trapIntent: 0
+  navMeshAgent: {fileID: 0}
 --- !u!195 &2348363497420626123
 NavMeshAgent:
   m_ObjectHideFlags: 0

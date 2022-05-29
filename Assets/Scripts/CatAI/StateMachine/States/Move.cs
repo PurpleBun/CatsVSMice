@@ -16,22 +16,12 @@ namespace CatAI
         public Move(NavMeshAgent navMeshAgent, Collider destination)
         {
             this.navMeshAgent = navMeshAgent;
-            this.destination = destination;
+            this.destination = destination;;
         }
 
-        public void Enter()
-        {
-
-        }
-
-        public void Execute()
+        public override void Execute()
         {
             navMeshAgent.SetDestination(destination.transform.position);
-        }
-
-        public void Exit()
-        {
-
         }
     }
 }

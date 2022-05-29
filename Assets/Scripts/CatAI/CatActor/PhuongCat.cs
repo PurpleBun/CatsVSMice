@@ -11,21 +11,26 @@ namespace CatAI
     {
         private StateMachine stateMachine = new StateMachine();
         [SerializeField]
-        LayerMask mouseLayer;
-        [SerializeField]
         float viewRange;
         [SerializeField]
         string mouseTag;
-        UnityEngine.AI.NavMeshAgent navMeshAgent;
+        [SerializeField]
+        string trapTag;
+        [SerializeField]
+        string holeTag;
+
+        public bool trapIntent = false;
+        public NavMeshAgent navMeshAgent;
         
         void Start()
         {
-            navMeshAgent = this.GetComponent<UnityEngine.AI.NavMeshAgent>();
+            navMeshAgent = this.GetComponent<NavMeshAgent>();
             //setting up navmesh agent with inherited stats
             navMeshAgent.speed = baseSpeed;
             navMeshAgent.angularSpeed = angularSpeed;
             navMeshAgent.acceleration = acceleration;
-            stateMachine.ChangeState(new SearchFor(this.mouseLayer, this.gameObject, this.viewRange, this.mouseTag, MiceFound));
+            stateMachine.ChangeState(new SearchFor(this.gameObject, this.viewRange, this.mouseTag, MiceFound));
+            //stateMachine.ChangeState(new SearchFor(this.gameObject, this.viewRange, this.trapTag, SetTrap));
         }
 
         void Update()
@@ -36,7 +41,46 @@ namespace CatAI
         public void MiceFound(SearchResults searchResults)
         {
             var foundmice = searchResults.AllHitObjectsWithRequiredTag;
-            stateMachine.ChangeState(new Move(this.navMeshAgent,foundmice[0]));
+            if (foundmice.Count == 0)
+            {
+                //switchstate
+                return;
+            }
+            else
+            {
+                stateMachine.ChangeState(new Move(this.navMeshAgent, foundmice[0]));
+            }
+        }
+
+        public void SetTrap(SearchResults searchResults)
+        {
+            var foundtrap = searchResults.AllHitObjectsWithRequiredTag;
+            trapIntent = true;
+            while (trapIntent = true)
+            {
+                if (foundtrap.Count == 0)
+                {
+                    //switch state
+                    trapIntent = false;
+                    return;
+                }
+                else
+                {
+                    //check if trap is set or not
+                    stateMachine.ChangeState(new SetTrap(this.navMeshAgent, this.gameObject, this.trapDuration, this.stateMachine, foundtrap[0]));
+                }
+            }
+        }
+
+        public void ChaseMouse()
+        {
+
+        }
+
+
+        public void Ambush()
+        {
+
         }
         
         void OnCollisionEnter(Collision other)

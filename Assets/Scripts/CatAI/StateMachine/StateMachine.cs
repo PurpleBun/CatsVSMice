@@ -2,10 +2,15 @@ using UnityEngine;
 
 namespace CatAI
 {
-    public class StateMachine: MonoBehaviour
+    public class StateMachine
     {
         private IState currentState;
         private IState previousState;
+
+        //public void SetOwner(T owner)
+        //{
+        //    this.owner = owner;
+        //}
 
         //Acquire new IState cartridge -> change to new state acquired
         public void ChangeState(IState newState)
