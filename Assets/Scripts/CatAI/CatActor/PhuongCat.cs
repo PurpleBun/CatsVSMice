@@ -99,36 +99,23 @@ namespace CatAI
         {
             var foundtrap = searchResults.AllHitObjectsWithRequiredTag;
             trapIntent = true;
-            while (trapIntent == true)
+            if (foundtrap.Count == 0)
             {
-                if (foundtrap.Count == 0)
-                {
-                    //switch state
-                    trapIntent = false;
-                    //stateMachine.SwitchToPreviousState();
-                    return;
-                }
-                else
-                {
-                    //check if trap is set or not
-                    stateMachine.ChangeState(new SetTrap(this.navMeshAgent, this.gameObject, this.trapDuration, this.stateMachine, foundtrap[0]));
-                }
+                //switchstate
+                trapIntent = false;
+                //stateMachine.SwitchToPreviousState();
+                return;
+            }
+            else
+            {
+                stateMachine.ChangeState(new SetTrap(this.navMeshAgent, this.gameObject, this.trapDuration, this.stateMachine, foundtrap[0].transform.position));
             }
         }
-
-        public void ChaseMouse()
-        {
-
-        }
-
 
         public void Ambush()
         {
 
         }
-
-        
-
 
         
         void OnCollisionEnter(Collision other)

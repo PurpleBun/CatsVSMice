@@ -9,13 +9,13 @@ namespace CatAI
     public class SetTrap : IState
     {
         GameObject ownerGameObject;
-        Collider trap;
+        Vector3 trap;
         NavMeshAgent navMeshAgent;
         StateMachine stateMachine;
         float trapDuration;
         float trapDistance=5;
 
-        public SetTrap(NavMeshAgent navMeshAgent, GameObject ownerGameObject, float trapDuration, StateMachine stateMachine, Collider trap )
+        public SetTrap(NavMeshAgent navMeshAgent, GameObject ownerGameObject, float trapDuration, StateMachine stateMachine, Vector3 trap )
         {
             this.navMeshAgent = navMeshAgent;
             this.ownerGameObject = ownerGameObject;
@@ -26,15 +26,15 @@ namespace CatAI
         public override void Enter()
         {
             //if not at the trap place yet move to the trap with move state
-            if (Vector3.Distance(ownerGameObject.transform.position, trap.transform.position) > trapDistance)
+            if (Vector3.Distance(ownerGameObject.transform.position, trap) > trapDistance)
             {
-                stateMachine.ChangeState(new Move(navMeshAgent, trap.transform.position));
+                stateMachine.ChangeState(new Move(navMeshAgent, trap));
             }
         }
 
         public override void Execute()
         {
-           if (Vector3.Distance(ownerGameObject.transform.position, trap.transform.position) < trapDistance)
+            if (Vector3.Distance(ownerGameObject.transform.position, trap) < trapDistance)
             {
                 trapDuration -= Time.deltaTime;
                 if (trapDuration <= 0)
