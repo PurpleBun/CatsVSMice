@@ -56,6 +56,7 @@ namespace CatAI
                         }
                     }
                 }
+                //sort by distance from game object
                 allVisibleObjectsWithTheRequiredTag = allVisibleObjectsWithTheRequiredTag.OrderBy((d) => (d.transform.position - this.ownerGameObject.transform.position).sqrMagnitude).ToList();
                 var searchResults = new SearchResults(hitObjects, allVisibleObjectsWithTheRequiredTag);
                 //sendback search results

@@ -29,8 +29,10 @@ namespace CatAI
             navMeshAgent.speed = baseSpeed;
             navMeshAgent.angularSpeed = angularSpeed;
             navMeshAgent.acceleration = acceleration;
-            stateMachine.ChangeState(new SearchFor(this.gameObject, this.viewRange, this.mouseTag, MiceFound));
-            //stateMachine.ChangeState(new SearchFor(this.gameObject, this.viewRange, this.trapTag, SetTrap));
+            //stateMachine.ChangeState(new Idle(navMeshAgent,this.gameObject, stateMachine));
+            //stateMachine.ChangeState(new SearchFor(this.gameObject, this.viewRange, this.mouseTag, FoundMice));
+            stateMachine.ChangeState(new SearchFor(this.gameObject, this.viewRange, this.trapTag, SetTrap));
+
         }
 
         void Update()
@@ -38,30 +40,72 @@ namespace CatAI
             stateMachine.ExecuteStateUpdate();
         }
 
-        public void MiceFound(SearchResults searchResults)
+        public void Search()
+        {
+            stateMachine.ChangeState(new SearchFor(this.gameObject, this.viewRange, this.mouseTag, FoundMice));
+            stateMachine.ChangeState(new SearchFor(this.gameObject, this.viewRange, this.trapTag, SetTrap));
+        }
+        public void FoundMice(SearchResults searchResults)
         {
             var foundmice = searchResults.AllHitObjectsWithRequiredTag;
             if (foundmice.Count == 0)
             {
                 //switchstate
+                //stateMachine.SwitchToPreviousState();
                 return;
             }
             else
             {
-                stateMachine.ChangeState(new Move(this.navMeshAgent, foundmice[0]));
+                stateMachine.ChangeState(new Move(this.navMeshAgent, foundmice[0].transform.position));
             }
+            //FuzzyRule[] rules = new FuzzyRule[]
+            //{
+            //    new FuzzyRule()
+            //    {
+            //        comparison = Compare.Greater,
+            //        value1= new FuzzyValue()
+            //        {
+            //            value = Vector3.Distance(transform.position,foundtrap[0]),
+            //            result = FuzzyResult.VeryUndesirable
+            //        },
+            //        value2 = new FuzzyValue()
+            //        {
+            //            value = Vector3.Distance(transform.position, foundmice[0]),
+            //            result = FuzzyResult.VeryDesirable
+            //        },
+            //    }
+            //    //keep adding rules
+            //};
+
+            //FuzzyResult result = Fuzzy.CompareRules(rules);
+            //switch (result)
+            //{
+            //    case FuzzyResult.VeryUndesirable:
+            //        ChaseMouse();
+            //        break;
+            //    case FuzzyResult.Undesirable:
+            //        break;
+            //    case FuzzyResult.Neutral:
+            //        break;
+            //    case FuzzyResult.Desirable:
+            //        break;
+            //    case FuzzyResult.VeryDesirable:
+            //        SetTrap();
+            //        break;
+            //}
         }
 
         public void SetTrap(SearchResults searchResults)
         {
             var foundtrap = searchResults.AllHitObjectsWithRequiredTag;
             trapIntent = true;
-            while (trapIntent = true)
+            while (trapIntent == true)
             {
                 if (foundtrap.Count == 0)
                 {
                     //switch state
                     trapIntent = false;
+                    //stateMachine.SwitchToPreviousState();
                     return;
                 }
                 else
@@ -82,6 +126,10 @@ namespace CatAI
         {
 
         }
+
+        
+
+
         
         void OnCollisionEnter(Collision other)
         {

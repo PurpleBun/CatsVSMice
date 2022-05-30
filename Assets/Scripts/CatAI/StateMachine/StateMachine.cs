@@ -4,6 +4,7 @@ namespace CatAI
 {
     public class StateMachine
     {
+        [SerializeField]
         private IState currentState;
         private IState previousState;
 

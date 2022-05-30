@@ -25,9 +25,10 @@ namespace CatAI
         }
         public override void Enter()
         {
+            //if not at the trap place yet move to the trap with move state
             if (Vector3.Distance(ownerGameObject.transform.position, trap.transform.position) > trapDistance)
             {
-                stateMachine.ChangeState(new Move(navMeshAgent, trap));
+                stateMachine.ChangeState(new Move(navMeshAgent, trap.transform.position));
             }
         }
 
@@ -39,7 +40,7 @@ namespace CatAI
                 if (trapDuration <= 0)
                 {
                     Debug.Log("TrapSet");
-                    stateMachine.ChangeState(new Idle());
+                    stateMachine.ChangeState(new Idle(navMeshAgent, ownerGameObject, stateMachine));
                 }
             }
         }
