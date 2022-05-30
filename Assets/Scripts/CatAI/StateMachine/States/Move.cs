@@ -11,7 +11,8 @@ namespace CatAI
     {
         NavMeshAgent navMeshAgent;
         Vector3 destination;
-
+        public delegate void Moving();
+        public static event Moving DestinationReached;
         //need animator
 
         //Move towards the destination collider sent by main cat AI script (trap/mouse/etc)
@@ -24,16 +25,16 @@ namespace CatAI
         public override void Execute()
         {
             navMeshAgent.SetDestination(destination);
-            //if (!navMeshAgent.pathPending)
-            //{
-            //    if (navMeshAgent.remainingDistance <= navMeshAgent.stoppingDistance)
-            //    {
-            //        if (navMeshAgent.hasPath || navMeshAgent.velocity.sqrMagnitude == 0f)
-            //        {
-            //            destinationReached();
-            //        }
-            //    }
-            //}
+            if (!navMeshAgent.pathPending)
+            {
+                if (navMeshAgent.remainingDistance <= navMeshAgent.stoppingDistance)
+                {
+                    if (navMeshAgent.hasPath || navMeshAgent.velocity.sqrMagnitude == 0f)
+                    {
+                        DestinationReached();
+                    }
+                }
+            }
         }
     }
 }
