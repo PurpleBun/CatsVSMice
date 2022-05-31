@@ -64,7 +64,7 @@ MonoBehaviour:
   viewRange: 50
   mouseTag: Mouse
   trapTag: Trap
-  holeTag: 
+  holeTag: Hole
   trapIntent: 0
   navMeshAgent: {fileID: 0}
 --- !u!195 &2348363497420626123
