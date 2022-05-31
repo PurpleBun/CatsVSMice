@@ -43,13 +43,12 @@ namespace CatAI
 
         public void Search()
         {
-            stateMachine.ChangeState(new SearchFor(this.gameObject, this.viewRange, this.mouseTag, FoundMice));
-            //stateMachine.ChangeState(new SearchFor(this.gameObject, this.viewRange, this.trapTag, SetTrap));
+            //stateMachine.ChangeState(new SearchFor(this.gameObject, this.viewRange, this.mouseTag, FoundMice));
+            stateMachine.ChangeState(new SearchFor(this.gameObject, this.viewRange, this.trapTag, SetTrap));
         }
         public void FoundMice(SearchResults searchResults)
         {
             var foundmice = searchResults.AllHitObjectsWithRequiredTag;
-            Debug.Log("MiceFound");
             if (foundmice.Count == 0)
             {
                 //switchstate
@@ -58,7 +57,6 @@ namespace CatAI
             }
             else
             {
-                Debug.Log("MiceFound2");
                 stateMachine.ChangeState(new Move(this.navMeshAgent, foundmice[0].transform.position));
             }
             //FuzzyRule[] rules = new FuzzyRule[]

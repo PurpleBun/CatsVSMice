@@ -12,7 +12,7 @@ namespace CatAI
 
         protected float acceleration = 8f;
 
-        protected float trapDuration = 7f;
+        protected float trapDuration = 5f;
 
         [SerializeField]
         protected GameManager manager;

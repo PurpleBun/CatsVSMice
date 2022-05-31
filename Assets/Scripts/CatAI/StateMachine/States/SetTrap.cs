@@ -13,7 +13,7 @@ namespace CatAI
         NavMeshAgent navMeshAgent;
         StateMachine stateMachine;
         float trapDuration;
-        float trapDistance=5;
+        float trapDistance=3.5f;
 
         public SetTrap(NavMeshAgent navMeshAgent, GameObject ownerGameObject, float trapDuration, StateMachine stateMachine, Vector3 trap )
         {
