@@ -5,14 +5,14 @@ using UnityEngine.AI;
 
 namespace CatAI
 {
-    public class Idle : IState
+    public class Wander : IState
     {
         //idle
         NavMeshAgent navMeshAgent;
         GameObject ownerGameObject;
         StateMachine stateMachine;
 
-        public Idle(NavMeshAgent navMeshAgent, GameObject ownerGameObject, StateMachine stateMachine)
+        public Wander(NavMeshAgent navMeshAgent, GameObject ownerGameObject, StateMachine stateMachine)
         {
             this.navMeshAgent = navMeshAgent;
             this.ownerGameObject = ownerGameObject;

@@ -40,7 +40,7 @@ namespace CatAI
                 if (trapDuration <= 0)
                 {
                     Debug.Log("TrapSet");
-                    stateMachine.ChangeState(new Idle(navMeshAgent, ownerGameObject, stateMachine));
+                    stateMachine.ChangeState(new Wander(navMeshAgent, ownerGameObject, stateMachine));
                 }
             }
         }

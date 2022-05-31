@@ -29,7 +29,7 @@ namespace CatAI
             navMeshAgent.speed = baseSpeed;
             navMeshAgent.angularSpeed = angularSpeed;
             navMeshAgent.acceleration = acceleration;
-            stateMachine.ChangeState(new Idle(navMeshAgent,this.gameObject, stateMachine));
+            stateMachine.ChangeState(new Wander(navMeshAgent,this.gameObject, stateMachine));
             Move.DestinationReached += Search;
             //stateMachine.ChangeState(new SearchFor(this.gameObject, this.viewRange, this.mouseTag, FoundMice));
             //stateMachine.ChangeState(new SearchFor(this.gameObject, this.viewRange, this.trapTag, SetTrap));
@@ -52,7 +52,7 @@ namespace CatAI
             if (foundmice.Count == 0)
             {
                 //switchstate
-                stateMachine.ChangeState(new Idle(navMeshAgent, this.gameObject, stateMachine));
+                stateMachine.ChangeState(new Wander(navMeshAgent, this.gameObject, stateMachine));
                 return;
             }
             else
@@ -104,7 +104,7 @@ namespace CatAI
             {
                 //switchstate
                 trapIntent = false;
-                stateMachine.ChangeState(new Idle(navMeshAgent, this.gameObject, stateMachine));
+                stateMachine.ChangeState(new Wander(navMeshAgent, this.gameObject, stateMachine));
                 return;
             }
             else
