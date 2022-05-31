@@ -43,8 +43,8 @@ namespace CatAI
 
         public void Search()
         {
-            //stateMachine.ChangeState(new SearchFor(this.gameObject, this.viewRange, this.mouseTag, FoundMice));
-            stateMachine.ChangeState(new SearchFor(this.gameObject, this.viewRange, this.trapTag, SetTrap));
+            stateMachine.ChangeState(new SearchFor(this.gameObject, this.viewRange, this.mouseTag, FoundMice));
+            //stateMachine.ChangeState(new SearchFor(this.gameObject, this.viewRange, this.trapTag, SetTrap));
         }
         public void FoundMice(SearchResults searchResults)
         {
