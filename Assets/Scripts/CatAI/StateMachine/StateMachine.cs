@@ -2,10 +2,16 @@ using UnityEngine;
 
 namespace CatAI
 {
-    public class StateMachine: MonoBehaviour
+    public class StateMachine
     {
+        [SerializeField]
         private IState currentState;
         private IState previousState;
+
+        //public void SetOwner(T owner)
+        //{
+        //    this.owner = owner;
+        //}
 
         //Acquire new IState cartridge -> change to new state acquired
         public void ChangeState(IState newState)
@@ -19,6 +25,7 @@ namespace CatAI
             //Switch to newest IState cartridge
             currentState = newState;
             currentState.Enter();
+            Debug.Log(currentState);
         }
 
         //Execute the IState (following changestate ^)

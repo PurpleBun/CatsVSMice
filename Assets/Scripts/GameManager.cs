@@ -35,12 +35,12 @@ public class GameManager : MonoBehaviour
     void CatWin()
     {
         //do something
-        Debug.Log("CatWon");
+        //Debug.Log("CatWon");
     }
 
     void MouseWin()
     {
         //do something
-        Debug.Log("MouseWon"); 
+        //Debug.Log("MouseWon"); 
     }
 }
