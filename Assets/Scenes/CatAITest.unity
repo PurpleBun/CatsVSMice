@@ -273,6 +273,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 2348363497420626100, guid: ed9a45181e5c9b84086a31086f60be68, type: 3}
+      propertyPath: holeTag
+      value: Hole
+      objectReference: {fileID: 0}
+    - target: {fileID: 2348363497420626100, guid: ed9a45181e5c9b84086a31086f60be68, type: 3}
       propertyPath: manager
       value: 
       objectReference: {fileID: 127148001}
@@ -302,7 +306,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2818595127345505842, guid: ed9a45181e5c9b84086a31086f60be68, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 1.4486576
+      value: 1.81
       objectReference: {fileID: 0}
     - target: {fileID: 2818595127345505842, guid: ed9a45181e5c9b84086a31086f60be68, type: 3}
       propertyPath: m_LocalRotation.w
@@ -356,7 +360,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!65 &658558586
 BoxCollider:
   m_ObjectHideFlags: 0
