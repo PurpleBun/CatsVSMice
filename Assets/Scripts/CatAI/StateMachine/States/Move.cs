@@ -2,36 +2,40 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Events;
 
 namespace CatAI
 {
 
     public class Move : IState
     {
+        //https://learn.unity.com/tutorial/events-uh#
         NavMeshAgent navMeshAgent;
-        Collider destination;
+        Vector3 destination;
+        public delegate void Moving();
+        public static event Moving DestinationReached;
         //need animator
 
         //Move towards the destination collider sent by main cat AI script (trap/mouse/etc)
-        public Move(NavMeshAgent navMeshAgent, Collider destination)
+        public Move(NavMeshAgent navMeshAgent, Vector3 destination)
         {
             this.navMeshAgent = navMeshAgent;
             this.destination = destination;
         }
 
-        public void Enter()
+        public override void Execute()
         {
-
-        }
-
-        public void Execute()
-        {
-            navMeshAgent.SetDestination(destination.transform.position);
-        }
-
-        public void Exit()
-        {
-
+            navMeshAgent.SetDestination(destination);
+            if (!navMeshAgent.pathPending)
+            {
+                if (navMeshAgent.remainingDistance <= navMeshAgent.stoppingDistance)
+                {
+                    if (navMeshAgent.hasPath || navMeshAgent.velocity.sqrMagnitude == 0f)
+                    {
+                        DestinationReached();
+                    }
+                }
+            }
         }
     }
 }

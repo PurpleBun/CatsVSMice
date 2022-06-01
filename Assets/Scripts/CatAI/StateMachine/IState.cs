@@ -1,11 +1,22 @@
+using UnityEngine;
+
 namespace CatAI
 {
-    public interface IState
+    public class IState
     {
-        void Enter();
+        public virtual void Enter()
+        {
 
-        void Execute();
+        }
 
-        void Exit();
+        public virtual void Execute()
+        {
+
+        }
+
+        public virtual void Exit()
+        {
+
+        }
     }
 }
