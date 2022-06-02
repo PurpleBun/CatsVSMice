@@ -203,7 +203,7 @@ public class MouseAISashaEdition : MonoBehaviour
             {
                 float distanceToCat = CalculateDistanceToObject(catFound.transform, hole.transform);
                 float distanceDifference = GetDistanceDifference(distanceToMouse, distanceToCat);
-                if (distanceDifference < safeDistanceDifference)
+                if (distanceDifference < safeDistanceDifference || distanceToCat < distanceToMouse)
                 {
                     suboptimalDistances++;
                 }
