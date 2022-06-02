@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class MouseAbilitiesNValues : MonoBehaviour
 {
@@ -10,6 +11,9 @@ public class MouseAbilitiesNValues : MonoBehaviour
     public Rigidbody mouseRB;
     public MeshRenderer mouseMeshRend;
     public Collider mouseCollider;
+    public NavMeshAgent mouseNavMeshAgent;
+    public Transform targetTransform;
+    public Transform thisMouseTrans;
     public float hidingTime;
     public List<Collider> catsFound;
     public List<Collider> holesFound;
@@ -21,6 +25,16 @@ public class MouseAbilitiesNValues : MonoBehaviour
     {
         catsFound = new List<Collider>();
         holesFound = new List<Collider>();
+        if (this.gameObject.GetComponent<NavMeshAgent>() != null)
+        {
+            mouseNavMeshAgent = this.gameObject.GetComponent<NavMeshAgent>();
+            Debug.Log(mouseNavMeshAgent);
+        }
+        else
+        {
+            Debug.LogError("The mouse " + this.gameObject + " lacks NavMeshAgent component.");
+        }
+        thisMouseTrans = this.gameObject.transform;
     }
 
     public List<Collider> ScanForObjects(GameObject mouseObject, float scanRadius, LayerMask objectsLayer, LayerMask environmentLayer, MouseStateManager mouseManager)
@@ -79,6 +93,19 @@ public class MouseAbilitiesNValues : MonoBehaviour
     {
         RaycastHit hit;
         if (Physics.Linecast(mouse.transform.position, colliderBoundPos, out hit, enviroLayer) == true)
+        {
+            return hit.transform.gameObject;
+        }
+        else
+        {
+            return null;
+        }
+    }
+
+    GameObject ScanInDirectionForObjects(GameObject mouse, LayerMask desiredScanLayer, Vector3 scanDirection, float scanDistance)
+    {
+        RaycastHit hit;
+        if (Physics.Raycast(mouse.transform.position, scanDirection, out hit, scanDistance, desiredScanLayer) == true)
         {
             return hit.transform.gameObject;
         }

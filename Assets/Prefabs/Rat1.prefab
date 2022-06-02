@@ -16,9 +16,9 @@ GameObject:
   - component: {fileID: 2761159806923038183}
   - component: {fileID: 3339238610044871645}
   - component: {fileID: 5061627704822521715}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Rat1
-  m_TagString: Untagged
+  m_TagString: Mouse
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -128,8 +128,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   thisMouseStats: {fileID: 3339238610044871645}
-  mouseNavMeshAgent: {fileID: 5061627704822521715}
-  targetTransform: {fileID: 0}
 --- !u!114 &3339238610044871645
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -151,13 +149,17 @@ MonoBehaviour:
   layerHoles:
     serializedVersion: 2
     m_Bits: 1024
-  visionDistance: 1000
+  visionDistance: 10
   isSlow: 0
   mouseRB: {fileID: 8880999365981259457}
   mouseMeshRend: {fileID: 1798976743940405402}
-  mouseCollider: {fileID: 0}
+  mouseCollider: {fileID: 289887179011743436}
+  mouseNavMeshAgent: {fileID: 5061627704822521715}
+  targetTransform: {fileID: 0}
+  thisMouseTrans: {fileID: 2301368415601518084}
   hidingTime: 5
-  catsFound: 0
+  catsFound: []
+  holesFound: []
   ignoresIdleState: 1
   hidingCooldown: 5
   currentCooldown: 0

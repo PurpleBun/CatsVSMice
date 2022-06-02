@@ -19,7 +19,7 @@ public class MouseRunningState : MouseBaseState
 
     public override void ExecuteState(MouseStateManager mouse, MouseAbilitiesNValues mouseStats)
     {
-        mouse.mouseNavMeshAgent.destination = mouse.targetTransform.position;
+        mouseStats.mouseNavMeshAgent.destination = mouseStats.targetTransform.position;
         mouseStats.catsFound = mouseStats.ScanForObjects(mouse.gameObject, mouseStats.visionDistance, mouseStats.layerCats, mouseStats.layerEnvironment, mouse);
         if ((mouseStats.catsFound == null || mouseStats.catsFound.Count == 0) && mouseStats.ignoresIdleState == false)
         {
