@@ -56,7 +56,6 @@ public class MouseAISashaEdition : MonoBehaviour
                 {
                     FindAndMoveToClosestHole(mouseStats.holesFound);
                 }
-                holeWasChosen = true;
             }
         }
         else if ((mouseStats.catsFound != null && mouseStats.catsFound.Count != 0) && (mouseStats.holesFound == null || mouseStats.holesFound.Count == 0))
