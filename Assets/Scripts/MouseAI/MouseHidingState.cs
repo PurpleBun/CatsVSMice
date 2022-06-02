@@ -11,11 +11,13 @@ public class MouseHidingState : MouseBaseState
         mouseStats.mouseRB.useGravity = false;
         mouseStats.mouseCollider.enabled = false;
         mouseStats.mouseMeshRend.enabled = false;
+        mouseStats.isHiding = true;
     }
 
     public override void ExecuteState(MouseStateManager mouse, MouseAbilitiesNValues mouseStats)
     {
         timeLeft -= Time.deltaTime;
+        mouseStats.isHiding = true;
         Debug.Log(timeLeft);
         if (timeLeft <= 0 && mouseStats.ignoresIdleState == true)
         {
@@ -36,6 +38,7 @@ public class MouseHidingState : MouseBaseState
         mouseStats.mouseRB.useGravity = true;
         mouseStats.catsFound = null;
         mouseStats.currentCooldown = mouseStats.hidingCooldown;
+        mouseStats.isHiding = false;
     }
 
     public override void OnCollisionEnter(Collision collision, MouseStateManager mouse, MouseAbilitiesNValues mouseStats)

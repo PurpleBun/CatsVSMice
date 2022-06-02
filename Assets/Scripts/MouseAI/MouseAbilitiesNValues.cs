@@ -20,6 +20,7 @@ public class MouseAbilitiesNValues : MonoBehaviour
     public bool ignoresIdleState;
     public float hidingCooldown;
     public float currentCooldown;
+    public bool isHiding;
 
     void Awake()
     {
@@ -102,7 +103,7 @@ public class MouseAbilitiesNValues : MonoBehaviour
         }
     }
 
-    GameObject ScanInDirectionForObjects(GameObject mouse, LayerMask desiredScanLayer, Vector3 scanDirection, float scanDistance)
+    public GameObject ScanInDirectionForObjects(GameObject mouse, LayerMask desiredScanLayer, Vector3 scanDirection, float scanDistance)
     {
         RaycastHit hit;
         if (Physics.Raycast(mouse.transform.position, scanDirection, out hit, scanDistance, desiredScanLayer) == true)

@@ -8,8 +8,9 @@ public class MouseAISashaEdition : MonoBehaviour
     private Transform thisMouseTarget;
     private Transform thisMouse;
     [SerializeField]
-    private float safeDistanceToHole;
+    private float safeDistanceToHole, safeDistanceDifference;
     private float currentDistanceToHole;
+    private bool holeWasChosen = false;
     //private 
     // Start is called before the first frame update
     void Awake()
@@ -29,46 +30,85 @@ public class MouseAISashaEdition : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        PrioritizeWhereToGo(mouseAbsNVals);
+        if (mouseAbsNVals.isHiding == false)
+        {
+            PrioritizeWhereToGo(mouseAbsNVals);
+        }
+        else if (mouseAbsNVals.isHiding == true && holeWasChosen == true)
+        {
+            holeWasChosen = false;
+        }
     }
 
     private void PrioritizeWhereToGo(MouseAbilitiesNValues mouseStats)
     {
         if ((mouseStats.catsFound == null || mouseStats.catsFound.Count == 0) && (mouseStats.holesFound != null && mouseStats.holesFound.Count != 0))
         {
-            if (mouseStats.holesFound.Count == 1)
+            if (mouseStats.currentCooldown <= 0)
             {
-                Transform holeTransform = mouseStats.holesFound[0].transform;
-                currentDistanceToHole = CalculateDistanceToObject(thisMouse, holeTransform);
-                MoveToSafeDistanceToHole(safeDistanceToHole, currentDistanceToHole, holeTransform);
-            }
-            else
-            {
-                FindAndMoveToClosestHole(mouseStats.holesFound);
+                if (mouseStats.holesFound.Count == 1)
+                {
+                    Transform holeTransform = mouseStats.holesFound[0].transform;
+                    currentDistanceToHole = CalculateDistanceToObject(thisMouse, holeTransform);
+                    MoveToSafeDistanceToHole(safeDistanceToHole, currentDistanceToHole, holeTransform);
+                }
+                else
+                {
+                    FindAndMoveToClosestHole(mouseStats.holesFound);
+                }
+                holeWasChosen = true;
             }
         }
         else if ((mouseStats.catsFound != null && mouseStats.catsFound.Count != 0) && (mouseStats.holesFound == null || mouseStats.holesFound.Count == 0))
         {
-            Vector3 runAwayVector;
-            if (mouseStats.catsFound.Count == 1)
+            holeWasChosen = false;
+            OperationRunAway(mouseStats.catsFound, thisMouse, thisMouseTarget);
+        }
+        else if ((mouseStats.catsFound != null && mouseStats.catsFound.Count != 0) && (mouseStats.holesFound != null && mouseStats.holesFound.Count != 0))
+        {
+            if (mouseStats.currentCooldown <= 0)
             {
-                Transform catTransform = mouseStats.catsFound[0].transform;
-                runAwayVector = DetermineRunAwayVector(thisMouse, catTransform);
-                DetermineTarget(runAwayVector, thisMouse.position, thisMouseTarget);
+                if (holeWasChosen == false)
+                {
+                    List<Collider> optimalHoles = new List<Collider>();
+                    FindOptimalHoles(optimalHoles, mouseStats.catsFound, mouseStats.holesFound);
+                    if (optimalHoles.Count == 0)
+                    {
+                        OperationRunAway(mouseStats.catsFound, thisMouse, thisMouseTarget);
+                    }
+                    else if (optimalHoles.Count == 1)
+                    {
+                        Transform chosenHole = optimalHoles[0].transform;
+                        thisMouseTarget.position = new Vector3(chosenHole.position.x, thisMouseTarget.position.y, chosenHole.position.z);
+                        Debug.Log("Going to hole " + chosenHole.name);
+                        holeWasChosen = true;
+                    }
+                    else
+                    {
+                        int randomIndex = Random.Range(0, optimalHoles.Count);
+                        Transform chosenHole = optimalHoles[randomIndex].transform;
+                        thisMouseTarget.position = new Vector3(chosenHole.position.x, thisMouseTarget.position.y, chosenHole.position.z);
+                        Debug.Log("Going to hole " + chosenHole.name);
+                        holeWasChosen = true;
+                    }
+                }
             }
             else
             {
-                Vector3 totalRunAwayVector = DetermineTotalRunAwayVector(thisMouse, mouseStats.catsFound);
-                DetermineTarget(totalRunAwayVector, thisMouse.position, thisMouseTarget);
+                OperationRunAway(mouseStats.catsFound, thisMouse, thisMouseTarget);
             }
         }
-        //else if ()
+        else if ((mouseStats.catsFound == null || mouseStats.catsFound.Count == 0) && (mouseStats.holesFound == null || mouseStats.holesFound.Count == 0))
+        { 
+            
+        }
     }
 
-    private float CalculateDistanceToObject(Transform thisMouseTransform, Transform objectInQuestionTransform)
+    private float CalculateDistanceToObject(Transform targetTransformA, Transform targetTransformB)
     {
         float distance;
-        distance = Vector3.Distance(thisMouseTransform.position, objectInQuestionTransform.position);
+        distance = Vector3.Distance(targetTransformA.position, targetTransformB.position);
+        //Debug.Log("Distance between " + targetTransformA.name + " and " + targetTransformB.name + " is " + distance + ".");
         return distance;
     }
 
@@ -100,6 +140,22 @@ public class MouseAISashaEdition : MonoBehaviour
             }
         }
         MoveToSafeDistanceToHole(safeDistanceToHole, distancesToHoles[0], closestHole);
+    }
+
+    private void OperationRunAway(List<Collider> cats, Transform mouse, Transform mouseTarget)
+    {
+        Vector3 runAwayVector;
+        if (cats.Count == 1)
+        {
+            Transform catTransform = cats[0].transform;
+            runAwayVector = DetermineRunAwayVector(mouse, catTransform);
+            DetermineTarget(runAwayVector, mouse.position, mouseTarget);
+        }
+        else
+        {
+            Vector3 totalRunAwayVector = DetermineTotalRunAwayVector(mouse, cats);
+            DetermineTarget(totalRunAwayVector, mouse.position, mouseTarget);
+        }
     }
 
     private Vector3 CalculateTargetAwayFromOneCat(Vector3 mousePosition, Vector3 catPosition)
@@ -136,4 +192,48 @@ public class MouseAISashaEdition : MonoBehaviour
         float targetZ = mousePosition.z + runVector.z;
         thisMouseTarget.position = new Vector3(targetX, thisMouseTarget.position.y, targetZ);
     }
+
+    private void FindOptimalHoles(List<Collider> optimals, List<Collider> cats, List<Collider> holes)
+    {
+        foreach (Collider hole in holes)
+        {
+            int suboptimalDistances = 0;
+            //Debug.Log(holeFound.name);
+            float distanceToMouse = CalculateDistanceToObject(thisMouse, hole.transform);
+            foreach (Collider catFound in cats)
+            {
+                float distanceToCat = CalculateDistanceToObject(catFound.transform, hole.transform);
+                float distanceDifference = GetDistanceDifference(distanceToMouse, distanceToCat);
+                if (distanceDifference < safeDistanceDifference)
+                {
+                    suboptimalDistances++;
+                }
+            }
+            if (suboptimalDistances == 0)
+            {
+                optimals.Add(hole);
+                Debug.Log("Hole " + hole.name + " is optimal");
+            }
+        }
+    }
+
+    private float GetDistanceDifference(float distanceA, float distanceB)
+    {
+        float differenceRegular = distanceA - distanceB;
+        float differenceAbsolute = Mathf.Abs(differenceRegular);
+        //Debug.Log("Distance difference between " + distanceA + " and " + distanceB + " is " + differenceAbsolute + ".");
+        return differenceAbsolute;
+    }
+
+    //private void OperationWander()
+    //{
+    //    for (int i = 0; i < 8; i++)
+    //    {
+    //        switch (i)
+    //        {
+    //            case 0:
+    //                mouseAbsNVals.S
+    //        }
+    //    }
+    //}
 }
