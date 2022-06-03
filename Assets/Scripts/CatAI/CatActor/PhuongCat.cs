@@ -124,7 +124,7 @@ namespace CatAI
             if (other.gameObject.tag == "Mouse") {
                 //remove mouse from game manager list to check for winning condition
                 manager.mouseList.Remove(other.gameObject);
-                Destroy(other.gameObject);
+                other.gameObject.SetActive(false);
             }
         }
     }
