@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AI;
 
 public class MouseStateManager : MonoBehaviour
 {
@@ -10,21 +9,7 @@ public class MouseStateManager : MonoBehaviour
     public MouseIdleState idleState = new MouseIdleState();
     public MouseHidingState hidingState = new MouseHidingState();
     public MouseAbilitiesNValues thisMouseStats;
-    public NavMeshAgent mouseNavMeshAgent;
-    public Transform targetTransform;
 
-    void Awake()
-    {
-        if (this.gameObject.GetComponent<NavMeshAgent>() != null)
-        {
-            mouseNavMeshAgent = this.gameObject.GetComponent<NavMeshAgent>();
-            Debug.Log(mouseNavMeshAgent);
-        }
-        else
-        {
-            Debug.LogError("The mouse " + this.gameObject + " lacks NavMeshAgent component.");
-        }
-    }
 
     // Start is called before the first frame update
     void Start()
