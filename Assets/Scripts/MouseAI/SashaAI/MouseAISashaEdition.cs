@@ -11,7 +11,13 @@ public class MouseAISashaEdition : MonoBehaviour
     private float safeDistanceToHole, safeDistanceDifference;
     private float currentDistanceToHole;
     private bool holeWasChosen = false;
-    //private 
+    private Transform holeNear;
+    private float thisVisionDistance;
+    private float directionChangeColldown;
+    [SerializeField]
+    private float cooldownVeryLong, cooldownLong, cooldownMedium, cooldownShort;
+    private Vector3 oldDirectionToGo;
+
     // Start is called before the first frame update
     void Awake()
     {
@@ -20,6 +26,7 @@ public class MouseAISashaEdition : MonoBehaviour
             mouseAbsNVals = this.gameObject.GetComponent<MouseAbilitiesNValues>();
             thisMouseTarget = mouseAbsNVals.targetTransform;
             thisMouse = mouseAbsNVals.thisMouseTrans;
+            thisVisionDistance = mouseAbsNVals.visionDistance;
         }
         else
         {
@@ -57,6 +64,10 @@ public class MouseAISashaEdition : MonoBehaviour
                     FindAndMoveToClosestHole(mouseStats.holesFound);
                 }
             }
+            else
+            {
+                OperationWander(thisMouse, thisMouseTarget);
+            }
         }
         else if ((mouseStats.catsFound != null && mouseStats.catsFound.Count != 0) && (mouseStats.holesFound == null || mouseStats.holesFound.Count == 0))
         {
@@ -75,13 +86,13 @@ public class MouseAISashaEdition : MonoBehaviour
                     {
                         OperationRunAway(mouseStats.catsFound, thisMouse, thisMouseTarget);
                     }
-                    else if (optimalHoles.Count == 1)
-                    {
-                        Transform chosenHole = optimalHoles[0].transform;
-                        thisMouseTarget.position = new Vector3(chosenHole.position.x, thisMouseTarget.position.y, chosenHole.position.z);
-                        Debug.Log("Going to hole " + chosenHole.name);
-                        holeWasChosen = true;
-                    }
+                    //else if (optimalHoles.Count == 1)
+                    //{
+                    //    Transform chosenHole = optimalHoles[0].transform;
+                    //    thisMouseTarget.position = new Vector3(chosenHole.position.x, thisMouseTarget.position.y, chosenHole.position.z);
+                    //    Debug.Log("Going to hole " + chosenHole.name);
+                    //    holeWasChosen = true;
+                    //}
                     else
                     {
                         int randomIndex = Random.Range(0, optimalHoles.Count);
@@ -91,6 +102,11 @@ public class MouseAISashaEdition : MonoBehaviour
                         holeWasChosen = true;
                     }
                 }
+                else if (holeWasChosen == true && holeNear != null)
+                {
+                    thisMouseTarget.position = new Vector3(holeNear.position.x, thisMouseTarget.position.y, holeNear.position.z);
+                    Debug.Log("Going to hole " + holeNear.name);
+                }
             }
             else
             {
@@ -99,7 +115,8 @@ public class MouseAISashaEdition : MonoBehaviour
         }
         else if ((mouseStats.catsFound == null || mouseStats.catsFound.Count == 0) && (mouseStats.holesFound == null || mouseStats.holesFound.Count == 0))
         {
-            //OperationWander(thisMouse);
+            holeWasChosen = false;
+            OperationWander(thisMouse, thisMouseTarget);
         }
     }
 
@@ -121,6 +138,8 @@ public class MouseAISashaEdition : MonoBehaviour
         {
             thisMouseTarget.position = new Vector3(thisMouse.position.x, thisMouseTarget.position.y, thisMouse.position.z);
         }
+        holeNear = hole;
+        holeWasChosen = true;
     }
 
     private void FindAndMoveToClosestHole(List<Collider> allHoles)
@@ -143,6 +162,7 @@ public class MouseAISashaEdition : MonoBehaviour
 
     private void OperationRunAway(List<Collider> cats, Transform mouse, Transform mouseTarget)
     {
+        //Debug.Log("Entered operation run away.");
         Vector3 runAwayVector;
         if (cats.Count == 1)
         {
@@ -224,67 +244,118 @@ public class MouseAISashaEdition : MonoBehaviour
         return differenceAbsolute;
     }
 
-    //private void OperationWander(Transform mouse)
-    //{
-    //    GameObject obstacle;
-    //    List<GameObject> obstacles = new List<GameObject>();
-    //    List<Vector3> noObstacles = new List<Vector3>();
-    //    List<Vector3> obstaclesFar = new List<Vector3>();
-    //    List<Vector3> obstaclesMedium = new List<Vector3>();
-    //    List<Vector3> obstaclesNear = new List<Vector3>();
-    //    for (int i = 0; i < 8; i++)
-    //    {
-    //        switch (i)
-    //        {
-    //            case 0:
-    //                obstacle = mouseAbsNVals.ScanInDirectionForObjects(mouse, mouseAbsNVals.layerEnvironment, Vector3.forward, mouseAbsNVals.visionDistance);
-    //                if (obstacle == null)
-    //                {
-    //                    noObstacles.Add(Vector3.forward);
-    //                }
-    //                else
-    //                {
-    //                    float distanceToObstacle = Vector3.Distance(mouse.position, obstacle.transform.position);
-    //                    if
-    //                }
-    //                //Debug.Log(Vector3.forward + " " + obstacle);
-    //                break;
-    //            case 1:
-    //                obstacle = mouseAbsNVals.ScanInDirectionForObjects(mouse, mouseAbsNVals.layerEnvironment, new Vector3(1, 0, 1), mouseAbsNVals.visionDistance);
-    //                obstacles.Add(obstacle);
-    //                //Debug.Log(new Vector3(1, 0, 1) + " " + obstacle);
-    //                break;
-    //            case 2:
-    //                obstacle = mouseAbsNVals.ScanInDirectionForObjects(mouse, mouseAbsNVals.layerEnvironment, Vector3.right, mouseAbsNVals.visionDistance);
-    //                obstacles.Add(obstacle);
-    //                //Debug.Log(Vector3.right + " " + obstacle);
-    //                break;
-    //            case 3:
-    //                obstacle = mouseAbsNVals.ScanInDirectionForObjects(mouse, mouseAbsNVals.layerEnvironment, new Vector3(1, 0, -1), mouseAbsNVals.visionDistance);
-    //                obstacles.Add(obstacle);
-    //                //Debug.Log(new Vector3(1, 0, -1) + " " + obstacle);
-    //                break;
-    //            case 4:
-    //                obstacle = mouseAbsNVals.ScanInDirectionForObjects(mouse, mouseAbsNVals.layerEnvironment, Vector3.back, mouseAbsNVals.visionDistance);
-    //                obstacles.Add(obstacle);
-    //                //Debug.Log(Vector3.back + " " + obstacle);
-    //                break;
-    //            case 5:
-    //                obstacle = mouseAbsNVals.ScanInDirectionForObjects(mouse, mouseAbsNVals.layerEnvironment, new Vector3(-1, 0, -1), mouseAbsNVals.visionDistance);
-    //                obstacles.Add(obstacle);
-    //                //Debug.Log(new Vector3(-1, 0, -1) + " " + obstacle);
-    //                break;
-    //            case 6:
-    //                obstacle = mouseAbsNVals.ScanInDirectionForObjects(mouse, mouseAbsNVals.layerEnvironment, Vector3.left, mouseAbsNVals.visionDistance);
-    //                obstacles.Add(obstacle);
-    //                //Debug.Log(Vector3.left + " " + obstacle);
-    //                break;
-    //            case 7:
-    //                obstacle = mouseAbsNVals.ScanInDirectionForObjects(mouse, mouseAbsNVals.layerEnvironment, new Vector3(-1, 0, 1), mouseAbsNVals.visionDistance);
-    //                obstacles.Add(obstacle);
-    //                //Debug.Log(new Vector3(-1, 0, 1) + " " + obstacle);
-    //                break;
-    //        }
-    //    }
-    //}
+    private void OperationWander(Transform mouse, Transform mouseTarget)
+    {
+        Vector3 directionToGo;
+        List<Vector3> directionsWithNoObstacles = new List<Vector3>();
+        List<Vector3> directionsWithObstaclesFar = new List<Vector3>();
+        List<Vector3> directionsWithObstaclesMidway = new List<Vector3>();
+        List<Vector3> directionsWithObstaclesNear = new List<Vector3>();
+        if (directionChangeColldown > 0)
+        {
+            directionChangeColldown -= Time.deltaTime;
+            DetermineTarget(oldDirectionToGo, mouse.position, mouseTarget);
+        }
+        else
+        {
+            for (int i = 0; i < 8; i++)
+            {
+                switch (i)
+                {
+                    case 0:
+                        FindObstacleAndDistanceToObstacle(mouse, Vector3.forward, directionsWithNoObstacles, directionsWithObstaclesFar, directionsWithObstaclesMidway, directionsWithObstaclesNear);
+                        break;
+                    case 1:
+                        FindObstacleAndDistanceToObstacle(mouse, new Vector3(1, 0, 1), directionsWithNoObstacles, directionsWithObstaclesFar, directionsWithObstaclesMidway, directionsWithObstaclesNear);
+                        break;
+                    case 2:
+                        FindObstacleAndDistanceToObstacle(mouse, Vector3.right, directionsWithNoObstacles, directionsWithObstaclesFar, directionsWithObstaclesMidway, directionsWithObstaclesNear);
+                        break;
+                    case 3:
+                        FindObstacleAndDistanceToObstacle(mouse, new Vector3(1, 0, -1), directionsWithNoObstacles, directionsWithObstaclesFar, directionsWithObstaclesMidway, directionsWithObstaclesNear);
+                        break;
+                    case 4:
+                        FindObstacleAndDistanceToObstacle(mouse, Vector3.back, directionsWithNoObstacles, directionsWithObstaclesFar, directionsWithObstaclesMidway, directionsWithObstaclesNear);
+                        break;
+                    case 5:
+                        FindObstacleAndDistanceToObstacle(mouse, new Vector3(-1, 0, -1), directionsWithNoObstacles, directionsWithObstaclesFar, directionsWithObstaclesMidway, directionsWithObstaclesNear);
+                        break;
+                    case 6:
+                        FindObstacleAndDistanceToObstacle(mouse, Vector3.left, directionsWithNoObstacles, directionsWithObstaclesFar, directionsWithObstaclesMidway, directionsWithObstaclesNear);
+                        break;
+                    case 7:
+                        FindObstacleAndDistanceToObstacle(mouse, new Vector3(-1, 0, 1), directionsWithNoObstacles, directionsWithObstaclesFar, directionsWithObstaclesMidway, directionsWithObstaclesNear);
+                        break;
+                }
+            }
+            directionToGo = ChooseDirection(directionsWithNoObstacles, directionsWithObstaclesFar, directionsWithObstaclesMidway, directionsWithObstaclesNear);
+            directionToGo.Normalize();
+            //Debug.Log("Direction to go is " + directionToGo);
+            DetermineTarget(directionToGo, mouse.position, mouseTarget);
+            oldDirectionToGo = directionToGo;
+            //Debug.Log("Old direction to go is " + oldDirectionToGo);
+        }
+    }
+
+    private void FindObstacleAndDistanceToObstacle(Transform mouse, Vector3 directionVector, List<Vector3> noObstacles, List<Vector3> obstaclesFar, List<Vector3> obstaclesMidway, List<Vector3> obstaclesNear)
+    {
+        GameObject obstacle = mouseAbsNVals.ScanInDirectionForObjects(mouse, mouseAbsNVals.layerEnvironment, directionVector, mouseAbsNVals.visionDistance);
+        Debug.Log(directionVector + " " + obstacle);
+        if (obstacle == null)
+        {
+            noObstacles.Add(directionVector);
+            //Debug.Log("Adding " + directionVector + " to noObstacles.");
+        }
+        else
+        {
+            float distanceToObstacle = Vector3.Distance(mouse.position, obstacle.transform.position);
+            //Debug.Log(distanceToObstacle);
+            if (distanceToObstacle <= thisVisionDistance && distanceToObstacle > (thisVisionDistance * 2 / 3))
+            {
+                obstaclesFar.Add(directionVector);
+                //Debug.Log("Adding " + directionVector + " to obstaclesFar");
+            }
+            else if (distanceToObstacle <= (thisVisionDistance * 2 / 3) && distanceToObstacle > (thisVisionDistance * 1 / 3))
+            {
+                obstaclesMidway.Add(directionVector);
+                //Debug.Log("Adding " + directionVector + " to obstaclesMidway");
+            }
+            else if (distanceToObstacle <= (thisVisionDistance * 1 / 3) && distanceToObstacle > 0)
+            {
+                obstaclesNear.Add(directionVector);
+                //Debug.Log("Adding " + directionVector + " to obstaclesNear");
+            }
+        }
+    }
+    private Vector3 ChooseDirection(List<Vector3> noObstacles, List<Vector3> obstaclesFar, List<Vector3> obstaclesMidway, List<Vector3> obstaclesNear)
+    {
+        Vector3 chosenDirection = Vector3.zero;
+        if (noObstacles.Count > 0 && noObstacles.Contains(oldDirectionToGo) == false)
+        {
+            chosenDirection = ChooseRandomVector(noObstacles);
+            directionChangeColldown = cooldownVeryLong;
+        }
+        else if (obstaclesFar.Count > 0 && obstaclesFar.Contains(oldDirectionToGo) == false)
+        {
+            chosenDirection = ChooseRandomVector(obstaclesFar);
+            directionChangeColldown = cooldownLong;
+        }
+        else if (obstaclesMidway.Count > 0 && obstaclesMidway.Contains(oldDirectionToGo) == false)
+        {
+            chosenDirection = ChooseRandomVector(obstaclesMidway);
+            directionChangeColldown = cooldownMedium;
+        }
+        else if (obstaclesNear.Count > 0 && obstaclesNear.Contains(oldDirectionToGo) == false)
+        {
+            chosenDirection = ChooseRandomVector(obstaclesNear);
+            directionChangeColldown = cooldownShort;
+        }
+        return chosenDirection;
+    }
+
+    private Vector3 ChooseRandomVector(List<Vector3> chosenList)
+    {
+        int randomIndex = Random.Range(0, chosenList.Count);
+        return chosenList[randomIndex];
+    }
 }
