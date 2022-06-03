@@ -17,6 +17,7 @@ public class MouseAISashaEdition : MonoBehaviour
     [SerializeField]
     private float cooldownVeryLong, cooldownLong, cooldownMedium, cooldownShort;
     private Vector3 oldDirectionToGo;
+    private List<Transform> memorizedHoles;
 
     // Start is called before the first frame update
     void Awake()
@@ -32,6 +33,7 @@ public class MouseAISashaEdition : MonoBehaviour
         {
             Debug.Log(this.gameObject + " has no MouseAbilitiesNValues componenet attached.");
         }
+        memorizedHoles = new List<Transform>();
     }
 
     // Update is called once per frame
@@ -51,6 +53,7 @@ public class MouseAISashaEdition : MonoBehaviour
     {
         if ((mouseStats.catsFound == null || mouseStats.catsFound.Count == 0) && (mouseStats.holesFound != null && mouseStats.holesFound.Count != 0))
         {
+            MemorizeHoles(mouseStats.holesFound, memorizedHoles);
             if (mouseStats.currentCooldown <= 0)
             {
                 if (mouseStats.holesFound.Count == 1)
@@ -76,6 +79,7 @@ public class MouseAISashaEdition : MonoBehaviour
         }
         else if ((mouseStats.catsFound != null && mouseStats.catsFound.Count != 0) && (mouseStats.holesFound != null && mouseStats.holesFound.Count != 0))
         {
+            MemorizeHoles(mouseStats.holesFound, memorizedHoles);
             if (mouseStats.currentCooldown <= 0)
             {
                 if (holeWasChosen == false)
@@ -357,5 +361,30 @@ public class MouseAISashaEdition : MonoBehaviour
     {
         int randomIndex = Random.Range(0, chosenList.Count);
         return chosenList[randomIndex];
+    }
+
+    private void MemorizeHoles(List<Collider> holesVisible, List<Transform> holesMemorized)
+    {
+        if (holesMemorized.Count == 0)
+        {
+            foreach (Collider holeVisible in holesVisible)
+            {
+                holesMemorized.Add(holeVisible.transform);
+            }
+        }
+        else
+        {
+            foreach (Collider holeVisible in holesVisible)
+            {
+                if (holesMemorized.Contains(holeVisible.transform) == false)
+                {
+                    holesMemorized.Add(holeVisible.transform);
+                }
+            }
+        }
+        foreach (Transform holeMemorized in holesMemorized)
+        {
+            Debug.Log(holeMemorized.name);
+        }
     }
 }
