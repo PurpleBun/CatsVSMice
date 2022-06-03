@@ -163,6 +163,8 @@ MonoBehaviour:
   ignoresIdleState: 1
   hidingCooldown: 5
   currentCooldown: 0
+  isHiding: 0
+  hidingLocation: {x: -14.5, y: 0, z: 10}
 --- !u!195 &5061627704822521715
 NavMeshAgent:
   m_ObjectHideFlags: 0

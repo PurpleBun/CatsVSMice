@@ -17,6 +17,7 @@ public class MouseAISashaEdition : MonoBehaviour
     [SerializeField]
     private float cooldownVeryLong, cooldownLong, cooldownMedium, cooldownShort;
     private Vector3 oldDirectionToGo;
+    [SerializeField]
     private List<Transform> memorizedHoles;
 
     // Start is called before the first frame update
@@ -33,6 +34,10 @@ public class MouseAISashaEdition : MonoBehaviour
         {
             Debug.Log(this.gameObject + " has no MouseAbilitiesNValues componenet attached.");
         }
+    }
+
+    void Start()
+    {
         memorizedHoles = new List<Transform>();
     }
 
@@ -53,7 +58,7 @@ public class MouseAISashaEdition : MonoBehaviour
     {
         if ((mouseStats.catsFound == null || mouseStats.catsFound.Count == 0) && (mouseStats.holesFound != null && mouseStats.holesFound.Count != 0))
         {
-            MemorizeHoles(mouseStats.holesFound, memorizedHoles);
+            MemorizeHoles(mouseStats.holesFound);
             if (mouseStats.currentCooldown <= 0)
             {
                 if (mouseStats.holesFound.Count == 1)
@@ -79,7 +84,7 @@ public class MouseAISashaEdition : MonoBehaviour
         }
         else if ((mouseStats.catsFound != null && mouseStats.catsFound.Count != 0) && (mouseStats.holesFound != null && mouseStats.holesFound.Count != 0))
         {
-            MemorizeHoles(mouseStats.holesFound, memorizedHoles);
+            MemorizeHoles(mouseStats.holesFound);
             if (mouseStats.currentCooldown <= 0)
             {
                 if (holeWasChosen == false)
@@ -102,14 +107,14 @@ public class MouseAISashaEdition : MonoBehaviour
                         int randomIndex = Random.Range(0, optimalHoles.Count);
                         Transform chosenHole = optimalHoles[randomIndex].transform;
                         thisMouseTarget.position = new Vector3(chosenHole.position.x, thisMouseTarget.position.y, chosenHole.position.z);
-                        Debug.Log("Going to hole " + chosenHole.name);
+                        //Debug.Log("Going to hole " + chosenHole.name);
                         holeWasChosen = true;
                     }
                 }
                 else if (holeWasChosen == true && holeNear != null)
                 {
                     thisMouseTarget.position = new Vector3(holeNear.position.x, thisMouseTarget.position.y, holeNear.position.z);
-                    Debug.Log("Going to hole " + holeNear.name);
+                    //Debug.Log("Going to hole " + holeNear.name);
                 }
             }
             else
@@ -235,7 +240,7 @@ public class MouseAISashaEdition : MonoBehaviour
             if (suboptimalDistances == 0)
             {
                 optimalHoles.Add(hole);
-                Debug.Log("Hole " + hole.name + " is optimal");
+                //Debug.Log("Hole " + hole.name + " is optimal");
             }
         }
     }
@@ -304,7 +309,7 @@ public class MouseAISashaEdition : MonoBehaviour
     private void FindObstacleAndDistanceToObstacle(Transform mouse, Vector3 directionVector, List<Vector3> noObstacles, List<Vector3> obstaclesFar, List<Vector3> obstaclesMidway, List<Vector3> obstaclesNear)
     {
         GameObject obstacle = mouseAbsNVals.ScanInDirectionForObjects(mouse, mouseAbsNVals.layerEnvironment, directionVector, mouseAbsNVals.visionDistance);
-        Debug.Log(directionVector + " " + obstacle);
+        //Debug.Log(directionVector + " " + obstacle);
         if (obstacle == null)
         {
             noObstacles.Add(directionVector);
@@ -363,28 +368,28 @@ public class MouseAISashaEdition : MonoBehaviour
         return chosenList[randomIndex];
     }
 
-    private void MemorizeHoles(List<Collider> holesVisible, List<Transform> holesMemorized)
+    private void MemorizeHoles(List<Collider> holesVisible)
     {
-        if (holesMemorized.Count == 0)
+        if (memorizedHoles.Count == 0)
         {
             foreach (Collider holeVisible in holesVisible)
             {
-                holesMemorized.Add(holeVisible.transform);
+                memorizedHoles.Add(holeVisible.transform);
             }
         }
         else
         {
             foreach (Collider holeVisible in holesVisible)
             {
-                if (holesMemorized.Contains(holeVisible.transform) == false)
+                if (memorizedHoles.Contains(holeVisible.transform) == false)
                 {
-                    holesMemorized.Add(holeVisible.transform);
+                    memorizedHoles.Add(holeVisible.transform);
                 }
             }
         }
-        foreach (Transform holeMemorized in holesMemorized)
+        foreach (Transform holeMemorized in memorizedHoles)
         {
-            Debug.Log(holeMemorized.name);
+            //Debug.Log(holeMemorized.name);
         }
     }
 }

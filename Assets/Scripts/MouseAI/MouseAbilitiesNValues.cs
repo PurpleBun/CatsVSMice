@@ -29,7 +29,7 @@ public class MouseAbilitiesNValues : MonoBehaviour
         if (this.gameObject.GetComponent<NavMeshAgent>() != null)
         {
             mouseNavMeshAgent = this.gameObject.GetComponent<NavMeshAgent>();
-            Debug.Log(mouseNavMeshAgent);
+            //Debug.Log(mouseNavMeshAgent);
         }
         else
         {
@@ -113,6 +113,35 @@ public class MouseAbilitiesNValues : MonoBehaviour
         else
         {
             return null;
+        }
+    }
+
+    public void UseHideyHole(GameObject holeInUse)
+    {
+        if (holeInUse.GetComponent<HoleConnections>() != null)
+        {
+            HoleConnections thisHoleStats = holeInUse.GetComponent<HoleConnections>();
+            if (thisHoleStats.ConnectedHoles.Count == 1)
+            {
+                GameObject connectingHole = thisHoleStats.ConnectedHoles[0];
+                if (connectingHole.GetComponent<HoleConnections>() != null)
+                {
+                    HoleConnections newHoleStats = connectingHole.GetComponent<HoleConnections>();
+                    thisMouseTrans.position = newHoleStats.spawnLocation;
+                    targetTransform.position = new Vector3(newHoleStats.spawnLocation.x, targetTransform.position.y, newHoleStats.spawnLocation.z);
+                }
+            }
+            else if (thisHoleStats.ConnectedHoles.Count > 1)
+            {
+                int randomIndex = Random.Range(0, thisHoleStats.ConnectedHoles.Count);
+                GameObject connectingHole = thisHoleStats.ConnectedHoles[randomIndex];
+                if (connectingHole.GetComponent<HoleConnections>() != null)
+                {
+                    HoleConnections newHoleStats = connectingHole.GetComponent<HoleConnections>();
+                    thisMouseTrans.position = newHoleStats.spawnLocation;
+                    targetTransform.position = new Vector3(newHoleStats.spawnLocation.x, targetTransform.position.y, newHoleStats.spawnLocation.z);
+                }
+            }
         }
     }
 }

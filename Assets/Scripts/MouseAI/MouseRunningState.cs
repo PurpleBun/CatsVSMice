@@ -5,6 +5,10 @@ public class MouseRunningState : MouseBaseState
     public override void EnterState(MouseStateManager mouse, MouseAbilitiesNValues mouseStats)
     {
         Debug.Log("Entered running state.");
+        if (mouseStats.mouseNavMeshAgent.enabled == false)
+        {
+            mouseStats.mouseNavMeshAgent.enabled = true;
+        }
         mouseStats.catsFound = mouseStats.ScanForObjects(mouse.gameObject, mouseStats.visionDistance, mouseStats.layerCats, mouseStats.layerEnvironment, mouse);
         if ((mouseStats.catsFound == null || mouseStats.catsFound.Count == 0) && mouseStats.ignoresIdleState == false)
         {
@@ -19,6 +23,10 @@ public class MouseRunningState : MouseBaseState
 
     public override void ExecuteState(MouseStateManager mouse, MouseAbilitiesNValues mouseStats)
     {
+        if (mouseStats.mouseNavMeshAgent.enabled == false)
+        {
+            mouseStats.mouseNavMeshAgent.enabled = true;
+        }
         mouseStats.mouseNavMeshAgent.destination = mouseStats.targetTransform.position;
         mouseStats.catsFound = mouseStats.ScanForObjects(mouse.gameObject, mouseStats.visionDistance, mouseStats.layerCats, mouseStats.layerEnvironment, mouse);
         if ((mouseStats.catsFound == null || mouseStats.catsFound.Count == 0) && mouseStats.ignoresIdleState == false)
@@ -69,7 +77,8 @@ public class MouseRunningState : MouseBaseState
         }
         else if (collisionObject.CompareTag("Hole") == true && mouseStats.currentCooldown <= 0)
         {
-            mouseStMangr.SwitchState(mouseStMangr.hidingState);
+            mouseStats.UseHideyHole(collisionObject);
+            mouseStMangr.SwitchState(mouseStMangr.hidingState);            
         }
     }
 }

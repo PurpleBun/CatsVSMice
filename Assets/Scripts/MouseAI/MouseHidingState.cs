@@ -3,6 +3,8 @@ using UnityEngine;
 public class MouseHidingState : MouseBaseState
 {    
     private float timeLeft;
+    private Vector3 targetPosition;
+    private Vector3 mousePosition;
 
     public override void EnterState(MouseStateManager mouse, MouseAbilitiesNValues mouseStats)
     {
@@ -12,13 +14,17 @@ public class MouseHidingState : MouseBaseState
         mouseStats.mouseCollider.enabled = false;
         mouseStats.mouseMeshRend.enabled = false;
         mouseStats.isHiding = true;
+        mouseStats.mouseNavMeshAgent.enabled = false;
+        targetPosition = mouseStats.targetTransform.position;
+        mousePosition = mouseStats.thisMouseTrans.position;
+        mouseStats.thisMouseTrans.position = new Vector3(targetPosition.x, mousePosition.y, targetPosition.z);
     }
 
     public override void ExecuteState(MouseStateManager mouse, MouseAbilitiesNValues mouseStats)
     {
         timeLeft -= Time.deltaTime;
         mouseStats.isHiding = true;
-        Debug.Log(timeLeft);
+        //Debug.Log(timeLeft);
         if (timeLeft <= 0 && mouseStats.ignoresIdleState == true)
         {
             mouse.SwitchState(mouse.runningState);
@@ -27,11 +33,15 @@ public class MouseHidingState : MouseBaseState
         {
             mouse.SwitchState(mouse.idleState);
         }
+        targetPosition = mouseStats.targetTransform.position;
+        mousePosition = mouseStats.thisMouseTrans.position;
+        mouseStats.thisMouseTrans.position = new Vector3(targetPosition.x, mousePosition.y, targetPosition.z);
     }
 
     public override void ExitState(MouseStateManager mouse, MouseAbilitiesNValues mouseStats)
     {
         Debug.Log("Exiting hiding state.");
+        mouseStats.mouseNavMeshAgent.enabled = true;
         timeLeft = mouseStats.hidingTime;
         mouseStats.mouseMeshRend.enabled = true;
         mouseStats.mouseCollider.enabled = true;
@@ -39,6 +49,9 @@ public class MouseHidingState : MouseBaseState
         mouseStats.catsFound = null;
         mouseStats.currentCooldown = mouseStats.hidingCooldown;
         mouseStats.isHiding = false;
+        targetPosition = mouseStats.targetTransform.position;
+        mousePosition = mouseStats.thisMouseTrans.position;
+        mouseStats.thisMouseTrans.position = new Vector3(targetPosition.x, mousePosition.y, targetPosition.z);        
     }
 
     public override void OnCollisionEnter(Collision collision, MouseStateManager mouse, MouseAbilitiesNValues mouseStats)
