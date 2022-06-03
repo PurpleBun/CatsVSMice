@@ -103,10 +103,10 @@ public class MouseAbilitiesNValues : MonoBehaviour
         }
     }
 
-    public GameObject ScanInDirectionForObjects(GameObject mouse, LayerMask desiredScanLayer, Vector3 scanDirection, float scanDistance)
+    public GameObject ScanInDirectionForObjects(Transform mouse, LayerMask desiredScanLayer, Vector3 scanDirection, float scanDistance)
     {
         RaycastHit hit;
-        if (Physics.Raycast(mouse.transform.position, scanDirection, out hit, scanDistance, desiredScanLayer) == true)
+        if (Physics.Raycast(mouse.position, scanDirection, out hit, scanDistance, desiredScanLayer) == true)
         {
             return hit.transform.gameObject;
         }

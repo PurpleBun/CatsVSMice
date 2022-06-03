@@ -98,8 +98,8 @@ public class MouseAISashaEdition : MonoBehaviour
             }
         }
         else if ((mouseStats.catsFound == null || mouseStats.catsFound.Count == 0) && (mouseStats.holesFound == null || mouseStats.holesFound.Count == 0))
-        { 
-            
+        {
+            //OperationWander(thisMouse);
         }
     }
 
@@ -192,7 +192,7 @@ public class MouseAISashaEdition : MonoBehaviour
         thisMouseTarget.position = new Vector3(targetX, thisMouseTarget.position.y, targetZ);
     }
 
-    private void FindOptimalHoles(List<Collider> optimals, List<Collider> cats, List<Collider> holes)
+    private void FindOptimalHoles(List<Collider> optimalHoles, List<Collider> cats, List<Collider> holes)
     {
         foreach (Collider hole in holes)
         {
@@ -210,7 +210,7 @@ public class MouseAISashaEdition : MonoBehaviour
             }
             if (suboptimalDistances == 0)
             {
-                optimals.Add(hole);
+                optimalHoles.Add(hole);
                 Debug.Log("Hole " + hole.name + " is optimal");
             }
         }
@@ -224,14 +224,66 @@ public class MouseAISashaEdition : MonoBehaviour
         return differenceAbsolute;
     }
 
-    //private void OperationWander()
+    //private void OperationWander(Transform mouse)
     //{
+    //    GameObject obstacle;
+    //    List<GameObject> obstacles = new List<GameObject>();
+    //    List<Vector3> noObstacles = new List<Vector3>();
+    //    List<Vector3> obstaclesFar = new List<Vector3>();
+    //    List<Vector3> obstaclesMedium = new List<Vector3>();
+    //    List<Vector3> obstaclesNear = new List<Vector3>();
     //    for (int i = 0; i < 8; i++)
     //    {
     //        switch (i)
     //        {
     //            case 0:
-    //                mouseAbsNVals.S
+    //                obstacle = mouseAbsNVals.ScanInDirectionForObjects(mouse, mouseAbsNVals.layerEnvironment, Vector3.forward, mouseAbsNVals.visionDistance);
+    //                if (obstacle == null)
+    //                {
+    //                    noObstacles.Add(Vector3.forward);
+    //                }
+    //                else
+    //                {
+    //                    float distanceToObstacle = Vector3.Distance(mouse.position, obstacle.transform.position);
+    //                    if
+    //                }
+    //                //Debug.Log(Vector3.forward + " " + obstacle);
+    //                break;
+    //            case 1:
+    //                obstacle = mouseAbsNVals.ScanInDirectionForObjects(mouse, mouseAbsNVals.layerEnvironment, new Vector3(1, 0, 1), mouseAbsNVals.visionDistance);
+    //                obstacles.Add(obstacle);
+    //                //Debug.Log(new Vector3(1, 0, 1) + " " + obstacle);
+    //                break;
+    //            case 2:
+    //                obstacle = mouseAbsNVals.ScanInDirectionForObjects(mouse, mouseAbsNVals.layerEnvironment, Vector3.right, mouseAbsNVals.visionDistance);
+    //                obstacles.Add(obstacle);
+    //                //Debug.Log(Vector3.right + " " + obstacle);
+    //                break;
+    //            case 3:
+    //                obstacle = mouseAbsNVals.ScanInDirectionForObjects(mouse, mouseAbsNVals.layerEnvironment, new Vector3(1, 0, -1), mouseAbsNVals.visionDistance);
+    //                obstacles.Add(obstacle);
+    //                //Debug.Log(new Vector3(1, 0, -1) + " " + obstacle);
+    //                break;
+    //            case 4:
+    //                obstacle = mouseAbsNVals.ScanInDirectionForObjects(mouse, mouseAbsNVals.layerEnvironment, Vector3.back, mouseAbsNVals.visionDistance);
+    //                obstacles.Add(obstacle);
+    //                //Debug.Log(Vector3.back + " " + obstacle);
+    //                break;
+    //            case 5:
+    //                obstacle = mouseAbsNVals.ScanInDirectionForObjects(mouse, mouseAbsNVals.layerEnvironment, new Vector3(-1, 0, -1), mouseAbsNVals.visionDistance);
+    //                obstacles.Add(obstacle);
+    //                //Debug.Log(new Vector3(-1, 0, -1) + " " + obstacle);
+    //                break;
+    //            case 6:
+    //                obstacle = mouseAbsNVals.ScanInDirectionForObjects(mouse, mouseAbsNVals.layerEnvironment, Vector3.left, mouseAbsNVals.visionDistance);
+    //                obstacles.Add(obstacle);
+    //                //Debug.Log(Vector3.left + " " + obstacle);
+    //                break;
+    //            case 7:
+    //                obstacle = mouseAbsNVals.ScanInDirectionForObjects(mouse, mouseAbsNVals.layerEnvironment, new Vector3(-1, 0, 1), mouseAbsNVals.visionDistance);
+    //                obstacles.Add(obstacle);
+    //                //Debug.Log(new Vector3(-1, 0, 1) + " " + obstacle);
+    //                break;
     //        }
     //    }
     //}
