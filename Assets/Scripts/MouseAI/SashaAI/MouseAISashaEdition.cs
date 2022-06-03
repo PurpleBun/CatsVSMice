@@ -10,7 +10,6 @@ public class MouseAISashaEdition : MonoBehaviour
     [SerializeField]
     private float safeDistanceToHole, safeDistanceDifference;
     private float currentDistanceToHole;
-    private bool holeWasChosen = false;
     private Transform holeNear;
     private float thisVisionDistance;
     private float directionChangeColldown;
@@ -18,7 +17,7 @@ public class MouseAISashaEdition : MonoBehaviour
     private float cooldownVeryLong, cooldownLong, cooldownMedium, cooldownShort;
     private Vector3 oldDirectionToGo;
     [SerializeField]
-    private List<Transform> memorizedHoles;
+    private List<Collider> memorizedHoles;
 
     // Start is called before the first frame update
     void Awake()
@@ -38,7 +37,7 @@ public class MouseAISashaEdition : MonoBehaviour
 
     void Start()
     {
-        memorizedHoles = new List<Transform>();
+        memorizedHoles = new List<Collider>();
     }
 
     // Update is called once per frame
@@ -47,10 +46,6 @@ public class MouseAISashaEdition : MonoBehaviour
         if (mouseAbsNVals.isHiding == false)
         {
             PrioritizeWhereToGo(mouseAbsNVals);
-        }
-        else if (mouseAbsNVals.isHiding == true && holeWasChosen == true)
-        {
-            holeWasChosen = false;
         }
     }
 
@@ -79,43 +74,25 @@ public class MouseAISashaEdition : MonoBehaviour
         }
         else if ((mouseStats.catsFound != null && mouseStats.catsFound.Count != 0) && (mouseStats.holesFound == null || mouseStats.holesFound.Count == 0))
         {
-            holeWasChosen = false;
-            OperationRunAway(mouseStats.catsFound, thisMouse, thisMouseTarget);
+            if (mouseStats.currentCooldown <= 0 && memorizedHoles.Count > 0)
+            {
+                List<Collider> safeHoles = new List<Collider>();
+                FindOptimalHoles(safeHoles, mouseStats.catsFound, memorizedHoles);
+                DetermineRunOrHide(safeHoles, mouseStats);
+            }
+            else
+            {
+                OperationRunAway(mouseStats.catsFound, thisMouse, thisMouseTarget);
+            }
         }
         else if ((mouseStats.catsFound != null && mouseStats.catsFound.Count != 0) && (mouseStats.holesFound != null && mouseStats.holesFound.Count != 0))
         {
             MemorizeHoles(mouseStats.holesFound);
             if (mouseStats.currentCooldown <= 0)
             {
-                if (holeWasChosen == false)
-                {
-                    List<Collider> optimalHoles = new List<Collider>();
-                    FindOptimalHoles(optimalHoles, mouseStats.catsFound, mouseStats.holesFound);
-                    if (optimalHoles.Count == 0)
-                    {
-                        OperationRunAway(mouseStats.catsFound, thisMouse, thisMouseTarget);
-                    }
-                    //else if (optimalHoles.Count == 1)
-                    //{
-                    //    Transform chosenHole = optimalHoles[0].transform;
-                    //    thisMouseTarget.position = new Vector3(chosenHole.position.x, thisMouseTarget.position.y, chosenHole.position.z);
-                    //    Debug.Log("Going to hole " + chosenHole.name);
-                    //    holeWasChosen = true;
-                    //}
-                    else
-                    {
-                        int randomIndex = Random.Range(0, optimalHoles.Count);
-                        Transform chosenHole = optimalHoles[randomIndex].transform;
-                        thisMouseTarget.position = new Vector3(chosenHole.position.x, thisMouseTarget.position.y, chosenHole.position.z);
-                        //Debug.Log("Going to hole " + chosenHole.name);
-                        holeWasChosen = true;
-                    }
-                }
-                else if (holeWasChosen == true && holeNear != null)
-                {
-                    thisMouseTarget.position = new Vector3(holeNear.position.x, thisMouseTarget.position.y, holeNear.position.z);
-                    //Debug.Log("Going to hole " + holeNear.name);
-                }
+                List<Collider> optimalHoles = new List<Collider>();
+                FindOptimalHoles(optimalHoles, mouseStats.catsFound, mouseStats.holesFound);
+                DetermineRunOrHide(optimalHoles, mouseStats);
             }
             else
             {
@@ -124,7 +101,6 @@ public class MouseAISashaEdition : MonoBehaviour
         }
         else if ((mouseStats.catsFound == null || mouseStats.catsFound.Count == 0) && (mouseStats.holesFound == null || mouseStats.holesFound.Count == 0))
         {
-            holeWasChosen = false;
             OperationWander(thisMouse, thisMouseTarget);
         }
     }
@@ -148,7 +124,6 @@ public class MouseAISashaEdition : MonoBehaviour
             thisMouseTarget.position = new Vector3(thisMouse.position.x, thisMouseTarget.position.y, thisMouse.position.z);
         }
         holeNear = hole;
-        holeWasChosen = true;
     }
 
     private void FindAndMoveToClosestHole(List<Collider> allHoles)
@@ -221,6 +196,21 @@ public class MouseAISashaEdition : MonoBehaviour
         thisMouseTarget.position = new Vector3(targetX, thisMouseTarget.position.y, targetZ);
     }
 
+    private void DetermineRunOrHide(List<Collider> goodHoles, MouseAbilitiesNValues mouseStats)
+    {
+        if (goodHoles.Count == 0)
+        {
+            OperationRunAway(mouseStats.catsFound, thisMouse, thisMouseTarget);
+        }
+        else
+        {
+            int randomIndex = Random.Range(0, goodHoles.Count);
+            Transform chosenHole = goodHoles[randomIndex].transform;
+            thisMouseTarget.position = new Vector3(chosenHole.position.x, thisMouseTarget.position.y, chosenHole.position.z);
+            //Debug.Log("Going to hole " + chosenHole.name);
+        }
+    }
+
     private void FindOptimalHoles(List<Collider> optimalHoles, List<Collider> cats, List<Collider> holes)
     {
         foreach (Collider hole in holes)
@@ -244,6 +234,7 @@ public class MouseAISashaEdition : MonoBehaviour
             }
         }
     }
+
 
     private float GetDistanceDifference(float distanceA, float distanceB)
     {
@@ -374,20 +365,20 @@ public class MouseAISashaEdition : MonoBehaviour
         {
             foreach (Collider holeVisible in holesVisible)
             {
-                memorizedHoles.Add(holeVisible.transform);
+                memorizedHoles.Add(holeVisible);
             }
         }
         else
         {
             foreach (Collider holeVisible in holesVisible)
             {
-                if (memorizedHoles.Contains(holeVisible.transform) == false)
+                if (memorizedHoles.Contains(holeVisible) == false)
                 {
-                    memorizedHoles.Add(holeVisible.transform);
+                    memorizedHoles.Add(holeVisible);
                 }
             }
         }
-        foreach (Transform holeMemorized in memorizedHoles)
+        foreach (Collider holeMemorized in memorizedHoles)
         {
             //Debug.Log(holeMemorized.name);
         }
