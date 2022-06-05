@@ -30,11 +30,10 @@ namespace CatAI
             navMeshAgent.angularSpeed = angularSpeed;
             navMeshAgent.acceleration = acceleration;
             Search();
+            Move.Stuck += Wander;
             Move.DestinationReached += Search;
             Idle.IdleOver += Search;
-            //stateMachine.ChangeState(new SearchFor(this.gameObject, this.viewRange, this.mouseTag, FoundMice));
-            //stateMachine.ChangeState(new SearchFor(this.gameObject, this.viewRange, this.trapTag, SetTrap));
-
+           
         }
 
         void Update()
@@ -42,14 +41,15 @@ namespace CatAI
             stateMachine.ExecuteStateUpdate();
         }
 
+        public void Wander()
+        {
+            stateMachine.ChangeState(new Wander(navMeshAgent, this.gameObject, stateMachine));
+        }
         public void Search()
         {
             stateMachine.ChangeState(new SearchAll(this.gameObject, this.viewRange, FoundMice));
         }
-        //public void SearchForMouse()
-        //{
-        //    stateMachine.ChangeState(new SearchFor(this.gameObject, this.viewRange, this.mouseTag, FoundMice));
-        //}
+
         public void FoundMice(AllSearchResults searchResults)
         {
             var foundMice = searchResults.AllMice;
@@ -95,34 +95,34 @@ namespace CatAI
                         result = FuzzyResult.VeryDesirable
                     },
                 },
-                //new FuzzyRule()
-                //{
-                //    comparison = Compare.Less,
-                //    value1= new FuzzyValue()
-                //    {
-                //        value = distanceToHole - distanceToMouse,
-                //        result = FuzzyResult.VeryUndesirable
-                //    },
-                //    value2 = new FuzzyValue()
-                //    {
-                //        value = distanceToMouse,
-                //        result= FuzzyResult.Desirable
-                //    }
-                //},
-                //new FuzzyRule()
-                //{
-                //    comparison = Compare.Less,
-                //    value1=new FuzzyValue()
-                //    {
-                //        value = foundMice.Count,
-                //        result = FuzzyResult.Desirable
-                //    },
-                //    value2 =new FuzzyValue()
-                //    {
-                //        value= foundHole.Count,
-                //        result = FuzzyResult.Undesirable
-                //    }
-                //}
+                new FuzzyRule()
+                {
+                    comparison = Compare.Less,
+                    value1= new FuzzyValue()
+                    {
+                        value = distanceToHole - distanceToMouse,
+                        result = FuzzyResult.VeryUndesirable
+                    },
+                    value2 = new FuzzyValue()
+                    {
+                        value = distanceToMouse,
+                        result= FuzzyResult.Neutral
+                    }
+                },
+                new FuzzyRule()
+                {
+                    comparison = Compare.GreaterorEqual,
+                    value1=new FuzzyValue()
+                    {
+                        value = foundMice.Count,
+                        result = FuzzyResult.VeryDesirable
+                    },
+                    value2 =new FuzzyValue()
+                    {
+                        value= foundHole.Count,
+                        result = FuzzyResult.Undesirable
+                    }
+                }
                 //keep adding rules
             };
 
@@ -130,24 +130,19 @@ namespace CatAI
             switch (result)
             {
                 case FuzzyResult.VeryUndesirable:
-                    Debug.Log("VeryUndesirable");
                     stateMachine.ChangeState(new SearchFor(this.gameObject, this.viewRange, this.trapTag, SetTrap));
                     break;
                 case FuzzyResult.Undesirable:
-                    Debug.Log("Undesirable");
-                    stateMachine.ChangeState(new SearchFor(this.gameObject, this.viewRange, this.trapTag, SetTrap));
+                    stateMachine.ChangeState(new Wander(navMeshAgent, this.gameObject, stateMachine));
                     break;
                 case FuzzyResult.Neutral:
-                    Debug.Log("Neutral");
                     stateMachine.ChangeState(new Wander(navMeshAgent, this.gameObject, stateMachine));
                     break;
                 case FuzzyResult.Desirable:
-                    Debug.Log("Desirable");
                     //ambush + chase?
                     stateMachine.ChangeState(new Move(this.navMeshAgent, foundMice[0].transform.position));
                     break;
                 case FuzzyResult.VeryDesirable:
-                    Debug.Log("VeryUndesirable");
                     //chase mouse
                     stateMachine.ChangeState(new Move(this.navMeshAgent, foundMice[0].transform.position));
                     break;
@@ -167,15 +162,11 @@ namespace CatAI
             }
             else
             {
+                //check if trap is activated or not
                 stateMachine.ChangeState(new SetTrap(this.navMeshAgent, this.gameObject, this.trapDuration, this.stateMachine, foundtrap[0].transform.position));
             }
         }
-
-        public void Ambush()
-        {
-
-        }
-
+        
         
         void OnCollisionEnter(Collision other)
         {

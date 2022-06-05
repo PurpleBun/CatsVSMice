@@ -70,6 +70,7 @@ namespace CatAI
                     result = FuzzyResult.VeryUndesirable;
                     break;
             }
+            Debug.Log(result);
             return result;
         }
     }
