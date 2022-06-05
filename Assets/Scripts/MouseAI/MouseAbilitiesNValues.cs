@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class MouseAbilitiesNValues : MonoBehaviour
 {
@@ -10,17 +11,31 @@ public class MouseAbilitiesNValues : MonoBehaviour
     public Rigidbody mouseRB;
     public MeshRenderer mouseMeshRend;
     public Collider mouseCollider;
+    public NavMeshAgent mouseNavMeshAgent;
+    public Transform targetTransform;
+    public Transform thisMouseTrans;
     public float hidingTime;
     public List<Collider> catsFound;
     public List<Collider> holesFound;
     public bool ignoresIdleState;
     public float hidingCooldown;
     public float currentCooldown;
+    public bool isHiding;
 
     void Awake()
     {
         catsFound = new List<Collider>();
         holesFound = new List<Collider>();
+        if (this.gameObject.GetComponent<NavMeshAgent>() != null)
+        {
+            mouseNavMeshAgent = this.gameObject.GetComponent<NavMeshAgent>();
+            //Debug.Log(mouseNavMeshAgent);
+        }
+        else
+        {
+            Debug.LogError("The mouse " + this.gameObject + " lacks NavMeshAgent component.");
+        }
+        thisMouseTrans = this.gameObject.transform;
     }
 
     public List<Collider> ScanForObjects(GameObject mouseObject, float scanRadius, LayerMask objectsLayer, LayerMask environmentLayer, MouseStateManager mouseManager)
@@ -85,6 +100,48 @@ public class MouseAbilitiesNValues : MonoBehaviour
         else
         {
             return null;
+        }
+    }
+
+    public GameObject ScanInDirectionForObjects(Transform mouse, LayerMask desiredScanLayer, Vector3 scanDirection, float scanDistance)
+    {
+        RaycastHit hit;
+        if (Physics.Raycast(mouse.position, scanDirection, out hit, scanDistance, desiredScanLayer) == true)
+        {
+            return hit.transform.gameObject;
+        }
+        else
+        {
+            return null;
+        }
+    }
+
+    public void UseHideyHole(GameObject holeInUse)
+    {
+        if (holeInUse.GetComponent<HoleConnections>() != null)
+        {
+            HoleConnections thisHoleStats = holeInUse.GetComponent<HoleConnections>();
+            if (thisHoleStats.ConnectedHoles.Count == 1)
+            {
+                GameObject connectingHole = thisHoleStats.ConnectedHoles[0];
+                if (connectingHole.GetComponent<HoleConnections>() != null)
+                {
+                    HoleConnections newHoleStats = connectingHole.GetComponent<HoleConnections>();
+                    thisMouseTrans.position = newHoleStats.spawnLocation;
+                    targetTransform.position = new Vector3(newHoleStats.spawnLocation.x, targetTransform.position.y, newHoleStats.spawnLocation.z);
+                }
+            }
+            else if (thisHoleStats.ConnectedHoles.Count > 1)
+            {
+                int randomIndex = Random.Range(0, thisHoleStats.ConnectedHoles.Count);
+                GameObject connectingHole = thisHoleStats.ConnectedHoles[randomIndex];
+                if (connectingHole.GetComponent<HoleConnections>() != null)
+                {
+                    HoleConnections newHoleStats = connectingHole.GetComponent<HoleConnections>();
+                    thisMouseTrans.position = newHoleStats.spawnLocation;
+                    targetTransform.position = new Vector3(newHoleStats.spawnLocation.x, targetTransform.position.y, newHoleStats.spawnLocation.z);
+                }
+            }
         }
     }
 }

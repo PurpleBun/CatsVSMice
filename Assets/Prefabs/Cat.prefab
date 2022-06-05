@@ -131,8 +131,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 725552f604c39c74c84385ba52d25f6e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mouseLayer:
-    serializedVersion: 2
-    m_Bits: 0
+  manager: {fileID: 0}
   viewRange: 50
   mouseTag: Mouse
+  trapTag: 
+  holeTag: 
+  trapIntent: 0
+  navMeshAgent: {fileID: 0}
