@@ -166,10 +166,10 @@ public class MouseAISashaEdition : MonoBehaviour
         }
     }
 
-    private Vector3 CalculateTargetAwayFromOneObject(Vector3 mousePosition, Vector3 catPosition)
+    private Vector3 CalculateTargetAwayFromOneObject(Vector3 mousePosition, Vector3 objectToFleePosition)
     {
-        Vector3 directionToCat = mousePosition - catPosition;
-        Vector3 targetPosition = mousePosition + directionToCat;
+        Vector3 directionToObject = mousePosition - objectToFleePosition;
+        Vector3 targetPosition = mousePosition + directionToObject;
         return targetPosition;
     }
 
@@ -390,10 +390,10 @@ public class MouseAISashaEdition : MonoBehaviour
                 }
             }
         }
-        foreach (Collider holeMemorized in memorizedHoles)
-        {
-            //Debug.Log(holeMemorized.name);
-        }
+        //foreach (Collider holeMemorized in memorizedHoles)
+        //{
+        //    Debug.Log(holeMemorized.name);
+        //}
     }
 
     private void OperationCatsVSHoles(List<Collider> knownHoles, MouseAbilitiesNValues stats)
