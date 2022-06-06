@@ -1,17 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System; 
+using System;
+using System.Linq;
 
 namespace CatAI
 {
     public class SearchFor : IState
     {
-        private LayerMask searchLayer;
-        
         GameObject ownerGameObject;
 
         private float searchRadius;
+
+        private float viewAngle=60f;
 
         private string tagToLookFor;
 
@@ -19,36 +20,45 @@ namespace CatAI
 
         private Action<SearchResults> searchResultsCallback;
 
-        public SearchFor(LayerMask searchLayer, GameObject ownerGameObject, float searchRadius, string tagToLookFor, Action<SearchResults> searchResultsCallback)
-        {
-            this.searchLayer = searchLayer;
-            this.ownerGameObject = ownerGameObject;
-            this.searchRadius = searchRadius;
-            this.tagToLookFor = tagToLookFor;
-            this.searchResultsCallback = searchResultsCallback;
+        //public SearchFor(LayerMask searchLayer, GameObject ownerGameObject, float searchRadius, string tagToLookFor, Action<SearchResults> searchResultsCallback)
+        //{
+        //    this.searchLayer = searchLayer;
+        //    this.ownerGameObject = ownerGameObject;
+        //    this.searchRadius = searchRadius;
+        //    this.tagToLookFor = tagToLookFor;
+        //    this.searchResultsCallback = searchResultsCallback;
          
-        }
+        //}
 
-        public void Enter()
+        public SearchFor(GameObject ownerGameObject, float searchRadius, string tagToLookFor, Action<SearchResults> searchResultsCallback) 
         {
-
+            this.ownerGameObject = ownerGameObject; 
+            this.searchRadius = searchRadius;
+            this.tagToLookFor = tagToLookFor;   
+            this.searchResultsCallback = searchResultsCallback; 
         }
 
-        public void Execute()
+
+        public override void Execute()
         {
             if (!SearchCompleted)
             {
                 var hitObjects = Physics.OverlapSphere(this.ownerGameObject.transform.position, this.searchRadius);
-                List<Collider> allObjectsWithTheRequiredTag = new List<Collider>();
+                List<Collider> allVisibleObjectsWithTheRequiredTag = new List<Collider>();
                 for (int i = 0; i < hitObjects.Length; i++)
                 {
                     if (hitObjects[i].gameObject.CompareTag(tagToLookFor))
                     {
-                        //this.navMeshAgent.SetDestination(hitObjects[i].transform.position);
-                        allObjectsWithTheRequiredTag.Add(hitObjects[i]);
+                        Vector3 dirToTarget = (hitObjects[i].transform.position - this.ownerGameObject.transform.position).normalized;
+                        if(Vector3.Angle ( this.ownerGameObject.transform.forward, dirToTarget) < viewAngle / 2)
+                        {
+                            allVisibleObjectsWithTheRequiredTag.Add(hitObjects[i]);
+                        }
                     }
                 }
-                var searchResults = new SearchResults(hitObjects, allObjectsWithTheRequiredTag);
+                //sort by distance from game object
+                allVisibleObjectsWithTheRequiredTag = allVisibleObjectsWithTheRequiredTag.OrderBy((d) => (d.transform.position - this.ownerGameObject.transform.position).sqrMagnitude).ToList();
+                var searchResults = new SearchResults(hitObjects, allVisibleObjectsWithTheRequiredTag);
                 //sendback search results
                 searchResultsCallback(searchResults);
 
@@ -56,10 +66,6 @@ namespace CatAI
             } 
         }
 
-        public void Exit()
-        {
-
-        }
     }
 
     //package the result from search and send back to owner game object
@@ -74,8 +80,8 @@ namespace CatAI
         {
             AllHitObjectsInSearchRadius = allHitObjectsInSearchRadius;
             AllHitObjectsWithRequiredTag = allHitObjectsWithRequiredTag;
-        }
 
+        }
     }
 }
 

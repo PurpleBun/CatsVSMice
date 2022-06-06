@@ -10,11 +10,11 @@ public class TrapNotSetState : TrapBaseState
     public bool TrapActivated = true;
 
     public override void EnterState(TrapStateManager trap) {
-        Debug.Log("TrapNotSetState");
+        //Debug.Log("TrapNotSetState");
     }
 
     public override void UpdateState(TrapStateManager trap){
-        Debug.Log("Update State working!");
+        //Debug.Log("Update State working!");
 
             //Checking trap condition for the cats
 

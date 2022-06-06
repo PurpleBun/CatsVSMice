@@ -8,16 +8,18 @@ public class MouseStateManager : MonoBehaviour
     public MouseRunningState runningState = new MouseRunningState();
     public MouseIdleState idleState = new MouseIdleState();
     public MouseHidingState hidingState = new MouseHidingState();
-    public MouseAbilityValues thisMouseStats;
+    public MouseAbilitiesNValues thisMouseStats;
+
 
     // Start is called before the first frame update
     void Start()
     {
-        if (this.gameObject.GetComponent<MouseAbilityValues>() != null)
+        if (this.gameObject.GetComponent<MouseAbilitiesNValues>() != null)
         {
-            thisMouseStats = this.gameObject.GetComponent<MouseAbilityValues>();
+            thisMouseStats = this.gameObject.GetComponent<MouseAbilitiesNValues>();
             currentState = idleState;
             currentState.EnterState(this, thisMouseStats);
+            thisMouseStats.mouseNavMeshAgent.speed = thisMouseStats.normalSpeed;
         }
         else
         {
@@ -27,8 +29,8 @@ public class MouseStateManager : MonoBehaviour
 
     // Update is called once per frame
     void Update()
-    {
-        currentState.ExecuteState(this, thisMouseStats);
+    {      
+       currentState.ExecuteState(this, thisMouseStats);
     }
 
     public void SwitchState(MouseBaseState state)

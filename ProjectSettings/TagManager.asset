@@ -4,9 +4,12 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - trap
+  - Mouse
+  - Manager
   - Cat
-  - Mice
+  - Obstacle
+  - Hole
+  - Trap
   layers:
   - Default
   - TransparentFX
@@ -14,11 +17,11 @@ TagManager:
   - 
   - Water
   - UI
-  - 
-  - 
-  - 
-  - 
-  - 
+  - Environment
+  - Mice
+  - Cats
+  - Floor
+  - Holes
   - 
   - 
   - 
