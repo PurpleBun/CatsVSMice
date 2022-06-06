@@ -9,11 +9,11 @@ public class TrapNotSetState : TrapBaseState
     public bool CatInCollision = false;
 
     public override void EnterState(TrapStateManager trap) {
-        Debug.Log("TrapNotSetState");
+        //Debug.Log("TrapNotSetState");
     }
 
     public override void UpdateState(TrapStateManager trap){
-        Debug.Log("Update State working!");
+        //Debug.Log("Update State working!");
 
             //Cat spends y amount of time to set up the trap IF it decides to (individual code)
 
