@@ -70,6 +70,10 @@ public class MouseAISashaEdition : MonoBehaviour
             }
             else
             {
+                //if (mouseStats.isSlow == true && memorizedHoles.Count > 0)
+                //{ 
+                //    
+                //}
                 OperationWander(thisMouse, thisMouseTarget);
             }
         }
