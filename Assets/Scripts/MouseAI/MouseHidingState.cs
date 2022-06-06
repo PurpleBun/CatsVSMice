@@ -47,7 +47,7 @@ public class MouseHidingState : MouseBaseState
         mouseStats.mouseCollider.enabled = true;
         mouseStats.mouseRB.useGravity = true;
         mouseStats.catsFound = null;
-        mouseStats.currentCooldown = mouseStats.hidingCooldown;
+        mouseStats.currentHidingCooldown = mouseStats.hidingCooldown;
         mouseStats.isHiding = false;
         targetPosition = mouseStats.targetTransform.position;
         mousePosition = mouseStats.thisMouseTrans.position;

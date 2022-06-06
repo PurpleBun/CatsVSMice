@@ -15,6 +15,7 @@ public class MouseRunningState : MouseBaseState
             mouse.SwitchState(mouse.idleState);
         }
         mouseStats.holesFound = mouseStats.ScanForObjects(mouse.gameObject, mouseStats.visionDistance, mouseStats.layerHoles, mouseStats.layerEnvironment, mouse);
+        mouseStats.miceFound = mouseStats.ScanForObjects(mouse.gameObject, mouseStats.visionDistance, mouseStats.layerMice, mouseStats.layerEnvironment, mouse);
         //if (mouseStats.holesFound != null && mouseStats.holesFound.Count > 0)
         //{
         //    Debug.Log("Mouse sees " + mouseStats.holesFound.Count + " holes.");
@@ -33,11 +34,12 @@ public class MouseRunningState : MouseBaseState
         {
             mouse.SwitchState(mouse.idleState);
         }
-        if (mouseStats.currentCooldown > 0)
+        if (mouseStats.currentHidingCooldown > 0)
         {
-            mouseStats.currentCooldown -= Time.deltaTime;
+            mouseStats.currentHidingCooldown -= Time.deltaTime;
         }
         mouseStats.holesFound = mouseStats.ScanForObjects(mouse.gameObject, mouseStats.visionDistance, mouseStats.layerHoles, mouseStats.layerEnvironment, mouse);
+        mouseStats.miceFound = mouseStats.ScanForObjects(mouse.gameObject, mouseStats.visionDistance, mouseStats.layerMice, mouseStats.layerEnvironment, mouse);
         //if (mouseStats.holesFound != null && mouseStats.holesFound.Count > 0)
         //{
         //    Debug.Log("Mouse sees " + mouseStats.holesFound.Count + " holes.");
@@ -51,7 +53,6 @@ public class MouseRunningState : MouseBaseState
     public override void ExitState(MouseStateManager mouse, MouseAbilitiesNValues mouseStats)
     {
         Debug.Log("Exiting running state.");
-        mouseStats.catsFound = null;
     }
 
     public override void OnCollisionEnter(Collision collision, MouseStateManager mouse, MouseAbilitiesNValues mouseStats)
@@ -74,8 +75,12 @@ public class MouseRunningState : MouseBaseState
         {
             Debug.Log("Mouse got caught.");
             ExitState(mouseStMangr, mouseStMangr.thisMouseStats);
+            mouseStats.catsFound = null;
+            mouseStats.holesFound = null;
+            mouseStats.miceFound = null;
+            mouseStMangr.gameObject.SetActive(false);
         }
-        else if (collisionObject.CompareTag("Hole") == true && mouseStats.currentCooldown <= 0)
+        else if (collisionObject.CompareTag("Hole") == true && mouseStats.currentHidingCooldown <= 0)
         {
             mouseStats.UseHideyHole(collisionObject);
             mouseStMangr.SwitchState(mouseStMangr.hidingState);            
