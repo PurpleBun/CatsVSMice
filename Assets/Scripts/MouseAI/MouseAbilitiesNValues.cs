@@ -8,6 +8,7 @@ public class MouseAbilitiesNValues : MonoBehaviour
     public LayerMask layerCats, layerEnvironment, layerHoles, layerMice;
     public float visionDistance;
     public bool isSlow;
+    public float slowCooldown, currentSlowCooldown;
     public Rigidbody mouseRB;
     public MeshRenderer mouseMeshRend;
     public Collider mouseCollider;
@@ -19,8 +20,7 @@ public class MouseAbilitiesNValues : MonoBehaviour
     public List<Collider> holesFound;
     public List<Collider> miceFound;
     public bool ignoresIdleState;
-    public float hidingCooldown;
-    public float currentCooldown;
+    public float hidingCooldown, currentHidingCooldown;
     public bool isHiding;
     public float normalSpeed, trappedSpeed;
 

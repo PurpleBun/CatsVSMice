@@ -34,9 +34,9 @@ public class MouseRunningState : MouseBaseState
         {
             mouse.SwitchState(mouse.idleState);
         }
-        if (mouseStats.currentCooldown > 0)
+        if (mouseStats.currentHidingCooldown > 0)
         {
-            mouseStats.currentCooldown -= Time.deltaTime;
+            mouseStats.currentHidingCooldown -= Time.deltaTime;
         }
         mouseStats.holesFound = mouseStats.ScanForObjects(mouse.gameObject, mouseStats.visionDistance, mouseStats.layerHoles, mouseStats.layerEnvironment, mouse);
         mouseStats.miceFound = mouseStats.ScanForObjects(mouse.gameObject, mouseStats.visionDistance, mouseStats.layerMice, mouseStats.layerEnvironment, mouse);
@@ -80,7 +80,7 @@ public class MouseRunningState : MouseBaseState
             mouseStats.miceFound = null;
             mouseStMangr.gameObject.SetActive(false);
         }
-        else if (collisionObject.CompareTag("Hole") == true && mouseStats.currentCooldown <= 0)
+        else if (collisionObject.CompareTag("Hole") == true && mouseStats.currentHidingCooldown <= 0)
         {
             mouseStats.UseHideyHole(collisionObject);
             mouseStMangr.SwitchState(mouseStMangr.hidingState);            

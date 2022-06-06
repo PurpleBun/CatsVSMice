@@ -154,6 +154,8 @@ MonoBehaviour:
     m_Bits: 128
   visionDistance: 10
   isSlow: 0
+  slowCooldown: 0
+  currentSlowCooldown: 0
   mouseRB: {fileID: 8880999365981259457}
   mouseMeshRend: {fileID: 1798976743940405402}
   mouseCollider: {fileID: 289887179011743436}
@@ -166,8 +168,10 @@ MonoBehaviour:
   miceFound: []
   ignoresIdleState: 1
   hidingCooldown: 5
-  currentCooldown: 0
+  currentHidingCooldown: 0
   isHiding: 0
+  normalSpeed: 3.5
+  trappedSpeed: 1.75
 --- !u!195 &5061627704822521715
 NavMeshAgent:
   m_ObjectHideFlags: 0

@@ -55,7 +55,7 @@ public class MouseAISashaEdition : MonoBehaviour
         if ((mouseStats.catsFound == null || mouseStats.catsFound.Count == 0) && (mouseStats.holesFound != null && mouseStats.holesFound.Count != 0))
         {
             MemorizeHoles(mouseStats.holesFound);
-            if (mouseStats.currentCooldown <= 0)
+            if (mouseStats.currentHidingCooldown <= 0)
             {
                 if (mouseStats.holesFound.Count == 1)
                 {
@@ -75,7 +75,7 @@ public class MouseAISashaEdition : MonoBehaviour
         }
         else if ((mouseStats.catsFound != null && mouseStats.catsFound.Count != 0) && (mouseStats.holesFound == null || mouseStats.holesFound.Count == 0))
         {
-            if (mouseStats.currentCooldown <= 0 && memorizedHoles.Count > 0)
+            if (mouseStats.currentHidingCooldown <= 0 && memorizedHoles.Count > 0)
             {
 
                 OperationCatsVSHoles(memorizedHoles, mouseStats);
@@ -95,7 +95,7 @@ public class MouseAISashaEdition : MonoBehaviour
         else if ((mouseStats.catsFound != null && mouseStats.catsFound.Count != 0) && (mouseStats.holesFound != null && mouseStats.holesFound.Count != 0))
         {
             MemorizeHoles(mouseStats.holesFound);
-            if (mouseStats.currentCooldown <= 0)
+            if (mouseStats.currentHidingCooldown <= 0)
             {
                 OperationCatsVSHoles(mouseStats.holesFound, mouseStats);
             }
