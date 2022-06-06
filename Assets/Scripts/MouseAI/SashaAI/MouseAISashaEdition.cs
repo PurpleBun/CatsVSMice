@@ -70,11 +70,7 @@ public class MouseAISashaEdition : MonoBehaviour
             }
             else
             {
-                //if (mouseStats.isSlow == true && memorizedHoles.Count > 0)
-                //{ 
-                //    
-                //}
-                OperationWander(thisMouse, thisMouseTarget);
+                AddSlowIntoStrategy();
             }
         }
         else if ((mouseStats.catsFound != null && mouseStats.catsFound.Count != 0) && (mouseStats.holesFound == null || mouseStats.holesFound.Count == 0))
@@ -92,7 +88,7 @@ public class MouseAISashaEdition : MonoBehaviour
                 }
                 else
                 {
-                    AddMiceIntoTheStrategy(miceInSight, mouseStats);
+                    AddMiceIntoStrategy(miceInSight, mouseStats);
                 }
             }
         }
@@ -110,7 +106,7 @@ public class MouseAISashaEdition : MonoBehaviour
         }
         else if ((mouseStats.catsFound == null || mouseStats.catsFound.Count == 0) && (mouseStats.holesFound == null || mouseStats.holesFound.Count == 0))
         {
-            OperationWander(thisMouse, thisMouseTarget);
+            AddSlowIntoStrategy();
         }
     }
 
@@ -215,7 +211,7 @@ public class MouseAISashaEdition : MonoBehaviour
             }
             else
             {
-                AddMiceIntoTheStrategy(miceInSight, mouseStats);
+                AddMiceIntoStrategy(miceInSight, mouseStats);
             }
         }
         else
@@ -407,15 +403,23 @@ public class MouseAISashaEdition : MonoBehaviour
         DetermineRunOrHide(optimalHoles, stats);
     }
 
-    private void AddMiceIntoTheStrategy(List<Collider> mice, MouseAbilitiesNValues stats)
+    private void AddMiceIntoStrategy(List<Collider> mice, MouseAbilitiesNValues stats)
     {
         List<Collider> everybody = new List<Collider>();
         everybody.AddRange(stats.catsFound);
         everybody.AddRange(mice);
-        //foreach (Collider body in everybody)
-        //{
-        //    Debug.Log(body);
-        //}
         OperationRunAway(everybody, thisMouse, thisMouseTarget);
+    }
+
+    private void AddSlowIntoStrategy()
+    {
+        if (mouseAbsNVals.isSlow == true && memorizedHoles != null && memorizedHoles.Count > 0)
+        {
+            FindAndMoveToClosestHole(memorizedHoles);
+        }
+        else
+        {
+            OperationWander(thisMouse, thisMouseTarget);
+        }
     }
 }
