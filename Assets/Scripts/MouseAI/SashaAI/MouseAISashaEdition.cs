@@ -88,7 +88,7 @@ public class MouseAISashaEdition : MonoBehaviour
                 }
                 else
                 {
-                    OperationRunAway(miceInSight, thisMouse, thisMouseTarget);
+                    AddMiceIntoTheStrategy(miceInSight, mouseStats);
                 }
             }
         }
@@ -211,7 +211,7 @@ public class MouseAISashaEdition : MonoBehaviour
             }
             else
             {
-                OperationRunAway(miceInSight, thisMouse, thisMouseTarget);
+                AddMiceIntoTheStrategy(miceInSight, mouseStats);
             }
         }
         else
@@ -401,5 +401,17 @@ public class MouseAISashaEdition : MonoBehaviour
         List<Collider> optimalHoles = new List<Collider>();
         FindOptimalHoles(optimalHoles, stats.catsFound, knownHoles);
         DetermineRunOrHide(optimalHoles, stats);
+    }
+
+    private void AddMiceIntoTheStrategy(List<Collider> mice, MouseAbilitiesNValues stats)
+    {
+        List<Collider> everybody = new List<Collider>();
+        everybody.AddRange(stats.catsFound);
+        everybody.AddRange(mice);
+        //foreach (Collider body in everybody)
+        //{
+        //    Debug.Log(body);
+        //}
+        OperationRunAway(everybody, thisMouse, thisMouseTarget);
     }
 }
