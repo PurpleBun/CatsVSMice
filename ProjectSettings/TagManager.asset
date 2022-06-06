@@ -9,6 +9,7 @@ TagManager:
   - Cat
   - Obstacle
   - Hole
+  - Trap
   layers:
   - Default
   - TransparentFX

@@ -33,7 +33,7 @@ namespace CatAI
 
         public override void Execute()
         {
-            Vector3 newpos = RandomNavSphere(ownerGameObject.transform.position, 5, -1);
+            Vector3 newpos = RandomNavSphere(ownerGameObject.transform.position, 12, -1);
             stateMachine.ChangeState(new Move(navMeshAgent, newpos));
         }
     }
