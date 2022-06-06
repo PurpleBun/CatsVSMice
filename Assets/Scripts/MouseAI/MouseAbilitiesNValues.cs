@@ -22,6 +22,7 @@ public class MouseAbilitiesNValues : MonoBehaviour
     public float hidingCooldown;
     public float currentCooldown;
     public bool isHiding;
+    public float normalSpeed, trappedSpeed;
 
     void Awake()
     {

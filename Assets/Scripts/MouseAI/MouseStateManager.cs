@@ -29,6 +29,14 @@ public class MouseStateManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (thisMouseStats.isSlow == true)
+        {
+            thisMouseStats.mouseNavMeshAgent.speed = thisMouseStats.trappedSpeed;
+        }
+        else
+        {
+            thisMouseStats.mouseNavMeshAgent.speed = thisMouseStats.normalSpeed;
+        }
         currentState.ExecuteState(this, thisMouseStats);
     }
 
