@@ -149,6 +149,9 @@ MonoBehaviour:
   layerHoles:
     serializedVersion: 2
     m_Bits: 1024
+  layerMice:
+    serializedVersion: 2
+    m_Bits: 128
   visionDistance: 10
   isSlow: 0
   mouseRB: {fileID: 8880999365981259457}
@@ -160,11 +163,11 @@ MonoBehaviour:
   hidingTime: 5
   catsFound: []
   holesFound: []
+  miceFound: []
   ignoresIdleState: 1
   hidingCooldown: 5
   currentCooldown: 0
   isHiding: 0
-  hidingLocation: {x: -14.5, y: 0, z: 10}
 --- !u!195 &5061627704822521715
 NavMeshAgent:
   m_ObjectHideFlags: 0
