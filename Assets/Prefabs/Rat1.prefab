@@ -154,7 +154,7 @@ MonoBehaviour:
     m_Bits: 128
   visionDistance: 10
   isSlow: 0
-  slowCooldown: 0
+  slowCooldown: 5
   currentSlowCooldown: 0
   mouseRB: {fileID: 8880999365981259457}
   mouseMeshRend: {fileID: 1798976743940405402}
