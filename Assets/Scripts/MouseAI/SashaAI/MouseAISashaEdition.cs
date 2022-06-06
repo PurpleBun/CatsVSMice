@@ -17,7 +17,7 @@ public class MouseAISashaEdition : MonoBehaviour
     private float cooldownVeryLong, cooldownLong, cooldownMedium, cooldownShort;
     private Vector3 oldDirectionToGo;
     [SerializeField]
-    private List<Collider> memorizedHoles;
+    private List<Collider> memorizedHoles, miceInSight;
 
     // Start is called before the first frame update
     void Awake()
@@ -43,6 +43,7 @@ public class MouseAISashaEdition : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        miceInSight = mouseAbsNVals.miceFound;
         if (mouseAbsNVals.isHiding == false)
         {
             PrioritizeWhereToGo(mouseAbsNVals);
@@ -81,7 +82,14 @@ public class MouseAISashaEdition : MonoBehaviour
             }
             else
             {
-                OperationRunAway(mouseStats.catsFound, thisMouse, thisMouseTarget);
+                if (miceInSight == null || miceInSight.Count == 0)
+                {
+                    OperationRunAway(mouseStats.catsFound, thisMouse, thisMouseTarget);
+                }
+                else
+                {
+                    OperationRunAway(miceInSight, thisMouse, thisMouseTarget);
+                }
             }
         }
         else if ((mouseStats.catsFound != null && mouseStats.catsFound.Count != 0) && (mouseStats.holesFound != null && mouseStats.holesFound.Count != 0))
@@ -141,45 +149,45 @@ public class MouseAISashaEdition : MonoBehaviour
         MoveToSafeDistanceToHole(safeDistanceToHole, distancesToHoles[0], closestHole);
     }
 
-    private void OperationRunAway(List<Collider> cats, Transform mouse, Transform mouseTarget)
+    private void OperationRunAway(List<Collider> targetsToFleeFrom, Transform mouse, Transform mouseRunToTarget)
     {
         //Debug.Log("Entered operation run away.");
         Vector3 runAwayVector;
-        if (cats.Count == 1)
+        if (targetsToFleeFrom.Count == 1)
         {
-            Transform catTransform = cats[0].transform;
-            runAwayVector = DetermineRunAwayVector(mouse, catTransform);
-            DetermineTarget(runAwayVector, mouse.position, mouseTarget);
+            Transform fleeTargetTransform = targetsToFleeFrom[0].transform;
+            runAwayVector = DetermineRunAwayVector(mouse, fleeTargetTransform);
+            DetermineTarget(runAwayVector, mouse.position, mouseRunToTarget);
         }
         else
         {
-            Vector3 totalRunAwayVector = DetermineTotalRunAwayVector(mouse, cats);
-            DetermineTarget(totalRunAwayVector, mouse.position, mouseTarget);
+            Vector3 totalRunAwayVector = DetermineTotalRunAwayVector(mouse, targetsToFleeFrom);
+            DetermineTarget(totalRunAwayVector, mouse.position, mouseRunToTarget);
         }
     }
 
-    private Vector3 CalculateTargetAwayFromOneCat(Vector3 mousePosition, Vector3 catPosition)
+    private Vector3 CalculateTargetAwayFromOneObject(Vector3 mousePosition, Vector3 catPosition)
     {
         Vector3 directionToCat = mousePosition - catPosition;
         Vector3 targetPosition = mousePosition + directionToCat;
         return targetPosition;
     }
 
-    private Vector3 DetermineRunAwayVector(Transform mouse, Transform cat)
+    private Vector3 DetermineRunAwayVector(Transform mouse, Transform targetToFleeFrom)
     {
-        Vector3 runTarget = CalculateTargetAwayFromOneCat(mouse.position, cat.position);
+        Vector3 runTarget = CalculateTargetAwayFromOneObject(mouse.position, targetToFleeFrom.position);
         Vector3 runVector = runTarget - thisMouse.position;
         runVector.Normalize();
         return runVector;
     }
 
-    private Vector3 DetermineTotalRunAwayVector(Transform mouse, List<Collider> cats)
+    private Vector3 DetermineTotalRunAwayVector(Transform mouse, List<Collider> fleeTargets)
     {
         Vector3 totalRunVector = Vector3.zero;
-        foreach (Collider cat in cats)
+        foreach (Collider fleeTarget in fleeTargets)
         {
-            Transform catTransform = cat.transform;
-            Vector3 runVector = DetermineRunAwayVector(mouse, catTransform);
+            Transform fleeTargetTransform = fleeTarget.transform;
+            Vector3 runVector = DetermineRunAwayVector(mouse, fleeTargetTransform);
             totalRunVector += runVector;
         }
         totalRunVector.Normalize();
@@ -197,7 +205,14 @@ public class MouseAISashaEdition : MonoBehaviour
     {
         if (goodHoles.Count == 0)
         {
-            OperationRunAway(mouseStats.catsFound, thisMouse, thisMouseTarget);
+            if (miceInSight == null || miceInSight.Count == 0)
+            {
+                OperationRunAway(mouseStats.catsFound, thisMouse, thisMouseTarget);
+            }
+            else
+            {
+                OperationRunAway(miceInSight, thisMouse, thisMouseTarget);
+            }
         }
         else
         {
