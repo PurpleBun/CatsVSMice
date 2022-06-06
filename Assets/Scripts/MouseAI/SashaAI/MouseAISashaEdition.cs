@@ -76,9 +76,8 @@ public class MouseAISashaEdition : MonoBehaviour
         {
             if (mouseStats.currentCooldown <= 0 && memorizedHoles.Count > 0)
             {
-                List<Collider> safeHoles = new List<Collider>();
-                FindOptimalHoles(safeHoles, mouseStats.catsFound, memorizedHoles);
-                DetermineRunOrHide(safeHoles, mouseStats);
+
+                OperationCatsVSHoles(memorizedHoles, mouseStats);
             }
             else
             {
@@ -90,9 +89,7 @@ public class MouseAISashaEdition : MonoBehaviour
             MemorizeHoles(mouseStats.holesFound);
             if (mouseStats.currentCooldown <= 0)
             {
-                List<Collider> optimalHoles = new List<Collider>();
-                FindOptimalHoles(optimalHoles, mouseStats.catsFound, mouseStats.holesFound);
-                DetermineRunOrHide(optimalHoles, mouseStats);
+                OperationCatsVSHoles(mouseStats.holesFound, mouseStats);
             }
             else
             {
@@ -382,5 +379,12 @@ public class MouseAISashaEdition : MonoBehaviour
         {
             //Debug.Log(holeMemorized.name);
         }
+    }
+
+    private void OperationCatsVSHoles(List<Collider> knownHoles, MouseAbilitiesNValues stats)
+    {
+        List<Collider> optimalHoles = new List<Collider>();
+        FindOptimalHoles(optimalHoles, stats.catsFound, knownHoles);
+        DetermineRunOrHide(optimalHoles, stats);
     }
 }
