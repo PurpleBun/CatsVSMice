@@ -19,6 +19,7 @@ public class MouseStateManager : MonoBehaviour
             thisMouseStats = this.gameObject.GetComponent<MouseAbilitiesNValues>();
             currentState = idleState;
             currentState.EnterState(this, thisMouseStats);
+            thisMouseStats.mouseNavMeshAgent.speed = thisMouseStats.normalSpeed;
         }
         else
         {
@@ -28,30 +29,8 @@ public class MouseStateManager : MonoBehaviour
 
     // Update is called once per frame
     void Update()
-    {
-        if (thisMouseStats.isSlow == true && thisMouseStats.currentSlowCooldown > 0)
-        {
-            thisMouseStats.currentSlowCooldown -= Time.deltaTime;
-            thisMouseStats.mouseNavMeshAgent.speed = thisMouseStats.trappedSpeed;
-        }
-        else if (thisMouseStats.isSlow == false && thisMouseStats.currentSlowCooldown > 0)
-        {
-            thisMouseStats.isSlow = true;
-            thisMouseStats.mouseNavMeshAgent.speed = thisMouseStats.trappedSpeed;
-        }
-        else
-        {
-            if (thisMouseStats.isSlow == true)
-            {
-                thisMouseStats.isSlow = false;
-            }
-            if (thisMouseStats.currentSlowCooldown < 0)
-            {
-                thisMouseStats.currentSlowCooldown = 0;
-            }
-            thisMouseStats.mouseNavMeshAgent.speed = thisMouseStats.normalSpeed;
-        }
-        currentState.ExecuteState(this, thisMouseStats);
+    {      
+       currentState.ExecuteState(this, thisMouseStats);
     }
 
     public void SwitchState(MouseBaseState state)

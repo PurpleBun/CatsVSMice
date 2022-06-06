@@ -2,13 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using System.Threading.Tasks;
 
 public class MouseAbilitiesNValues : MonoBehaviour
 {
     public LayerMask layerCats, layerEnvironment, layerHoles, layerMice;
     public float visionDistance;
     public bool isSlow;
-    public float slowCooldown, currentSlowCooldown;
+    public int slowCooldown;
     public Rigidbody mouseRB;
     public MeshRenderer mouseMeshRend;
     public Collider mouseCollider;
@@ -148,5 +149,22 @@ public class MouseAbilitiesNValues : MonoBehaviour
                 }
             }
         }
+    }
+
+    public void SlowDown()
+    {
+        if (isSlow == false)
+        {
+            isSlow = true;
+            mouseNavMeshAgent.speed = trappedSpeed;
+            StartCoroutine(WaitBeforeRestoreSpeed());
+        }
+    }
+
+    private IEnumerator WaitBeforeRestoreSpeed()
+    {
+        yield return new WaitForSeconds(slowCooldown);
+        isSlow = false;
+        mouseNavMeshAgent.speed = normalSpeed;
     }
 }
