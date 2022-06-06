@@ -19921,7 +19921,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1496551694860086083, guid: ae0308daafd5d4a499a1a172bc8d807c, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1496551694860086083, guid: ae0308daafd5d4a499a1a172bc8d807c, type: 3}
       propertyPath: m_TagString
@@ -33201,7 +33201,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1496551694860086083, guid: ae0308daafd5d4a499a1a172bc8d807c, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1496551694860086083, guid: ae0308daafd5d4a499a1a172bc8d807c, type: 3}
       propertyPath: m_TagString
@@ -44519,7 +44519,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2301368415601518084, guid: 84a419530a4939b4ca488a5b5dabce42, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -19.276028
+      value: -20.68
       objectReference: {fileID: 0}
     - target: {fileID: 2301368415601518084, guid: 84a419530a4939b4ca488a5b5dabce42, type: 3}
       propertyPath: m_LocalPosition.y
@@ -44527,7 +44527,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2301368415601518084, guid: 84a419530a4939b4ca488a5b5dabce42, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 16.692156
+      value: 14.32
       objectReference: {fileID: 0}
     - target: {fileID: 2301368415601518084, guid: 84a419530a4939b4ca488a5b5dabce42, type: 3}
       propertyPath: m_LocalRotation.w
@@ -44563,7 +44563,7 @@ PrefabInstance:
       objectReference: {fileID: 1278798552}
     - target: {fileID: 3339238610044871645, guid: 84a419530a4939b4ca488a5b5dabce42, type: 3}
       propertyPath: isSlow
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3339238610044871645, guid: 84a419530a4939b4ca488a5b5dabce42, type: 3}
       propertyPath: thisMouseTrans
@@ -44575,7 +44575,7 @@ PrefabInstance:
       objectReference: {fileID: 1278798552}
     - target: {fileID: 3339238610044871645, guid: 84a419530a4939b4ca488a5b5dabce42, type: 3}
       propertyPath: currentSlowCooldown
-      value: 5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5471058518783120769, guid: 84a419530a4939b4ca488a5b5dabce42, type: 3}
       propertyPath: m_Name
