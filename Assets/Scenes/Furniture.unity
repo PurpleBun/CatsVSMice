@@ -48371,14 +48371,6 @@ PrefabInstance:
       propertyPath: targets.Array.data[0]
       value: 
       objectReference: {fileID: 893069011}
-    - target: {fileID: 5780926769396213156, guid: 4e9f46c87f9031f48b5fd2bc97ea403c, type: 3}
-      propertyPath: catCam1
-      value: 
-      objectReference: {fileID: 1705699067}
-    - target: {fileID: 5780926769396213156, guid: 4e9f46c87f9031f48b5fd2bc97ea403c, type: 3}
-      propertyPath: catCam2
-      value: 
-      objectReference: {fileID: 2136455715}
     - target: {fileID: 5780926769396213157, guid: 4e9f46c87f9031f48b5fd2bc97ea403c, type: 3}
       propertyPath: m_Name
       value: CameraManager
@@ -48426,14 +48418,6 @@ PrefabInstance:
     - target: {fileID: 5780926769396213159, guid: 4e9f46c87f9031f48b5fd2bc97ea403c, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5780926770474763957, guid: 4e9f46c87f9031f48b5fd2bc97ea403c, type: 3}
-      propertyPath: maxZoom
-      value: 25
-      objectReference: {fileID: 0}
-    - target: {fileID: 5780926770474763957, guid: 4e9f46c87f9031f48b5fd2bc97ea403c, type: 3}
-      propertyPath: minZoom
-      value: 45
       objectReference: {fileID: 0}
     - target: {fileID: 5780926770474763957, guid: 4e9f46c87f9031f48b5fd2bc97ea403c, type: 3}
       propertyPath: targets.Array.data[0]
@@ -51033,11 +51017,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.016319945, y: 0.0047647823, z: 0.04344481}
   m_Center: {x: -0.00039543424, y: 0.001825301, z: 0.021722402}
---- !u!1 &1705699067 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3400539119589735085, guid: 8332c7b541bf23c48842c4fb6f70c8a6, type: 3}
-  m_PrefabInstance: {fileID: 364070851}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1714995135
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -63602,11 +63581,6 @@ PrefabInstance:
 Transform:
   m_CorrespondingSourceObject: {fileID: 8625821266029668059, guid: 507b899ddc0386d4ca34915fcc250a97, type: 3}
   m_PrefabInstance: {fileID: 2126647567}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &2136455715 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1480086950389640672, guid: 8332c7b541bf23c48842c4fb6f70c8a6, type: 3}
-  m_PrefabInstance: {fileID: 364070851}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &2139599858
 PrefabInstance:
