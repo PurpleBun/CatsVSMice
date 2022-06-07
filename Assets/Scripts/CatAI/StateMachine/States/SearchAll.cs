@@ -57,11 +57,11 @@ namespace CatAI
                         }
                         if (hitObjects[i].gameObject.CompareTag("Trap"))
                         {
-                            allMice.Add(hitObjects[i]);
+                            allTrap.Add(hitObjects[i]);
                         }
                         if (hitObjects[i].gameObject.CompareTag("Hole"))
                         {
-                            allMice.Add(hitObjects[i]);
+                            allHole.Add(hitObjects[i]);
                         }
                     }
                     
