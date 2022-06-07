@@ -29,7 +29,7 @@ Transform:
   m_GameObject: {fileID: 3194875096718326920}
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -0.38500118, y: 2.641725, z: 5.145618}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_Children:
   - {fileID: 3417560758045529962}
   m_Father: {fileID: 0}
@@ -65,6 +65,7 @@ MonoBehaviour:
   mouseTag: Mouse
   trapTag: Trap
   holeTag: Hole
+  chaseThreshold: 0
   trapIntent: 0
   navMeshAgent: {fileID: 0}
 --- !u!195 &2348363497420626123
