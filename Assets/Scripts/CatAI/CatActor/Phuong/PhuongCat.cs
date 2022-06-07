@@ -101,7 +101,7 @@ namespace CatAI
                     value1= new FuzzyValue()
                     {
                         value = distanceToHole - distanceToMouse,
-                        result = FuzzyResult.VeryUndesirable
+                        result = FuzzyResult.Undesirable
                     },
                     value2 = new FuzzyValue()
                     {
