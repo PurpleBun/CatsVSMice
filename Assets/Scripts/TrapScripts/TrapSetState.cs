@@ -5,6 +5,9 @@ using UnityEngine;
 
 public class TrapSetState : TrapBaseState
 {
+
+    public MouseAbilitiesNValues moueAbilitiesNValues;
+
     public override void EnterState(TrapStateManager trap) {
         Debug.Log("TrapSetState");
     }
@@ -19,8 +22,9 @@ public class TrapSetState : TrapBaseState
 
         if (collision.gameObject.tag == "Mice")
         {   
+           // MouseAbilitiesNValues.SlowDown();
             trap.SwitchState(trap.TrapActivatedState);
             Debug.Log("StateSwitchedTo TrapActivatedState");
-        }
+        } 
     }
 }
