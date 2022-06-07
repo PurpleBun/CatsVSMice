@@ -30,6 +30,8 @@ namespace CatAI
             navMeshAgent.angularSpeed = angularSpeed;
             navMeshAgent.acceleration = acceleration;
             Search();
+            Move.Stuck += Search;
+            Move.DestinationReached += Search;
         }
 
         // Update is called once per frame
@@ -46,14 +48,26 @@ namespace CatAI
         public void FindMouse(AllSearchResults searchResults)
         {
             var findMouse = searchResults.AllMice;
-            if (findMouse.Count == 0)
+            if(findMouse.Count ==0) 
+            {
+                stateMachine.ChangeState(new Wander(navMeshAgent, this.gameObject, stateMachine));
+                return;
+            }
+            
+            else if (findMouse.Count != 0)
             {
                 stateMachine.ChangeState(new Move(this.navMeshAgent, findMouse[0].transform.position));
-                return;
+
             }
         }
 
-
+        void OnCollisionEnter(Collision other)
+        {
+            if (other.gameObject.tag == "Mouse") {
+                //remove mouse from game manager list to check for winning condition
+                manager.mouseList.Remove(other.gameObject);
+                other.gameObject.SetActive(false);
+            }
+        }
     }
 }
-
