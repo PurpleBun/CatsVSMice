@@ -13,6 +13,7 @@ public class MouseIdleState : MouseBaseState
             mouse.SwitchState(mouse.runningState);
         }
         mouseStats.holesFound = mouseStats.ScanForObjects(mouse.gameObject, mouseStats.visionDistance, mouseStats.layerHoles, mouseStats.layerEnvironment, mouse);
+        mouseStats.miceFound = mouseStats.ScanForObjects(mouse.gameObject, mouseStats.visionDistance, mouseStats.layerMice, mouseStats.layerEnvironment, mouse);
         //if (mouseStats.holesFound != null && mouseStats.holesFound.Count > 0)
         //{
         //    Debug.Log("Mouse sees " + mouseStats.holesFound.Count + " holes.");
@@ -27,6 +28,7 @@ public class MouseIdleState : MouseBaseState
             mouse.SwitchState(mouse.runningState);
         }
         mouseStats.holesFound = mouseStats.ScanForObjects(mouse.gameObject, mouseStats.visionDistance, mouseStats.layerHoles, mouseStats.layerEnvironment, mouse);
+        mouseStats.miceFound = mouseStats.ScanForObjects(mouse.gameObject, mouseStats.visionDistance, mouseStats.layerMice, mouseStats.layerEnvironment, mouse);
         //if (mouseStats.holesFound != null && mouseStats.holesFound.Count > 0)
         //{
         //    Debug.Log("Mouse sees " + mouseStats.holesFound.Count + " holes.");

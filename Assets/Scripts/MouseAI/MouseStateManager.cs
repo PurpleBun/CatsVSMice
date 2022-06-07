@@ -19,6 +19,7 @@ public class MouseStateManager : MonoBehaviour
             thisMouseStats = this.gameObject.GetComponent<MouseAbilitiesNValues>();
             currentState = idleState;
             currentState.EnterState(this, thisMouseStats);
+            thisMouseStats.mouseNavMeshAgent.speed = thisMouseStats.normalSpeed;
         }
         else
         {
@@ -28,8 +29,8 @@ public class MouseStateManager : MonoBehaviour
 
     // Update is called once per frame
     void Update()
-    {
-        currentState.ExecuteState(this, thisMouseStats);
+    {      
+       currentState.ExecuteState(this, thisMouseStats);
     }
 
     public void SwitchState(MouseBaseState state)

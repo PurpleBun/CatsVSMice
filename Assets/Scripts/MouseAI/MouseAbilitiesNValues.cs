@@ -2,12 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using System.Threading.Tasks;
 
 public class MouseAbilitiesNValues : MonoBehaviour
 {
-    public LayerMask layerCats, layerEnvironment, layerHoles;
+    public LayerMask layerCats, layerEnvironment, layerHoles, layerMice;
     public float visionDistance;
     public bool isSlow;
+    public int slowCooldown;
     public Rigidbody mouseRB;
     public MeshRenderer mouseMeshRend;
     public Collider mouseCollider;
@@ -17,10 +19,11 @@ public class MouseAbilitiesNValues : MonoBehaviour
     public float hidingTime;
     public List<Collider> catsFound;
     public List<Collider> holesFound;
+    public List<Collider> miceFound;
     public bool ignoresIdleState;
-    public float hidingCooldown;
-    public float currentCooldown;
+    public float hidingCooldown, currentHidingCooldown;
     public bool isHiding;
+    public float normalSpeed, trappedSpeed;
 
     void Awake()
     {
@@ -44,26 +47,29 @@ public class MouseAbilitiesNValues : MonoBehaviour
         List<Collider> visibleObjects = new List<Collider>();
         Collider[] xRaySpottedObjects = XRayScanForObjects(mouseObject, scanRadius, objectsLayer);
         if (xRaySpottedObjects != null)
-        {
+        {            
             //If there are objects nearby - for every object, check if there are any objects directly between the object and the mouse.
             foreach (Collider xRaySpottedObject in xRaySpottedObjects)
             {
-                GameObject obstacleCenter = ScanForObstacles(mouseObject, environmentLayer, xRaySpottedObject.bounds.center);
-                GameObject obstacleMaxBound = ScanForObstacles(mouseObject, environmentLayer, xRaySpottedObject.bounds.max);
-                GameObject obstacleMinBound = ScanForObstacles(mouseObject, environmentLayer, xRaySpottedObject.bounds.min);
-                //Debug.Log(obstacleCenter + " " + obstacleMaxBound + " " + obstacleMinBound);
-                if (obstacleCenter != null && obstacleMaxBound != null && obstacleMinBound != null)
+                if (xRaySpottedObject.gameObject != this.gameObject)
                 {
-                    //Debug.Log("Object is hidden.");
-                }
-                else
-                {
-                    //Debug.Log("Object " + spottedCat.gameObject + " is visible.");
-                    visibleObjects.Add(xRaySpottedObject);
+                    GameObject obstacleCenter = ScanForObstacles(mouseObject, environmentLayer, xRaySpottedObject.bounds.center);
+                    GameObject obstacleMaxBound = ScanForObstacles(mouseObject, environmentLayer, xRaySpottedObject.bounds.max);
+                    GameObject obstacleMinBound = ScanForObstacles(mouseObject, environmentLayer, xRaySpottedObject.bounds.min);
+                    //Debug.Log(obstacleCenter + " " + obstacleMaxBound + " " + obstacleMinBound);
+                    if (obstacleCenter != null && obstacleMaxBound != null && obstacleMinBound != null)
+                    {
+                        //Debug.Log("Object is hidden.");
+                    }
+                    else
+                    {
+                        //Debug.Log("Object " + spottedCat.gameObject + " is visible.");
+                        visibleObjects.Add(xRaySpottedObject);
+                    }
                 }
             }
             if (visibleObjects.Count > 0)
-            {                
+            {
                 return visibleObjects;
             }
             else
@@ -143,5 +149,22 @@ public class MouseAbilitiesNValues : MonoBehaviour
                 }
             }
         }
+    }
+
+    public void SlowDown()
+    {
+        if (isSlow == false)
+        {
+            isSlow = true;
+            mouseNavMeshAgent.speed = trappedSpeed;
+            StartCoroutine(WaitBeforeRestoreSpeed());
+        }
+    }
+
+    private IEnumerator WaitBeforeRestoreSpeed()
+    {
+        yield return new WaitForSeconds(slowCooldown);
+        isSlow = false;
+        mouseNavMeshAgent.speed = normalSpeed;
     }
 }

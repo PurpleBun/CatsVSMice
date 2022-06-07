@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class CamSwitch : MonoBehaviour
 {   
-    public GameObject catCam1;
-    public GameObject catCam2;
+    //public GameObject catCam1;
+    //public GameObject catCam2;
     public GameObject ratCam1;
     public GameObject ratCam2;
     public GameObject ratCam3;
@@ -21,7 +21,7 @@ public class CamSwitch : MonoBehaviour
     public void switchcam(int x)
     {
         deactivateall();
-        if (x == 1)
+        /*if (x == 1)
         {
             catCam1.SetActive(true);
         }
@@ -29,7 +29,7 @@ public class CamSwitch : MonoBehaviour
         {
             catCam2.SetActive(true);
         }
-        else if (x == 3)
+        else */if (x == 3)
         {
             ratCam1.SetActive(true);
         }
@@ -53,8 +53,8 @@ public class CamSwitch : MonoBehaviour
 
     public void deactivateall()
     {
-        catCam1.SetActive(false);
-        catCam2.SetActive(false);
+        //catCam1.SetActive(false);
+        //catCam2.SetActive(false);
         ratCam1.SetActive(false);
         ratCam2.SetActive(false);
         ratCam3.SetActive(false);

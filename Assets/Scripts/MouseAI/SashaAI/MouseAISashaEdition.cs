@@ -17,7 +17,7 @@ public class MouseAISashaEdition : MonoBehaviour
     private float cooldownVeryLong, cooldownLong, cooldownMedium, cooldownShort;
     private Vector3 oldDirectionToGo;
     [SerializeField]
-    private List<Collider> memorizedHoles;
+    private List<Collider> memorizedHoles, miceInSight;
 
     // Start is called before the first frame update
     void Awake()
@@ -43,6 +43,7 @@ public class MouseAISashaEdition : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        miceInSight = mouseAbsNVals.miceFound;
         if (mouseAbsNVals.isHiding == false)
         {
             PrioritizeWhereToGo(mouseAbsNVals);
@@ -54,7 +55,7 @@ public class MouseAISashaEdition : MonoBehaviour
         if ((mouseStats.catsFound == null || mouseStats.catsFound.Count == 0) && (mouseStats.holesFound != null && mouseStats.holesFound.Count != 0))
         {
             MemorizeHoles(mouseStats.holesFound);
-            if (mouseStats.currentCooldown <= 0)
+            if (mouseStats.currentHidingCooldown <= 0)
             {
                 if (mouseStats.holesFound.Count == 1)
                 {
@@ -69,30 +70,34 @@ public class MouseAISashaEdition : MonoBehaviour
             }
             else
             {
-                OperationWander(thisMouse, thisMouseTarget);
+                AddSlowIntoStrategy();
             }
         }
         else if ((mouseStats.catsFound != null && mouseStats.catsFound.Count != 0) && (mouseStats.holesFound == null || mouseStats.holesFound.Count == 0))
         {
-            if (mouseStats.currentCooldown <= 0 && memorizedHoles.Count > 0)
+            if (mouseStats.currentHidingCooldown <= 0 && memorizedHoles.Count > 0)
             {
-                List<Collider> safeHoles = new List<Collider>();
-                FindOptimalHoles(safeHoles, mouseStats.catsFound, memorizedHoles);
-                DetermineRunOrHide(safeHoles, mouseStats);
+
+                OperationCatsVSHoles(memorizedHoles, mouseStats);
             }
             else
             {
-                OperationRunAway(mouseStats.catsFound, thisMouse, thisMouseTarget);
+                if (miceInSight == null || miceInSight.Count == 0)
+                {
+                    OperationRunAway(mouseStats.catsFound, thisMouse, thisMouseTarget);
+                }
+                else
+                {
+                    AddMiceIntoStrategy(miceInSight, mouseStats);
+                }
             }
         }
         else if ((mouseStats.catsFound != null && mouseStats.catsFound.Count != 0) && (mouseStats.holesFound != null && mouseStats.holesFound.Count != 0))
         {
             MemorizeHoles(mouseStats.holesFound);
-            if (mouseStats.currentCooldown <= 0)
+            if (mouseStats.currentHidingCooldown <= 0)
             {
-                List<Collider> optimalHoles = new List<Collider>();
-                FindOptimalHoles(optimalHoles, mouseStats.catsFound, mouseStats.holesFound);
-                DetermineRunOrHide(optimalHoles, mouseStats);
+                OperationCatsVSHoles(mouseStats.holesFound, mouseStats);
             }
             else
             {
@@ -101,7 +106,7 @@ public class MouseAISashaEdition : MonoBehaviour
         }
         else if ((mouseStats.catsFound == null || mouseStats.catsFound.Count == 0) && (mouseStats.holesFound == null || mouseStats.holesFound.Count == 0))
         {
-            OperationWander(thisMouse, thisMouseTarget);
+            AddSlowIntoStrategy();
         }
     }
 
@@ -144,45 +149,45 @@ public class MouseAISashaEdition : MonoBehaviour
         MoveToSafeDistanceToHole(safeDistanceToHole, distancesToHoles[0], closestHole);
     }
 
-    private void OperationRunAway(List<Collider> cats, Transform mouse, Transform mouseTarget)
+    private void OperationRunAway(List<Collider> targetsToFleeFrom, Transform mouse, Transform mouseRunToTarget)
     {
         //Debug.Log("Entered operation run away.");
         Vector3 runAwayVector;
-        if (cats.Count == 1)
+        if (targetsToFleeFrom.Count == 1)
         {
-            Transform catTransform = cats[0].transform;
-            runAwayVector = DetermineRunAwayVector(mouse, catTransform);
-            DetermineTarget(runAwayVector, mouse.position, mouseTarget);
+            Transform fleeTargetTransform = targetsToFleeFrom[0].transform;
+            runAwayVector = DetermineRunAwayVector(mouse, fleeTargetTransform);
+            DetermineTarget(runAwayVector, mouse.position, mouseRunToTarget);
         }
         else
         {
-            Vector3 totalRunAwayVector = DetermineTotalRunAwayVector(mouse, cats);
-            DetermineTarget(totalRunAwayVector, mouse.position, mouseTarget);
+            Vector3 totalRunAwayVector = DetermineTotalRunAwayVector(mouse, targetsToFleeFrom);
+            DetermineTarget(totalRunAwayVector, mouse.position, mouseRunToTarget);
         }
     }
 
-    private Vector3 CalculateTargetAwayFromOneCat(Vector3 mousePosition, Vector3 catPosition)
+    private Vector3 CalculateTargetAwayFromOneObject(Vector3 mousePosition, Vector3 objectToFleePosition)
     {
-        Vector3 directionToCat = mousePosition - catPosition;
-        Vector3 targetPosition = mousePosition + directionToCat;
+        Vector3 directionToObject = mousePosition - objectToFleePosition;
+        Vector3 targetPosition = mousePosition + directionToObject;
         return targetPosition;
     }
 
-    private Vector3 DetermineRunAwayVector(Transform mouse, Transform cat)
+    private Vector3 DetermineRunAwayVector(Transform mouse, Transform targetToFleeFrom)
     {
-        Vector3 runTarget = CalculateTargetAwayFromOneCat(mouse.position, cat.position);
+        Vector3 runTarget = CalculateTargetAwayFromOneObject(mouse.position, targetToFleeFrom.position);
         Vector3 runVector = runTarget - thisMouse.position;
         runVector.Normalize();
         return runVector;
     }
 
-    private Vector3 DetermineTotalRunAwayVector(Transform mouse, List<Collider> cats)
+    private Vector3 DetermineTotalRunAwayVector(Transform mouse, List<Collider> fleeTargets)
     {
         Vector3 totalRunVector = Vector3.zero;
-        foreach (Collider cat in cats)
+        foreach (Collider fleeTarget in fleeTargets)
         {
-            Transform catTransform = cat.transform;
-            Vector3 runVector = DetermineRunAwayVector(mouse, catTransform);
+            Transform fleeTargetTransform = fleeTarget.transform;
+            Vector3 runVector = DetermineRunAwayVector(mouse, fleeTargetTransform);
             totalRunVector += runVector;
         }
         totalRunVector.Normalize();
@@ -200,7 +205,14 @@ public class MouseAISashaEdition : MonoBehaviour
     {
         if (goodHoles.Count == 0)
         {
-            OperationRunAway(mouseStats.catsFound, thisMouse, thisMouseTarget);
+            if (miceInSight == null || miceInSight.Count == 0)
+            {
+                OperationRunAway(mouseStats.catsFound, thisMouse, thisMouseTarget);
+            }
+            else
+            {
+                AddMiceIntoStrategy(miceInSight, mouseStats);
+            }
         }
         else
         {
@@ -378,9 +390,36 @@ public class MouseAISashaEdition : MonoBehaviour
                 }
             }
         }
-        foreach (Collider holeMemorized in memorizedHoles)
+        //foreach (Collider holeMemorized in memorizedHoles)
+        //{
+        //    Debug.Log(holeMemorized.name);
+        //}
+    }
+
+    private void OperationCatsVSHoles(List<Collider> knownHoles, MouseAbilitiesNValues stats)
+    {
+        List<Collider> optimalHoles = new List<Collider>();
+        FindOptimalHoles(optimalHoles, stats.catsFound, knownHoles);
+        DetermineRunOrHide(optimalHoles, stats);
+    }
+
+    private void AddMiceIntoStrategy(List<Collider> mice, MouseAbilitiesNValues stats)
+    {
+        List<Collider> everybody = new List<Collider>();
+        everybody.AddRange(stats.catsFound);
+        everybody.AddRange(mice);
+        OperationRunAway(everybody, thisMouse, thisMouseTarget);
+    }
+
+    private void AddSlowIntoStrategy()
+    {
+        if (mouseAbsNVals.isSlow == true && memorizedHoles != null && memorizedHoles.Count > 0)
         {
-            //Debug.Log(holeMemorized.name);
+            FindAndMoveToClosestHole(memorizedHoles);
+        }
+        else
+        {
+            OperationWander(thisMouse, thisMouseTarget);
         }
     }
 }
