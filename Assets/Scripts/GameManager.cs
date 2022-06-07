@@ -1,12 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using TMPro;
 public class GameManager : MonoBehaviour
 {
     public string mouseTag;
     public List<GameObject> mouseList;
     public int playTime;
+    public TMP_Text gameText;
     // Start is called before the first frame update
     void Start()
     {
@@ -34,13 +35,11 @@ public class GameManager : MonoBehaviour
 
     void CatWin()
     {
-        //do something
-        //Debug.Log("CatWon");
+        gameText.text = "Cat Wins";
     }
 
     void MouseWin()
     {
-        //do something
-        //Debug.Log("MouseWon"); 
+        gameText.text = "Mouse Wins";
     }
 }
