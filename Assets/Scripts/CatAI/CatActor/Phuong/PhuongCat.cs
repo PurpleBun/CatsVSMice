@@ -57,7 +57,7 @@ namespace CatAI
             var foundHole = searchResults.AllHole;
             float distanceToMouse;
             float distanceToHole;
-            if (foundMice.Count == 0 && foundTrap.Count == 0)
+            if (foundMice.Count == 0 && foundHole.Count == 0)
             {
                 //switchstate
                 stateMachine.ChangeState(new Wander(navMeshAgent, this.gameObject, stateMachine));
@@ -87,7 +87,7 @@ namespace CatAI
                     value1= new FuzzyValue()
                     {
                         value = chaseThreshold,
-                        result = FuzzyResult.Undesirable
+                        result = FuzzyResult.Neutral
                     },
                     value2 = new FuzzyValue()
                     {
@@ -101,17 +101,17 @@ namespace CatAI
                     value1= new FuzzyValue()
                     {
                         value = distanceToHole - distanceToMouse,
-                        result = FuzzyResult.VeryUndesirable
+                        result = FuzzyResult.Undesirable
                     },
                     value2 = new FuzzyValue()
                     {
                         value = distanceToMouse,
-                        result= FuzzyResult.Desirable
+                        result= FuzzyResult.VeryDesirable
                     }
                 },
                 new FuzzyRule()
                 {
-                    comparison = Compare.GreaterorEqual,
+                    comparison = Compare.Greater,
                     value1=new FuzzyValue()
                     {
                         value = foundMice.Count,
@@ -136,7 +136,7 @@ namespace CatAI
                     stateMachine.ChangeState(new Wander(navMeshAgent, this.gameObject, stateMachine));
                     break;
                 case FuzzyResult.Neutral:
-                    stateMachine.ChangeState(new Wander(navMeshAgent, this.gameObject, stateMachine));
+                    stateMachine.ChangeState(new Move(this.navMeshAgent, foundHole[0].transform.position));
                     break;
                 case FuzzyResult.Desirable:
                     //ambush + chase?

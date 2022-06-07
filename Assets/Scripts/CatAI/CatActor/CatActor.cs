@@ -6,11 +6,11 @@ namespace CatAI
 {
     public class CatActor : MonoBehaviour
     {
-        protected float baseSpeed = 3.5f;
+        protected float baseSpeed = 6.25f;
 
         protected float angularSpeed = 120f;
 
-        protected float acceleration = 8f;
+        protected float acceleration = 10f;
 
         protected float trapDuration = 5f;
 

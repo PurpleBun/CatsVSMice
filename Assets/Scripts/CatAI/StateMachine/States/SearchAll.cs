@@ -12,7 +12,7 @@ namespace CatAI
 
         private float searchRadius;
 
-        private float viewAngle=60f;
+        private float viewAngle=90f;
 
         private string tagToLookFor;
 
