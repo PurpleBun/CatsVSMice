@@ -153,7 +153,7 @@ MonoBehaviour:
   layerMice:
     serializedVersion: 2
     m_Bits: 128
-  visionDistance: 10
+  visionDistance: 12.5
   isSlow: 0
   slowCooldown: 5
   mouseRB: {fileID: 3550948397592947780}
