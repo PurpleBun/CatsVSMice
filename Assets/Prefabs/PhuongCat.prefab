@@ -65,7 +65,7 @@ MonoBehaviour:
   mouseTag: Mouse
   trapTag: trap
   holeTag: Hole
-  chaseThreshold: 20
+  chaseThreshold: 100
   trapIntent: 0
   navMeshAgent: {fileID: 0}
 --- !u!195 &3613348429465806481
