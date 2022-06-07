@@ -55,7 +55,7 @@ namespace CatAI
                         {
                             allMice.Add(hitObjects[i]);
                         }
-                        if (hitObjects[i].gameObject.CompareTag("Trap"))
+                        if (hitObjects[i].gameObject.CompareTag("trap"))
                         {
                             allTrap.Add(hitObjects[i]);
                         }

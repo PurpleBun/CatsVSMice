@@ -63,7 +63,7 @@ MonoBehaviour:
   manager: {fileID: 0}
   viewRange: 50
   mouseTag: Mouse
-  trapTag: Trap
+  trapTag: trap
   holeTag: Hole
   chaseThreshold: 20
   trapIntent: 0
