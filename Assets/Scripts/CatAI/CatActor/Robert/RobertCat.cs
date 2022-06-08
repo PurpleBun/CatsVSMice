@@ -53,7 +53,7 @@ namespace CatAI
             var findHole = searchResults.AllHole;
             var findTrap = searchResults.AllTrap;
             var findCat = searchResults.AllCat;
-            if(findMouse.Count !=0) 
+            if(findMouse.Count ==0) 
             {
                 //Debug.Log("Cat found!");
                 stateMachine.ChangeState(new Wander(navMeshAgent, this.gameObject, stateMachine));
