@@ -16,6 +16,8 @@ namespace CatAI
         string trapTag;
         [SerializeField]
         string holeTag;
+        [SerializeField]
+        string catTag;
         //[SerializeField]
         //float chaseThreshold;
 
@@ -42,15 +44,20 @@ namespace CatAI
         
         public void Search()
         {
-            stateMachine.ChangeState(new SearchAll(this.gameObject, this.viewRange, FindMouse));
+            stateMachine.ChangeState(new SearchAll(this.gameObject, this.viewRange, FindTargets));
         }
 
-        public void FindMouse(AllSearchResults searchResults)
+        public void FindTargets(AllSearchResults searchResults)
         {
             var findMouse = searchResults.AllMice;
+            var findHole = searchResults.AllHole;
+            var findTrap = searchResults.AllTrap;
+            var findCat = searchResults.AllCat;
             if(findMouse.Count ==0) 
             {
+                //Debug.Log("Cat found!");
                 stateMachine.ChangeState(new Wander(navMeshAgent, this.gameObject, stateMachine));
+                //stateMachine.ChangeState(new Move(this.navMeshAgent, findCat[0].transform.position));
                 return;
             }
             
