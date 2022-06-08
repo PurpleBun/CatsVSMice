@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4796329669497197743}
   m_Layer: 0
-  m_Name: Traps
+  m_Name: TrapsOld
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
