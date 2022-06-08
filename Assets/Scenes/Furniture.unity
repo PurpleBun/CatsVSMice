@@ -10758,6 +10758,10 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: switchcam
       objectReference: {fileID: 0}
+    - target: {fileID: 462547866746426143, guid: 8332c7b541bf23c48842c4fb6f70c8a6, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 690883356474939231, guid: 8332c7b541bf23c48842c4fb6f70c8a6, type: 3}
       propertyPath: m_RootOrder
       value: 19
@@ -57996,7 +58000,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4026244371515590273, guid: 4e9f46c87f9031f48b5fd2bc97ea403c, type: 3}
       propertyPath: maxZoom
-      value: 10
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 4026244371515590273, guid: 4e9f46c87f9031f48b5fd2bc97ea403c, type: 3}
+      propertyPath: minZoom
+      value: 35
       objectReference: {fileID: 0}
     - target: {fileID: 4026244371515590273, guid: 4e9f46c87f9031f48b5fd2bc97ea403c, type: 3}
       propertyPath: targets.Array.size
@@ -58016,7 +58024,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4026244371900878785, guid: 4e9f46c87f9031f48b5fd2bc97ea403c, type: 3}
       propertyPath: maxZoom
-      value: 10
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 4026244371900878785, guid: 4e9f46c87f9031f48b5fd2bc97ea403c, type: 3}
+      propertyPath: minZoom
+      value: 35
       objectReference: {fileID: 0}
     - target: {fileID: 4026244371900878785, guid: 4e9f46c87f9031f48b5fd2bc97ea403c, type: 3}
       propertyPath: targets.Array.size
@@ -58028,7 +58040,11 @@ PrefabInstance:
       objectReference: {fileID: 1128123704}
     - target: {fileID: 4026244372126652932, guid: 4e9f46c87f9031f48b5fd2bc97ea403c, type: 3}
       propertyPath: maxZoom
-      value: 10
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 4026244372126652932, guid: 4e9f46c87f9031f48b5fd2bc97ea403c, type: 3}
+      propertyPath: minZoom
+      value: 35
       objectReference: {fileID: 0}
     - target: {fileID: 4026244372126652932, guid: 4e9f46c87f9031f48b5fd2bc97ea403c, type: 3}
       propertyPath: targets.Array.size
@@ -58048,7 +58064,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4026244372601935315, guid: 4e9f46c87f9031f48b5fd2bc97ea403c, type: 3}
       propertyPath: maxZoom
-      value: 10
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 4026244372601935315, guid: 4e9f46c87f9031f48b5fd2bc97ea403c, type: 3}
+      propertyPath: minZoom
+      value: 35
       objectReference: {fileID: 0}
     - target: {fileID: 4026244372601935315, guid: 4e9f46c87f9031f48b5fd2bc97ea403c, type: 3}
       propertyPath: targets.Array.size
@@ -58064,7 +58084,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4026244373197065558, guid: 4e9f46c87f9031f48b5fd2bc97ea403c, type: 3}
       propertyPath: maxZoom
-      value: 10
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 4026244373197065558, guid: 4e9f46c87f9031f48b5fd2bc97ea403c, type: 3}
+      propertyPath: minZoom
+      value: 35
       objectReference: {fileID: 0}
     - target: {fileID: 4026244373197065558, guid: 4e9f46c87f9031f48b5fd2bc97ea403c, type: 3}
       propertyPath: targets.Array.size
@@ -58121,6 +58145,10 @@ PrefabInstance:
     - target: {fileID: 5780926769396213159, guid: 4e9f46c87f9031f48b5fd2bc97ea403c, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5780926770474763957, guid: 4e9f46c87f9031f48b5fd2bc97ea403c, type: 3}
+      propertyPath: maxZoom
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 5780926770474763957, guid: 4e9f46c87f9031f48b5fd2bc97ea403c, type: 3}
       propertyPath: targets.Array.size

@@ -31,6 +31,11 @@ public class GameManager : MonoBehaviour
         if (mouseList.Count > 0 && Time.time >= playTime){
             MouseWin();
         }
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Debug.Log("Quitting application.");
+            Application.Quit();
+        }
     }
 
     void CatWin()
