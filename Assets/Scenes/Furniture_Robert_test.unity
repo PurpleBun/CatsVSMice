@@ -122,7 +122,7 @@ NavMeshSettings:
     preserveTilesOutsideBounds: 0
     debug:
       m_Flags: 0
-  m_NavMeshData: {fileID: 23800000, guid: a50a2ac09525a944185584824340c298, type: 2}
+  m_NavMeshData: {fileID: 23800000, guid: db6c60335197c1e40b4f58489583c10f, type: 2}
 --- !u!1001 &924832
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -668,7 +668,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 30220fe0cbadb3349bd06484ff0cb173, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.564
+      value: -0.63
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 30220fe0cbadb3349bd06484ff0cb173, type: 3}
       propertyPath: m_LocalPosition.z
@@ -5086,7 +5086,7 @@ PrefabInstance:
     - target: {fileID: 7483273563346314731, guid: c4909440138eb2e499aedf23e0b6c31c, type: 3}
       propertyPath: targets.Array.data[1]
       value: 
-      objectReference: {fileID: 1128123704}
+      objectReference: {fileID: 334678311}
     - target: {fileID: 7483273563346314731, guid: c4909440138eb2e499aedf23e0b6c31c, type: 3}
       propertyPath: targets.Array.data[2]
       value: 
@@ -9750,11 +9750,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   manager: {fileID: 773896910}
   viewRange: 200
-  mouseTag: 
-  trapTag: 
-  holeTag: 
+  mouseTag: Mouse
+  trapTag: trap
+  holeTag: Hole
   trapIntent: 0
-  navMeshAgent: {fileID: 0}
+  navMeshAgent: {fileID: 334678309}
+--- !u!195 &334678309 stripped
+NavMeshAgent:
+  m_CorrespondingSourceObject: {fileID: 2348363497420626123, guid: 8d30fe547f57211489b7a2dc8b5c09ef, type: 3}
+  m_PrefabInstance: {fileID: 334678305}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &334678311 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2818595127345505842, guid: 8d30fe547f57211489b7a2dc8b5c09ef, type: 3}
+  m_PrefabInstance: {fileID: 334678305}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &337053110
 GameObject:
   m_ObjectHideFlags: 0
@@ -10407,7 +10417,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 05e3bf7908353f14b8c0424ddf91196c, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.557
+      value: -0.62899995
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 05e3bf7908353f14b8c0424ddf91196c, type: 3}
       propertyPath: m_LocalPosition.z
@@ -24661,7 +24671,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: d0a0c835001b977468c9502ead3c5f21, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.79208
+      value: -0.86407995
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: d0a0c835001b977468c9502ead3c5f21, type: 3}
       propertyPath: m_LocalPosition.z
@@ -33133,7 +33143,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: eca8517a68cd64c4885945fb1e5f35ac, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.56
+      value: -0.63199997
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: eca8517a68cd64c4885945fb1e5f35ac, type: 3}
       propertyPath: m_LocalPosition.z
@@ -60022,7 +60032,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 5f4b8037a9af7a04daef967f6e25fe2d, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.567
+      value: -0.63899994
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 5f4b8037a9af7a04daef967f6e25fe2d, type: 3}
       propertyPath: m_LocalPosition.z

@@ -46,6 +46,7 @@ namespace CatAI
                 List<Collider> allMice = new List<Collider>();
                 List<Collider> allTrap = new List<Collider>();
                 List<Collider> allHole = new List<Collider>();
+                List<Collider> allCat = new List<Collider>();
                 for (int i = 0; i < hitObjects.Length; i++)
                 {
                     Vector3 dirToTarget = (hitObjects[i].transform.position - this.ownerGameObject.transform.position).normalized;
@@ -63,6 +64,10 @@ namespace CatAI
                         {
                             allHole.Add(hitObjects[i]);
                         }
+                        if (hitObjects[i].gameObject.CompareTag("Cat"))
+                        {
+                            allCat.Add(hitObjects[i]);
+                        }
                     }
                     
                 }
@@ -70,7 +75,8 @@ namespace CatAI
                 allMice = allMice.OrderBy((d) => (d.transform.position - this.ownerGameObject.transform.position).sqrMagnitude).ToList();
                 allTrap = allTrap.OrderBy((d) => (d.transform.position - this.ownerGameObject.transform.position).sqrMagnitude).ToList();
                 allHole = allHole.OrderBy((d) => (d.transform.position - this.ownerGameObject.transform.position).sqrMagnitude).ToList();
-                var searchResults = new AllSearchResults(hitObjects, allMice, allTrap, allHole);
+                allCat = allCat.OrderBy((d) => (d.transform.position - this.ownerGameObject.transform.position).sqrMagnitude).ToList();
+                var searchResults = new AllSearchResults(hitObjects, allMice, allTrap, allHole, allCat);
                 //sendback search results
                 searchResultsCallback(searchResults);
 
@@ -88,14 +94,18 @@ namespace CatAI
         public List<Collider> AllMice;
         public List<Collider> AllTrap;
         public List<Collider> AllHole;
+        public List<Collider> AllCat;
+
         //process objects by distance neeeded
 
-        public AllSearchResults(Collider[] allHitObjectsInSearchRadius, List<Collider> allMice, List<Collider> allTrap, List<Collider> allHole)
+        public AllSearchResults(Collider[] allHitObjectsInSearchRadius, List<Collider> allMice, List<Collider> allTrap, List<Collider> allHole, List<Collider> allCat)
         {
             AllHitObjectsInSearchRadius = allHitObjectsInSearchRadius;
             AllMice = allMice;
             AllTrap = allTrap;
             AllHole = allHole;
+            AllCat = allCat;
+
 
         }
     }
