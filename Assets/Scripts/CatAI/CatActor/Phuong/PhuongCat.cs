@@ -154,7 +154,6 @@ namespace CatAI
 
         public void SetTrap(SearchResults searchResults)
         {
-            trapIntent = true;
             var foundtrap = searchResults.AllHitObjectsWithRequiredTag;
             if (foundtrap.Count == 0)
             {
@@ -173,7 +172,15 @@ namespace CatAI
                 }
                 else
                 {
-                    stateMachine.ChangeState(new SetTrap(this.navMeshAgent, this.gameObject, this.trapDuration, this.stateMachine, foundtrap[0].transform.position));
+                    if (Vector3.Distance(transform.position, foundtrap[0].transform.position) < 1.5f)
+                    {
+                        stateMachine.ChangeState(new Move(navMeshAgent, foundtrap[0].transform.position));
+                    }
+                    else
+                    {
+                        trapIntent = true;
+                        stateMachine.ChangeState(new SetTrap(this.navMeshAgent, this.gameObject, this.trapDuration, this.stateMachine, foundtrap[0].transform.position));
+                    }
                 }
             }
         }
