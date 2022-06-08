@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class TrapStateManager : MonoBehaviour
 {
-
     TrapBaseState currentState;
     public TrapNotSetState TrapUnsetState = new TrapNotSetState();
     public TrapSetState TrapSetupState = new TrapSetState();
