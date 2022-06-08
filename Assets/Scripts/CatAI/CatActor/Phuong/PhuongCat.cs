@@ -131,10 +131,12 @@ namespace CatAI
             switch (result)
             {
                 case FuzzyResult.VeryUndesirable:
-                    stateMachine.ChangeState(new SearchFor(this.gameObject, this.viewRange, this.trapTag, SetTrap));
+                    //stateMachine.ChangeState(new SearchFor(this.gameObject, this.viewRange, this.trapTag, SetTrap));
+                    stateMachine.ChangeState(new Wander(navMeshAgent, this.gameObject, stateMachine));
                     break;
                 case FuzzyResult.Undesirable:
                     stateMachine.ChangeState(new Wander(navMeshAgent, this.gameObject, stateMachine));
+                    //stateMachine.ChangeState(new SearchFor(this.gameObject, this.viewRange, this.trapTag, SetTrap));
                     break;
                 case FuzzyResult.Neutral:
                     //stateMachine.ChangeState(new SearchFor(this.gameObject, this.viewRange, this.trapTag, SetTrap));
@@ -147,6 +149,7 @@ namespace CatAI
                     break;
                 case FuzzyResult.VeryDesirable:
                     //chase mouse
+                    //stateMachine.ChangeState(new SearchFor(this.gameObject, this.viewRange, this.trapTag, SetTrap));
                     stateMachine.ChangeState(new Move(this.navMeshAgent, foundMice[0].transform.position));
                     break;
             }
