@@ -134,13 +134,15 @@ namespace CatAI
                     stateMachine.ChangeState(new SearchFor(this.gameObject, this.viewRange, this.trapTag, SetTrap));
                     break;
                 case FuzzyResult.Undesirable:
-                    stateMachine.ChangeState(new SearchFor(this.gameObject, this.viewRange, this.trapTag, SetTrap));
+                    stateMachine.ChangeState(new Wander(navMeshAgent, this.gameObject, stateMachine));
                     break;
                 case FuzzyResult.Neutral:
+                    //stateMachine.ChangeState(new SearchFor(this.gameObject, this.viewRange, this.trapTag, SetTrap));
                     stateMachine.ChangeState(new Wander(navMeshAgent, this.gameObject, stateMachine));
                     break;
                 case FuzzyResult.Desirable:
                     //ambush + chase?
+                    //stateMachine.ChangeState(new SearchFor(this.gameObject, this.viewRange, this.trapTag, SetTrap));
                     stateMachine.ChangeState(new Move(this.navMeshAgent, foundMice[0].transform.position));
                     break;
                 case FuzzyResult.VeryDesirable:
@@ -153,7 +155,6 @@ namespace CatAI
         public void SetTrap(SearchResults searchResults)
         {
             var foundtrap = searchResults.AllHitObjectsWithRequiredTag;
-            trapIntent = true;
             if (foundtrap.Count == 0)
             {
                 trapIntent = false;
@@ -171,7 +172,15 @@ namespace CatAI
                 }
                 else
                 {
-                    stateMachine.ChangeState(new SetTrap(this.navMeshAgent, this.gameObject, this.trapDuration, this.stateMachine, foundtrap[0].transform.position));
+                    if (Vector3.Distance(transform.position, foundtrap[0].transform.position)> 1.5f)
+                    {
+                        stateMachine.ChangeState(new Move(navMeshAgent, foundtrap[0].transform.position));
+                    }
+                    else
+                    {
+                        trapIntent = true;
+                        stateMachine.ChangeState(new SetTrap(this.navMeshAgent, this.gameObject, this.trapDuration, this.stateMachine, foundtrap[0].transform.position));
+                    }
                 }
             }
         }

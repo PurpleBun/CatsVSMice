@@ -14,7 +14,7 @@ namespace CatAI
         StateMachine stateMachine;
         float trapDuration;
         float trapDistance=0.25f;
-
+        
         public SetTrap(NavMeshAgent navMeshAgent, GameObject ownerGameObject, float trapDuration, StateMachine stateMachine, Vector3 trap )
         {
             this.navMeshAgent = navMeshAgent;
@@ -26,7 +26,7 @@ namespace CatAI
         public override void Enter()
         {
             //if not at the trap place yet move to the trap with move state
-            if (Vector3.Distance(ownerGameObject.transform.position, trap) > trapDistance)
+            if (Vector3.Distance(ownerGameObject.transform.position, trap) >=5f)
             {
                 stateMachine.ChangeState(new Move(navMeshAgent, trap));
             }
