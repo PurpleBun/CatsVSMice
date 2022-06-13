@@ -42,10 +42,18 @@ public class GameManager : MonoBehaviour
     void CatWin()
     {
         gameText.text = "Cat Wins";
+        StartCoroutine(MainMenuCoroutine());
     }
 
     void MouseWin()
     {
         gameText.text = "Mouse Wins";
+        StartCoroutine(MainMenuCoroutine());
+    }
+
+    IEnumerator MainMenuCoroutine()
+    {
+        yield return new WaitForSeconds(8);
+        SceneManager.LoadScene("Main Menu");
     }
 }
