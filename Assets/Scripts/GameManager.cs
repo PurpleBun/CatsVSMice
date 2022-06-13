@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.SceneManagement;
+
 public class GameManager : MonoBehaviour
 {
     public string mouseTag;
@@ -33,8 +35,7 @@ public class GameManager : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            Debug.Log("Quitting application.");
-            Application.Quit();
+            SceneManager.LoadScene("Main Menu");
         }
     }
 
