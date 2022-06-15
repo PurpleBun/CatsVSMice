@@ -306,7 +306,7 @@ public class MouseAISashaEdition : MonoBehaviour
         return differenceAbsolute;
     }
 
-    // This method determines in which direction the mouse should wander. It first checks if the mouse is done wandering in the previous direction (checking the direction change cooldown).
+    // This method determines in which direction the mouse should wander.
     private void OperationWander(Transform mouse, Transform mouseTarget)
     {
         Vector3 directionToGo;
@@ -314,6 +314,7 @@ public class MouseAISashaEdition : MonoBehaviour
         List<Vector3> directionsWithObstaclesFar = new List<Vector3>();
         List<Vector3> directionsWithObstaclesMidway = new List<Vector3>();
         List<Vector3> directionsWithObstaclesNear = new List<Vector3>();
+        // It first checks if the mouse is done wandering in the previous direction(checking the direction change cooldown).
         if (directionChangeColldown > 0)
         {
             // If the mouse is not done wandering in the old direction, then it keeps walking in the same direction as before.
