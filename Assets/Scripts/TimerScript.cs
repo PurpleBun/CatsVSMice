@@ -32,11 +32,11 @@ public class TimerScript : MonoBehaviour
         //Debug.Log(timeRemaining);
         timeRemainingWhole = Math.Truncate(timeRemaining);
         //Debug.Log(timeRemainingWhole);
-        if ((timeRemainingWhole % 60) > 10 && timeRemainingWhole > 0)
+        if ((timeRemainingWhole % 60) >= 10 && timeRemainingWhole > 0)
         {
             timerText.text = Math.Floor(timeRemainingWhole / 60) + ":" + (timeRemainingWhole % 60);
         }
-        else if ((timeRemainingWhole % 60) <= 10 && timeRemainingWhole > 0)
+        else if ((timeRemainingWhole % 60) < 10 && timeRemainingWhole > 0)
         {
             timerText.text = Math.Floor(timeRemainingWhole / 60) + ":0" + (timeRemainingWhole % 60);
         }
