@@ -8,12 +8,6 @@ namespace CatAI
         private IState currentState;
         private IState previousState;
 
-        //public void SetOwner(T owner)
-        //{
-        //    this.owner = owner;
-        //}
-
-        //Acquire new IState cartridge -> change to new state acquired
         public void ChangeState(IState newState)
         {
             if (currentState != null)

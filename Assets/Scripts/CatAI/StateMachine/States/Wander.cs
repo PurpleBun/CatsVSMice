@@ -7,7 +7,7 @@ namespace CatAI
 {
     public class Wander : IState
     {
-        //idle
+        //wander
         NavMeshAgent navMeshAgent;
         GameObject ownerGameObject;
         StateMachine stateMachine;
@@ -18,6 +18,8 @@ namespace CatAI
             this.ownerGameObject = ownerGameObject;
             this.stateMachine = stateMachine;
         }
+
+        //roll a random position on Navmesh
         public static Vector3 RandomNavSphere(Vector3 origin, float dist, int layermask)
         {
             Vector3 randomDirection = UnityEngine.Random.insideUnitSphere * dist;
@@ -31,6 +33,7 @@ namespace CatAI
             return navHit.position;
         }
 
+        //move to that position
         public override void Execute()
         {
             Vector3 newpos = RandomNavSphere(ownerGameObject.transform.position, 12, -1);
