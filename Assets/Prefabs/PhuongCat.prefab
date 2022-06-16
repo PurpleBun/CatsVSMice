@@ -62,7 +62,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   manager: {fileID: 0}
-  viewRange: 200
+  viewRange: 100
   mouseTag: Mouse
   trapTag: trap
   holeTag: Hole

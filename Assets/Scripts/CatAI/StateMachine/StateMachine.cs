@@ -19,7 +19,7 @@ namespace CatAI
             //Switch to newest IState cartridge
             currentState = newState;
             currentState.Enter();
-            Debug.Log(currentState);
+            //Debug.Log(currentState);
         }
 
         //Execute the IState (following changestate ^)

@@ -12,7 +12,7 @@ namespace CatAI
         //https://learn.unity.com/tutorial/events-uh#
         NavMeshAgent navMeshAgent;
         Vector3 destination;
-        float stuckCountdown = 5;
+        float stuckCountdown = 3;
         float stuckTimer;
         public delegate void Moving();
         public static event Moving DestinationReached;

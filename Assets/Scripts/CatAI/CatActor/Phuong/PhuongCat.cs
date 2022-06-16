@@ -5,7 +5,7 @@ namespace CatAI
 {
     [RequireComponent(typeof(NavMeshAgent))]
     //inherit from CatActor
-    public class PhuongCat :  CatActor  
+    public class PhuongCat : CatActor
     {
         private StateMachine stateMachine = new StateMachine();
         [SerializeField]
@@ -21,7 +21,7 @@ namespace CatAI
 
         public bool trapIntent = false;
         public NavMeshAgent navMeshAgent;
-        
+
         void Start()
         {
             navMeshAgent = this.GetComponent<NavMeshAgent>();
@@ -35,7 +35,7 @@ namespace CatAI
             Move.Stuck += Wander;
             Move.DestinationReached += Search;
             Idle.IdleOver += Search;
-           
+
         }
 
         void Update()
@@ -55,26 +55,36 @@ namespace CatAI
 
         public void FoundMice(AllSearchResults searchResults)
         {
+           
             //deal with the search results
             var foundMice = searchResults.AllMice;
             var foundTrap = searchResults.AllTrap;
             var foundHole = searchResults.AllHole;
             float distanceToMouse;
             float distanceToHole;
-            if (foundMice.Count == 0 && foundTrap.Count == 0)
+
+            bool Unreachable(Vector3 targetDestination)
+            {
+                NavMeshHit hit;
+                if (NavMesh.SamplePosition(targetDestination, out hit, viewRange, NavMesh.AllAreas))
+                {
+                    return false;
+                }
+                return true;
+            }
+
+            //in case theres no mouse/hole
+            if (foundMice.Count == 0)
             {
                 //switchstate
                 stateMachine.ChangeState(new Wander(navMeshAgent, this.gameObject, stateMachine));
                 return;
-            };
-            //in case theres no mouse/hole
-            if (foundMice.Count == 0) {
-                distanceToMouse = 99f;
-            }
-            else
+            }else if(foundMice.Count!=0 && Unreachable(foundMice[0].transform.position))
             {
-                distanceToMouse = Vector3.Distance(transform.position, foundMice[0].transform.position);
+                stateMachine.ChangeState(new Wander(navMeshAgent, this.gameObject, stateMachine));
+                return;
             }
+            distanceToMouse = Vector3.Distance(transform.position,foundMice[0].transform.position);
 
             if (foundHole.Count == 0)
             {
@@ -84,6 +94,7 @@ namespace CatAI
             {
                 distanceToHole = Vector3.Distance(transform.position, foundHole[0].transform.position);
             }
+
             //fuzzyrules
             FuzzyRule[] rules = new FuzzyRule[]
             {
@@ -144,13 +155,16 @@ namespace CatAI
                     //stateMachine.ChangeState(new Wander(navMeshAgent, this.gameObject, stateMachine));
                     break;
                 case FuzzyResult.Undesirable:
+                    //stateMachine.ChangeState(new SearchFor(this.gameObject, this.viewRange, this.trapTag, SetTrap));
                     stateMachine.ChangeState(new Wander(navMeshAgent, this.gameObject, stateMachine));
                     break;
                 case FuzzyResult.Neutral:
+                    //stateMachine.ChangeState(new SearchFor(this.gameObject, this.viewRange, this.trapTag, SetTrap));
                     stateMachine.ChangeState(new Wander(navMeshAgent, this.gameObject, stateMachine));
                     break;
                 case FuzzyResult.Desirable:
                     //ambush + chase?
+                    //stateMachine.ChangeState(new SearchFor(this.gameObject, this.viewRange, this.trapTag, SetTrap));
                     stateMachine.ChangeState(new Move(this.navMeshAgent, foundMice[0].transform.position));
                     break;
                 case FuzzyResult.VeryDesirable:
@@ -183,6 +197,7 @@ namespace CatAI
                     //move if trap not close by
                     if (Vector3.Distance(transform.position, foundtrap[0].transform.position)> 1.5f)
                     {
+                        trapIntent = true;
                         stateMachine.ChangeState(new Move(navMeshAgent, foundtrap[0].transform.position));
                     }
                     else
@@ -194,6 +209,7 @@ namespace CatAI
                 }
             }
         }
+
         
         
         void OnCollisionEnter(Collision other)
