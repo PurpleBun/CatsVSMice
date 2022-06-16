@@ -7,7 +7,7 @@ public class TrapNotSetState : TrapBaseState
 
     float switchingCountdown = 5.0f;
     public bool CatInCollision = false;
-    public bool TrapActivated = true;
+
 
     public override void EnterState(TrapStateManager trap) {
         //Debug.Log("TrapNotSetState");
@@ -18,7 +18,7 @@ public class TrapNotSetState : TrapBaseState
 
             //Checking trap condition for the cats
 
-            TrapActivated = false;
+            TrapStateManager.TrapActivated = false;
 
             //Cat spends y amount of time to set up the trap IF it decides to (individual code)
 
@@ -28,6 +28,7 @@ public class TrapNotSetState : TrapBaseState
              }else if (switchingCountdown<= 0){
 
                     trap.SwitchState(trap.TrapSetupState);
+                    TrapStateManager.TrapActivated = true;
                     Debug.Log("StateSwitchedTo TrapSetupState");
                     CatInCollision = false;
                 }
