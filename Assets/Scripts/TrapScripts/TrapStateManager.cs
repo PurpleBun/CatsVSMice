@@ -8,6 +8,7 @@ public class TrapStateManager : MonoBehaviour
     public TrapNotSetState TrapUnsetState = new TrapNotSetState();
     public TrapSetState TrapSetupState = new TrapSetState();
     public TrapActiveState TrapActivatedState = new TrapActiveState();
+    static public bool TrapActivated = true;
 
 
     // Start is called before the first frame update
