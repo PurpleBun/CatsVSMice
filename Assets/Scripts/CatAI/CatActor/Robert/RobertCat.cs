@@ -51,15 +51,15 @@ namespace CatAI
         
         public void SearchAll()
         {
-            stateMachine.ChangeState(new SearchAll(this.gameObject, this.viewRange, FindTargets));
+            stateMachine.ChangeState(new SearchAll(this.gameObject, this.viewRange, FindMouseAndTrap));
         }
 
-        public void FindTargets(AllSearchResults searchResults)
+        public void FindMouseAndTrap(AllSearchResults searchResultsMouseAndTrap)
         {
-            var findMouse = searchResults.AllMice;
-            var findHole = searchResults.AllHole;
-            var findTrap = searchResults.AllTrap;
-            var findCat = searchResults.AllCat;
+            var findMouse = searchResultsMouseAndTrap.AllMice;
+            //var findHole = searchResults.AllHole;
+            var findTrap = searchResultsMouseAndTrap.AllTrap;
+            //var findCat = searchResults.AllCat;
 
             if(findMouse.Count == 0) 
             {
@@ -79,8 +79,7 @@ namespace CatAI
             }
             else if (findMouse.Count != 0)
             {
-                CatAndHole();
-                
+                SearchCatAndHole();
             }
         }
 
@@ -98,8 +97,9 @@ namespace CatAI
             }
         }
 
-        public void SetTrap(SearchResults searchResults)
+        public void SetTrap(SearchResults searchResultsMouseAndTrap)
         {
+            var foundtrap = searchResultsMouseAndTrap.AllHitObjectsWithRequiredTag;
             if (Vector3.Distance(transform.position, foundtrap[0].transform.position)> 1f)
             {
                 stateMachine.ChangeState(new Move(navMeshAgent, foundtrap[0].transform.position));
@@ -111,19 +111,51 @@ namespace CatAI
             }
         }
 
-        public void CatAndHole()
+        public void SearchCatAndHole()
         {
+            stateMachine.ChangeState(new SearchAll(this.gameObject, this.viewRange, FindCatAndMouse));
+        }
+
+        public void FindCatAndMouse(AllSearchResults searchResultsCatAndHole)
+        {
+            var findCat = searchResultsCatAndHole.AllCat;
+            var findHole = searchResultsCatAndHole.AllHole;
+            
+
             if(findCat.Count == 0) 
             {
                 if(findHole.Count == 0)
                 {
-                    
+                    // no cat or hole found, chase the found mouse.
+                    stateMachine.ChangeState(new SearchAll(this.gameObject, this.viewRange, Chase));
+                }
+                else if(findHole.Count != 0)
+                {
+                    //Move between hidey hole and mouse. Then chase
+
+                }
+            }
+            else if(findCat.Count != 0)
+            {
+                if(findHole.Count == 0)
+                {
+                    //move behind mouse, pin mouse in between cats. Then chase.
+                }
+                else if(findHole.Count != 0)
+                {
+                    //Move infront of hidey hole. Then chase.
+                    stateMachine.ChangeState(new Move(navMeshAgent, findHole[0].transform.position));
+                    if (Vector3.Distance(transform.position, findHole[0].transform.position)> 2f)
+                    {
+                        stateMachine.ChangeState(new SearchAll(this.gameObject, this.viewRange, Chase));
+                    }
                 }
             }
         }
 
-        public void Chase()
+        public void Chase(AllSearchResults searchResultsCatAndHole)
         {
+            var findMouse = searchResultsCatAndHole.AllMice;
             stateMachine.ChangeState(new Move(this.navMeshAgent, findMouse[0].transform.position));
         }
 
