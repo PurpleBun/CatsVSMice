@@ -21,6 +21,8 @@ namespace CatAI
 
         public bool trapIntent = false;
         public NavMeshAgent navMeshAgent;
+
+        public ShakeWithAnimation shakeWithAnimation;
         
         void Start()
         {
@@ -199,10 +201,16 @@ namespace CatAI
         void OnCollisionEnter(Collision other)
         {
             if (other.gameObject.tag == "Mouse") {
+                Shake();
                 //remove mouse from game manager list to check for winning condition
                 manager.mouseList.Remove(other.gameObject);
                 other.gameObject.SetActive(false);
             }
+        }
+
+        void Shake()
+        {
+            shakeWithAnimation.camAnim.SetTrigger("Shake");
         }
     }
 }
