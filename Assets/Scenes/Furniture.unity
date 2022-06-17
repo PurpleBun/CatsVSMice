@@ -49993,6 +49993,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2721488289721049554, guid: cf838b07b60a9944ebf3729b95e0ac72, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 743347b73e9883946aeddb850c820d44, type: 2}
     - target: {fileID: 3054858982968508266, guid: cf838b07b60a9944ebf3729b95e0ac72, type: 3}
       propertyPath: m_Name
       value: TrapsNew
