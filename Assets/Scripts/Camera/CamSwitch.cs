@@ -11,12 +11,14 @@ public class CamSwitch : MonoBehaviour
     public GameObject MouseCam3;
     public GameObject observerCam;
 
+    //Deactivate all but observer cam
     void Start()
     {
         deactivateall();
         observerCam.SetActive(true);
     }
 
+    //Switching camera, deactivate all and setactive the one switched to
     public void switchcam(int x)
     {
         deactivateall();
@@ -55,82 +57,4 @@ public class CamSwitch : MonoBehaviour
         MouseCam3.SetActive(false);
         observerCam.SetActive(false);
     }
-
-
-    /*public void CatCamera1() 
-    {
-        catCam1.SetActive(true);
-        catCam2.SetActive(false);
-        ratCam1.SetActive(false);
-        ratCam2.SetActive(false);
-        ratCam3.SetActive(false);
-        ratCam4.SetActive(false);
-        observerCam.SetActive(false);
-    }
-
-    public void CatCamera2() 
-    {
-        catCam1.SetActive(false);
-        catCam2.SetActive(true);
-        ratCam1.SetActive(false);
-        ratCam2.SetActive(false);
-        ratCam3.SetActive(false);
-        ratCam4.SetActive(false);
-        observerCam.SetActive(false);
-    }
-
-    public void RatCamera1() 
-    {
-        catCam1.SetActive(false);
-        catCam2.SetActive(false);
-        ratCam1.SetActive(true);
-        ratCam2.SetActive(false);
-        ratCam3.SetActive(false);
-        ratCam4.SetActive(false);
-        observerCam.SetActive(false);
-    }
-
-    public void RatCamera2() 
-    {
-        catCam1.SetActive(false);
-        catCam2.SetActive(false);
-        ratCam1.SetActive(false);
-        ratCam2.SetActive(true);
-        ratCam3.SetActive(false);
-        ratCam4.SetActive(false);
-        observerCam.SetActive(false);
-    }
-
-    public void RatCamera3() 
-    {
-        catCam1.SetActive(false);
-        catCam2.SetActive(false);
-        ratCam1.SetActive(false);
-        ratCam2.SetActive(false);
-        ratCam3.SetActive(true);
-        ratCam4.SetActive(false);
-        observerCam.SetActive(false);
-    }
-
-    public void RatCamera4() 
-    {
-        catCam1.SetActive(false);
-        catCam2.SetActive(false);
-        ratCam1.SetActive(false);
-        ratCam2.SetActive(false);
-        ratCam3.SetActive(false);
-        ratCam4.SetActive(true);
-        observerCam.SetActive(false);
-    }
-
-    public void ObserverCam() 
-    {
-        catCam1.SetActive(false);
-        catCam2.SetActive(false);
-        ratCam1.SetActive(false);
-        ratCam2.SetActive(false);
-        ratCam3.SetActive(false);
-        ratCam4.SetActive(false);
-        observerCam.SetActive(true);
-    }*/
 }
