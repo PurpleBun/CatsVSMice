@@ -192,7 +192,7 @@ GameObject:
   - component: {fileID: 2719806459278985107}
   - component: {fileID: 2550712112767153248}
   m_Layer: 5
-  m_Name: RatCam2_Button
+  m_Name: MouseCam2_Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -537,7 +537,7 @@ GameObject:
   - component: {fileID: 2491182252324124482}
   - component: {fileID: 3437900153643390781}
   m_Layer: 5
-  m_Name: RatCam3_Button
+  m_Name: MouseCam3_Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1358,7 +1358,7 @@ GameObject:
   - component: {fileID: 2819854514397257859}
   - component: {fileID: 7765062422813667225}
   m_Layer: 5
-  m_Name: RatCam1_Button
+  m_Name: MouseCam1_Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
