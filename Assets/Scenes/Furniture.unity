@@ -44793,7 +44793,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 114067331406905092, guid: f836374a4a1512c44be411512e623d58, type: 3}
       propertyPath: m_Name
-      value: SashasBoi (2)
+      value: ElvinaMousey
       objectReference: {fileID: 0}
     - target: {fileID: 6163245905432939649, guid: f836374a4a1512c44be411512e623d58, type: 3}
       propertyPath: m_RootOrder
@@ -44855,7 +44855,8 @@ PrefabInstance:
       propertyPath: targetTransform
       value: 
       objectReference: {fileID: 241356518}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 5366079767912546311, guid: f836374a4a1512c44be411512e623d58, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: f836374a4a1512c44be411512e623d58, type: 3}
 --- !u!4 &843845716 stripped
 Transform:
@@ -54353,6 +54354,24 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5985434890385001527, guid: cc60f6dc50ecf7f4abb32a4df717d103, type: 3}
   m_PrefabInstance: {fileID: 1164644743}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1171080664 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 114067331406905092, guid: f836374a4a1512c44be411512e623d58, type: 3}
+  m_PrefabInstance: {fileID: 843845715}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1171080665
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1171080664}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6728ae0c7ab56b7409a26984ea6bd366, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rotSpeed: 100
 --- !u!1 &1172754629
 GameObject:
   m_ObjectHideFlags: 0

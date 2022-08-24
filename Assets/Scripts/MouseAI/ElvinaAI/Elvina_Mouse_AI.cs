@@ -17,9 +17,9 @@ public class Elvina_Mouse_AI : MonoBehaviour
 
 
     private List<Collider> listOfHoles;
-    public transform hole;
+    //public transform hole;
 
-    float holePosition = hole.position.holePosition;
+    //float holePosition = hole.position.holePosition;
 
    
    void Awake()
